@@ -1159,7 +1159,8 @@
                 loginBtn.addEventListener('click', () => {
                     const user = sessionStorage.getItem('currentUser');
                     if (user) {
-                        window.location.href = '个人资料/个人中心.html';
+                        // 如果已登录，在新页面打开个人中心
+                        window.open('个人资料/个人中心.html', '_blank');
                     } else {
                         sessionStorage.setItem('previousPage', 'class');
                         window.location.href = '登录and注册/登录页面.html';
