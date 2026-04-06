@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗技艺 · 全部分类 | 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 (与首页一致) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 页面标题区 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        /* 全部分类网格 */
+        .full-category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 28px;
+            margin: 20px 0 60px;
+        }
+
+        .category-card {
+            background: rgba(255, 253, 245, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            padding: 30px 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e2d8cd;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .category-card i {
+            font-size: 3rem;
+            color: #8c6d46;
+            margin-bottom: 18px;
+            display: inline-block;
+        }
+
+        .category-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a382a;
+        }
+
+        .category-card p {
+            font-size: 0.8rem;
+            color: #7f6b5a;
+            line-height: 1.4;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            background: #fffef8;
+            border-color: #c4a77d;
+            box-shadow: 0 16px 24px rgba(92, 76, 62, 0.12);
+        }
+
+        .category-card .btn-sm {
+            margin-top: 16px;
+            display: inline-block;
+            background: #f4ede2;
+            border: 1px solid #d6ccc2;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #5c4c3e;
+            transition: 0.2s;
+        }
+
+        .category-card:hover .btn-sm {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 底部样式 */
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">藝</div>
+    <div class="decoration-big decoration-right">集</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (与首页结构一致) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="购物车.html" class="icon-btn" id="cartIconBtn"><i class="fas fa-shopping-bag"></i></a>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 页面头部 -->
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a> <span>/</span> <span style="color:#8c6d46;">非遗技艺 · 全部分类</span>
+        </div>
+        <div class="page-header">
+            <h1>非遗技艺 · 百工集萃</h1>
+            <p>指尖乾坤，匠心流传 | 探寻中华手艺之美</p>
+        </div>
+
+        <!-- 全部分类卡片网格 (共20个类别，涵盖更广) -->
+        <div class="full-category-grid" id="fullCategoryGrid">
+            <!-- 以下卡片数据可通过JS动态渲染，但静态写更稳定，样式保持一致 -->
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="苏绣 · 湘绣">
+                    <i class="fas fa-leaf"></i>
+                    <h3>苏绣 · 湘绣</h3>
+                    <p>丝缕流光，双面异色</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="景德镇陶瓷">
+                    <i class="fas fa-fire"></i>
+                    <h3>景德镇陶瓷</h3>
+                    <p>釉下青花，玲珑剔透</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="剪纸 · 刻纸">
+                    <i class="fas fa-cut"></i>
+                    <h3>剪纸 · 刻纸</h3>
+                    <p>镂空万象，纸上生花</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="木雕 · 根雕">
+                    <i class="fas fa-tree"></i>
+                    <h3>木雕 · 根雕</h3>
+                    <p>刀木春秋，因材施艺</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="团扇 · 制扇">
+                    <i class="fas fa-fan"></i>
+                    <h3>团扇 · 制扇</h3>
+                    <p>清风徐来，雅致盈怀</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="漆器 · 螺钿">
+                    <i class="fas fa-flask"></i>
+                    <h3>漆器 · 螺钿</h3>
+                    <p>华彩流光，千文万华</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="宣纸制作技艺">
+                    <i class="fas fa-scroll"></i>
+                    <h3>宣纸 · 纸笺</h3>
+                    <p>寿纸千年，墨韵如初</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="徽墨 · 歙砚">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>徽墨 · 歙砚</h3>
+                    <p>文房至宝，金石翰墨</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="古琴斫制">
+                    <i class="fas fa-music"></i>
+                    <h3>古琴 · 斫制</h3>
+                    <p>清音雅韵，太古遗音</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="茶器 · 建盏">
+                    <i class="fas fa-mug-hot"></i>
+                    <h3>建盏 · 茶器</h3>
+                    <p>兔毫鹧鸪，宋韵点茶</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="花丝镶嵌">
+                    <i class="fas fa-gem"></i>
+                    <h3>花丝镶嵌</h3>
+                    <p>金缕细工，宫廷绝艺</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="玉雕 · 俏色">
+                    <i class="fas fa-gem"></i>
+                    <h3>玉雕 · 俏色</h3>
+                    <p>巧夺天工，温润如君</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="竹刻 · 留青">
+                    <i class="fas fa-leaf"></i>
+                    <h3>竹刻 · 留青</h3>
+                    <p>以刀代笔，文房清供</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="绒花 · 绢花">
+                    <i class="fas fa-feather-alt"></i>
+                    <h3>绒花 · 绢花</h3>
+                    <p>荣华富贵，永不凋零</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="蜡染 · 扎染">
+                    <i class="fas fa-tint"></i>
+                    <h3>蜡染 · 扎染</h3>
+                    <p>蓝白之间，民族神韵</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="皮影戏 · 雕刻">
+                    <i class="fas fa-theater-masks"></i>
+                    <h3>皮影 · 雕刻</h3>
+                    <p>影中传奇，镂雕传神</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="木版年画">
+                    <i class="fas fa-print"></i>
+                    <h3>木版年画</h3>
+                    <p>驱邪纳福，民俗瑰宝</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="香道 · 合香">
+                    <i class="fas fa-smog"></i>
+                    <h3>香道 · 合香</h3>
+                    <p>沉馥幽远，颐养心性</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="古籍修复">
+                    <i class="fas fa-book-open"></i>
+                    <h3>古籍修复</h3>
+                    <p>化腐朽为神奇，文脉延续</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+            <a href="非遗分类.html" target="_blank" rel="noopener noreferrer">
+                <div class="category-card" data-name="传统织锦">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>织锦 · 宋锦</h3>
+                    <p>经纬华章，寸锦寸金</p>
+                    <div class="btn-sm">互动圈</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- 底部footer (与首页相同) -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons">
+                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weibo"></i>
+                    <i class="fab fa-xiaohongshu"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <p>购买指南</p>
+                <p>非遗鉴定</p>
+                <p>售后服务</p>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <p>传承人合作</p>
+                <p>非遗保护基金</p>
+                <p>加入我们</p>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">
+                © 2025 云间小阁 | 非遗美学电商平台 | 传承华夏文明，守护匠心技艺
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // toast 通知
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // 全部分类卡片点击交互
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // 避免点击内部按钮时触发两次（但无妨，统一提示）
+                const title = card.querySelector('h3')?.innerText || '此类别';
+                showMessage(`🏮 即将展示「${title}」所有匠心器物，敬请期待`);
+            });
+        });
+
+        // 导航栏购物车图标提示
+        const cartIcon = document.getElementById('cartIconBtn');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', (e) => {
+                e.preventDefault();
+                showMessage('🎋 购物车功能即将开启，敬请期待非遗礼盒专区~');
+            });
+        }
+
+        // 搜索框逻辑
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function handleSearch() {
+            const query = searchInput?.value?.trim();
+            if (query) {
+                showMessage(`🔍 正在搜索“${query}”相关非遗技艺...`);
+                searchInput.value = '';
+            } else {
+                showMessage('🔍 输入关键词，探寻更多非遗之美');
+            }
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // 登录/注册按钮 (与首页逻辑一致)
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const currentUser = sessionStorage.getItem('currentUser');
+                if (currentUser) {
+                    window.location.href = '个人资料/个人中心.html';
+                } else {
+                    sessionStorage.setItem('previousPage', '分类页');
+                    window.location.href = '登录and注册/登录页面.html';
+                }
+            });
+        }
+        const storedUser = sessionStorage.getItem('currentUser');
+        if (storedUser && loginBtn) {
+            loginBtn.textContent = storedUser;
+            loginBtn.style.background = '#8c6d46';
+            loginBtn.style.color = '#fff';
+            loginBtn.title = '点击进入个人中心';
+        }
+
+        // 页面淡入 + 欢迎语（根据来源可定制）
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+            // 若从首页点击“全部分类”进入，可显示友好提示
+            const referrer = document.referrer;
+            if (referrer.includes('index.html') || referrer.endsWith('/')) {
+                setTimeout(() => showMessage('📖 百工荟萃 · 邀您共赏非遗技艺'), 300);
+            } else {
+                setTimeout(() => showMessage('🏮 云间小阁 · 非遗技艺全览'), 300);
+            }
+        });
+    </script>
+</body>
+
+</html>

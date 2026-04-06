@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗技艺 · 全部分类 | 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 (与首页一致) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 页面标题区 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        /* 匠人卡片区域 */
+        .section-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 28px;
+            border-left: 5px solid #c4a77d;
+            padding-left: 18px;
+            flex-wrap: wrap;
+        }
+
+        .section-title h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #4a382a;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title h2 i {
+            color: #8c6d46;
+            font-size: 1.6rem;
+        }
+
+        .section-title a {
+            color: #8c6d46;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .section-title a:hover {
+            color: #96816f;
+            font-weight: 600;
+        }
+
+        .section-title a i {
+            margin-left: 6px;
+        }
+
+        .artisan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .artisan-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 32px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e7dfd3;
+            box-shadow: 0 8px 18px rgba(92, 76, 62, 0.06);
+        }
+
+        .artisan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(92, 76, 62, 0.2);
+            border-color: #c4a77d;
+        }
+
+        .artisan-img {
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .artisan-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .artisan-card:hover .artisan-img img {
+            transform: scale(1.03);
+        }
+
+        .artisan-info {
+            padding: 24px 22px 28px;
+        }
+
+        .artisan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a382a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .artisan-name i {
+            color: #8c6d46;
+            font-size: 1.2rem;
+        }
+
+        .artisan-skill {
+            display: inline-block;
+            background: #f4ede2;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #8c6d46;
+            margin-bottom: 14px;
+        }
+
+        .artisan-bio {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #7f6b5a;
+            margin: 12px 0 18px;
+        }
+
+        .artisan-quote {
+            font-style: italic;
+            border-left: 3px solid #c4a77d;
+            padding-left: 14px;
+            margin: 16px 0;
+            font-size: 0.85rem;
+            color: #5c4c3e;
+        }
+
+        .support-btn {
+            background: transparent;
+            border: 1px solid #8c6d46;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .support-btn:hover {
+            background: #8c6d46;
+            color: white;
+        }
+
+        /* 深度故事区域 */
+        .feature-story {
+            background: rgba(231, 219, 203, 0.5);
+            border-radius: 48px;
+            padding: 48px 40px;
+            margin-bottom: 60px;
+            border: 1px solid #ddd0bf;
+        }
+
+        .story-feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .story-feature-img {
+            flex: 1;
+            min-width: 240px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-feature-img img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .story-feature-text {
+            flex: 1.2;
+        }
+
+        .story-feature-text h3 {
+            font-size: 2rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            margin-bottom: 16px;
+            color: #4a382a;
+        }
+
+        .story-feature-text p {
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 760px) {
+            .story-feature-grid {
+                flex-direction: column;
+            }
+
+            .feature-story {
+                padding: 32px 24px;
+            }
+        }
+
+        .btn-story {
+            background: #f4ede2;
+            border: 1px solid #d6ccc2;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-weight: 500;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-story:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 底部样式 */
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">藝</div>
+    <div class="decoration-big decoration-right">集</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (与首页结构一致) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="购物车.html" class="icon-btn" id="cartIconBtn"><i class="fas fa-shopping-bag"></i></a>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 页面头部 -->
+        <div class="breadcrumb">
+            <a href="../匠心传承.html">匠心传承</a> <span>/</span> <span style="color:#8c6d46;">非遗守艺人 · 查看全部</span>
+        </div>
+        <div class="page-header">
+            <h1>非遗守艺 · 百工集萃</h1>
+            <p>指尖乾坤，匠心流传 | 探寻中华手艺之美</p>
+        </div>
+
+        <!-- 匠人卡片动态生成，也可静态写，但便于维护使用js动态填充数据 -->
+        <div class="artisan-grid" id="artisanGrid">
+            <!-- 匠人卡片动态生成，也可静态写，但便于维护使用js动态填充数据 -->
+        </div>
+
+        <!-- 深度故事专题 -->
+        <div class="feature-story">
+            <div class="story-feature-grid">
+                <div class="story-feature-img">
+                    <img src="https://picsum.photos/id/104/600/400" alt="苗绣传承人">
+                </div>
+                <div class="story-feature-text">
+                    <h3>吴桂英 · 苗绣世家</h3>
+                    <p>"从母亲手中接过银针时，我便知道，这不仅是技艺，更是族群的记忆。"吴桂英，苗绣省级传承人，四十年来走遍苗寨，收集濒临失传的古老纹样。她的绣品中藏着蝴蝶妈妈的故事，每一针都饱含对自然的敬畏。如今她带领村寨绣娘成立工坊，让苗绣走出大山，成为世界了解中国非遗的一扇窗。
+                    </p>
+                    <button class="btn-story" id="deepStoryBtn">聆听完整故事 <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-story">
+            <div class="story-feature-grid">
+                <div class="story-feature-text">
+                    <h3>吴桂英 · 苗绣世家</h3>
+                    <p>"从母亲手中接过银针时，我便知道，这不仅是技艺，更是族群的记忆。"吴桂英，苗绣省级传承人，四十年来走遍苗寨，收集濒临失传的古老纹样。她的绣品中藏着蝴蝶妈妈的故事，每一针都饱含对自然的敬畏。如今她带领村寨绣娘成立工坊，让苗绣走出大山，成为世界了解中国非遗的一扇窗。
+                    </p>
+                    <button class="btn-story" id="deepStoryBtn">聆听完整故事 <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="story-feature-img">
+                    <img src="https://picsum.photos/id/104/600/400" alt="苗绣传承人">
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部footer (与首页相同) -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons">
+                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weibo"></i>
+                    <i class="fab fa-xiaohongshu"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <p>购买指南</p>
+                <p>非遗鉴定</p>
+                <p>售后服务</p>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <p>传承人合作</p>
+                <p>非遗保护基金</p>
+                <p>加入我们</p>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">
+                © 2025 云间小阁 | 非遗美学电商平台 | 传承华夏文明，守护匠心技艺
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 匠人数据 (模拟)
+        const artisans = [
+            {
+                name: "吴桂英",
+                skill: "苗绣 · 国家级非遗传承人",
+                bio: "坚守苗绣五十载，走遍苗寨整理濒危纹样，培养学徒三十余人，让苗绣走入国际舞台。",
+                quote: "一针一线皆修行，苗绣是穿在身上的史诗。",
+                imgId: "159",
+                link: ""
+            },
+            {
+                name: "徐朝兴",
+                skill: "龙泉青瓷 · 中国工艺美术大师",
+                bio: "恢复哥窑弟窑传统技艺，独创'跳刀'纹饰，作品被故宫博物院收藏。",
+                quote: "青如玉，明如镜，声如磬。千年窑火，生生不息。",
+                imgId: "119",
+                link: ""
+            },
+            {
+                name: "吴笑梅",
+                skill: "徽州剪纸 · 省级非遗传承人",
+                bio: "将徽派版画融入剪纸，创作《徽州古村落》系列，让剪纸从窗花变成艺术品。",
+                quote: "一把剪刀，一张红纸，剪出徽州的山水人文。",
+                imgId: "20",
+                link: ""
+            },
+            {
+                name: "陆光正",
+                skill: "东阳木雕 · 亚太地区手工艺大师",
+                bio: "从事木雕六十余年，开创多层叠雕技法，作品《锦绣中华》陈列于人民大会堂。",
+                quote: "木有魂，刀有神，刻出世间万象。",
+                imgId: "127",
+                link: ""
+            },
+            {
+                name: "赵树宪",
+                skill: "金陵绒花 · 江苏省非遗传承人",
+                bio: "恢复明清绒花工艺，让《红楼梦》中的'绒花'重现，作品成为时尚新宠。",
+                quote: "绒花，荣华，愿这份指尖的富贵花开不败。",
+                imgId: "42",
+                link: ""
+            },
+            {
+                name: "陈义时",
+                skill: "雕版印刷 · 国家级非遗传承人",
+                bio: "传承'杭集雕版'，恢复《金刚经》等古籍复刻，守护千年印刷术。",
+                quote: "刻字如修行，每一刀都是与古人对话。",
+                imgId: "96",
+                link: ""
+            }
+        ];
+
+        // 辅助图片url
+        function getArtisanImg(imgId) {
+            return `https://picsum.photos/id/${imgId}/400/350`;
+        }
+
+        // 渲染匠人网格
+        function renderArtisans() {
+            const container = document.getElementById('artisanGrid');
+            if (!container) {
+                console.error('artisanGrid container not found!');
+                return;
+            }
+            console.log('Artisans data:', artisans);
+            let html = '';
+            artisans.forEach(art => {
+                html += `
+                    <div class="artisan-card">
+                        <div class="artisan-img">
+                            <img src="${getArtisanImg(art.imgId)}" alt="${art.name}" loading="lazy">
+                        </div>
+                        <div class="artisan-info">
+                            <div class="artisan-name">
+                                ${art.name}
+                                <i class="fas fa-certificate" style="font-size: 0.9rem;"></i>
+                            </div>
+                            <div class="artisan-skill">${art.skill}</div>
+                            <div class="artisan-bio">${art.bio}</div>
+                            <div class="artisan-quote">"${art.quote}"</div>
+                            <button class="support-btn support-artisan" data-name="${art.name}"><i class="fas fa-hand-holding-heart"></i> 致敬守艺人</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            console.log('Rendered HTML:', html);
+
+            // 绑定致敬按钮事件
+            document.querySelectorAll('.support-artisan').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const name = btn.getAttribute('data-name');
+                    showMessage(`✨ 向${name}老师致敬！您的支持将用于技艺传承基金。`);
+                });
+            });
+        }
+
+        // toast 通知
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // 全部分类卡片点击交互
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // 避免点击内部按钮时触发两次（但无妨，统一提示）
+                const title = card.querySelector('h3')?.innerText || '此类别';
+                showMessage(`🏮 即将展示「${title}」所有匠心器物，敬请期待`);
+            });
+        });
+
+        // 深度故事按钮
+        const deepStoryBtn = document.getElementById('deepStoryBtn');
+        if (deepStoryBtn) {
+            deepStoryBtn.addEventListener('click', () => showMessage('📖 吴桂英老师完整纪录片即将上线，敬请关注"守艺者说"专栏'));
+        }
+
+        // 导航栏购物车图标提示
+        const cartIcon = document.getElementById('cartIconBtn');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', (e) => {
+                e.preventDefault();
+                showMessage('🎋 购物车功能即将开启，敬请期待非遗礼盒专区~');
+            });
+        }
+
+        // 搜索框逻辑
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function handleSearch() {
+            const query = searchInput?.value?.trim();
+            if (query) {
+                showMessage(`🔍 正在搜索"${query}"相关非遗技艺...`);
+                searchInput.value = '';
+            } else {
+                showMessage('🔍 输入关键词，探寻更多非遗之美');
+            }
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // 登录/注册按钮 (与首页逻辑一致)
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const currentUser = sessionStorage.getItem('currentUser');
+                if (currentUser) {
+                    window.location.href = '个人资料/个人中心.html';
+                } else {
+                    sessionStorage.setItem('previousPage', '分类页');
+                    window.location.href = '登录and注册/登录页面.html';
+                }
+            });
+        }
+        const storedUser = sessionStorage.getItem('currentUser');
+        if (storedUser && loginBtn) {
+            loginBtn.textContent = storedUser;
+            loginBtn.style.background = '#8c6d46';
+            loginBtn.style.color = '#fff';
+            loginBtn.title = '点击进入个人中心';
+        }
+
+        // 页面淡入 + 欢迎语（根据来源可定制）
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+
+            // 渲染匠人卡片
+            renderArtisans();
+
+            // 若从首页点击"全部分类"进入，可显示友好提示
+            const referrer = document.referrer;
+            if (referrer.includes('index.html') || referrer.endsWith('/')) {
+                setTimeout(() => showMessage('📖 百工荟萃 · 邀您共赏非遗技艺'), 300);
+            } else {
+                setTimeout(() => showMessage('🏮 云间小阁 · 非遗技艺全览'), 300);
+            }
+        });
+    </script>
+</body>
+
+</html>

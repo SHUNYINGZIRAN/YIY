@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>店铺收益 | 云间小阁 · 守艺居</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.86);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主布局：侧边栏 + 内容区 */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 253, 245, 0.92);
+            backdrop-filter: blur(6px);
+            border-right: 1px solid #e2d9cf;
+            padding: 28px 0 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 0 20px 24px;
+            border-bottom: 1px solid #e2d9cf;
+            margin-bottom: 24px;
+            color: #5c4c3e;
+        }
+
+        .sidebar-logo span {
+            color: #8c6d46;
+            font-size: 1.3rem;
+        }
+
+        .shop-info {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 16px;
+        }
+
+        .shop-avatar {
+            width: 70px;
+            height: 70px;
+            background: #e2d5c6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            color: #8c6d46;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .shop-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .shop-badge {
+            font-size: 0.7rem;
+            background: #f3ede4;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #e5d9cd;
+        }
+
+        .logout-footer {
+            margin-top: 32px;
+            padding: 20px 16px;
+            border-top: 1px solid #e2d9cf;
+        }
+
+        /* 右侧主内容 */
+        .main-content {
+            flex: 1;
+            padding: 24px 32px 48px;
+            overflow-x: auto;
+        }
+
+        .page-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 28px;
+            border-left: 5px solid #c4a77d;
+            padding-left: 18px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 32px;
+            border: 1px solid #e2d9cf;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 253, 245, 0.96);
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            transition: 0.2s;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin-top: 6px;
+        }
+
+        /* 收益明细 */
+        .earning-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e2d9cf;
+        }
+
+        @media (max-width: 860px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 0;
+            }
+
+            .sidebar-logo {
+                font-size: 1rem;
+                padding: 0 8px 16px;
+            }
+
+            .shop-info {
+                display: none;
+            }
+
+            .nav-item span:not(i) {
+                display: none;
+            }
+
+            .nav-item i {
+                margin: 0 auto;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+
+            .logout-footer .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            z-index: 2000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">匠</div>
+    <div class="decoration-big decoration-right">心</div>
+
+    <div class="dashboard-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">云间小阁<span>·匠坊</span></div>
+            <div class="shop-info">
+                <div class="shop-avatar"><i class="fas fa-feather-alt"></i></div>
+                <div class="shop-name">听松窑 · 青瓷坊</div>
+                <div class="shop-badge"><i class="fas fa-certificate"></i> 非遗传承人</div>
+            </div>
+            <div class="nav-menu">
+                <a href="经营总览.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> <span>经营总览</span></a>
+                <a href="商品管理.html" class="nav-item"><i class="fas fa-boxes"></i> <span>商品管理</span></a>
+                <a href="咨询管理.html" class="nav-item"><i class="fas fa-comment-dots"></i> <span>咨询管理</span></a>
+                <a href="店铺收益.html" class="nav-item active"><i class="fas fa-chart-line"></i> <span>店铺收益</span></a>
+                <a href="数据统计.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span>数据统计</span></a>
+                <a href="商品装修.html" class="nav-item"><i class="fas fa-magic"></i> <span>商品装修</span></a>
+            </div>
+            <div class="logout-footer">
+                <a href="#" class="nav-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>退出工作台</span></a>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="page-title"><i class="fas fa-chart-line"></i> 店铺收益</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEarn">¥28,650.00</div>
+                    <div class="stat-label">可提现余额</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pending">¥3,420.00</div>
+                    <div class="stat-label">待结算收益</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayIncome">¥1,280</div>
+                    <div class="stat-label">今日预估收益</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📋 收益明细</h3>
+                <div id="earningsList">
+                    <!-- 动态渲染 -->
+                </div>
+                <button id="withdrawBtn"
+                    style="margin-top:20px; background:#8c6d46; border:none; padding:10px 24px; border-radius:40px; color:white; cursor:pointer;">申请提现</button>
+            </div>
+        </main>
+    </div>
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 店铺数据
+        let shopData = {
+            shopName: "听松窑 · 青瓷坊",
+            balance: 28650.00,
+            pendingAmount: 3420.00,
+            earningsRecords: [
+                { month: "1月", amount: 12480 }, { month: "2月", amount: 9800 }, { month: "3月", amount: 15620 }, { month: "4月", amount: 8630 }
+            ]
+        };
+
+        // 辅助函数
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+
+        // 保存数据到 localStorage
+        function saveShopData() {
+            localStorage.setItem('yunjian_shop_data', JSON.stringify(shopData));
+        }
+
+        function loadShopData() {
+            const stored = localStorage.getItem('yunjian_shop_data');
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    shopData = { ...shopData, ...parsed };
+                } catch (e) { }
+            }
+        }
+
+        // 渲染收益数据
+        function renderEarnings() {
+            const totalEarn = shopData.balance;
+            const pending = shopData.pendingAmount;
+            const todayIncome = 1280;
+
+            document.getElementById('totalEarn').textContent = `¥${totalEarn.toFixed(2)}`;
+            document.getElementById('pending').textContent = `¥${pending.toFixed(2)}`;
+            document.getElementById('todayIncome').textContent = `¥${todayIncome}`;
+
+            // 渲染收益明细
+            const list = document.getElementById('earningsList');
+            list.innerHTML = shopData.earningsRecords.map(record =>
+                `<div class="earning-item"><span>${record.month}</span><span>¥${record.amount}</span></div>`
+            ).join('');
+        }
+
+        // 提现按钮
+        document.getElementById('withdrawBtn').addEventListener('click', () => {
+            const totalEarn = shopData.balance;
+            showToast(`可提现余额 ¥${totalEarn.toFixed(2)}，提现申请已提交，预计3个工作日到账`);
+        });
+
+        // 退出按钮
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('退出工作台后将返回首页，是否确认？')) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 初始化
+        loadShopData();
+        renderEarnings();
+    </script>
+</body>
+
+</html>

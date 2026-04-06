@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>云间小阁 · 非遗学堂 | 传习东方智慧</title>
+    <!-- 引入 Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入古风字体 -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        /* 半透明遮罩，让点阵背景柔和 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰文字 (学/堂) */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主容器 */
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========= 导航栏 ========= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-input::placeholder {
+            color: #9b8a78;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        .search-input:focus {
+            border-color: #c4a77d;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ========= 学堂专属样式 ========= */
+        /* 英雄区 */
+        .hero-academy {
+            background: linear-gradient(105deg, rgba(225, 210, 185, 0.85) 0%, rgba(205, 185, 155, 0.75) 100%), url('https://picsum.photos/id/104/1400/400?grayscale') center/cover no-repeat;
+            border-radius: 36px;
+            padding: 64px 40px;
+            margin-bottom: 56px;
+            text-align: center;
+        }
+
+        .hero-academy h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3rem;
+            color: #3e2e24;
+            margin-bottom: 16px;
+        }
+
+        .hero-academy p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #5c4c3e;
+        }
+
+        @media (max-width: 780px) {
+            .hero-academy {
+                padding: 48px 28px;
+            }
+
+            .hero-academy h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        /* 课程分类标签 */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 253, 245, 0.9);
+            border: 1px solid #d6ccc2;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 课程网格 */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+
+        .course-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e7dfd3;
+            box-shadow: 0 6px 12px rgba(92, 76, 62, 0.06);
+        }
+
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 28px -10px rgba(92, 76, 62, 0.2);
+            border-color: #c4a77d;
+        }
+
+        .course-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .course-info {
+            padding: 20px;
+        }
+
+        .course-tag {
+            display: inline-block;
+            background: #f0e8df;
+            color: #8c6d46;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin-bottom: 12px;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #4a382a;
+        }
+
+        .course-desc {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #8c6d46;
+            margin-bottom: 16px;
+        }
+
+        .btn-learn {
+            background: #f4ede2;
+            border: 1px solid #d6ccc2;
+            padding: 8px 0;
+            width: 100%;
+            border-radius: 40px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #5c4c3e;
+        }
+
+        .btn-learn:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 今日非遗知识板块 */
+        .knowledge-section {
+            background: rgba(231, 219, 203, 0.4);
+            border-radius: 48px;
+            padding: 40px 36px;
+            margin: 40px 0 30px;
+            border: 1px solid #ddd0bf;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .knowledge-section::before {
+            content: "✧";
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 8rem;
+            color: #c4a77d;
+            opacity: 0.2;
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            pointer-events: none;
+        }
+
+        .knowledge-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .knowledge-header i {
+            font-size: 2rem;
+            color: #8c6d46;
+        }
+
+        .knowledge-header h2 {
+            font-size: 1.8rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #4a382a;
+        }
+
+        .knowledge-grid {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .knowledge-item {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(255, 253, 245, 0.7);
+            border-radius: 28px;
+            padding: 20px 20px;
+            transition: 0.2s;
+            border: 1px solid #e7dfd3;
+        }
+
+        .knowledge-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: #5c4c3e;
+            border-left: 3px solid #c4a77d;
+            padding-left: 12px;
+        }
+
+        .knowledge-item p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #7f6b5a;
+        }
+
+        .knowledge-item button {
+            background: none;
+            border: none;
+            color: #8c6d46;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 760px) {
+            .knowledge-section {
+                padding: 28px 20px;
+            }
+
+            .knowledge-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* 互动问答区 */
+        .qa-section {
+            background: #fffcf5;
+            border-radius: 48px;
+            padding: 48px 36px;
+            border: 1px solid #e2d8cd;
+            margin-bottom: 40px;
+        }
+
+        .qa-section h2 {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .qa-item {
+            border-bottom: 1px solid #e2d8cd;
+            padding: 20px 0;
+        }
+
+        .qa-question {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            cursor: pointer;
+        }
+
+        .qa-question i {
+            color: #8c6d46;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .qa-question h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .qa-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 32px;
+            margin-top: 8px;
+            color: #7f6b5a;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .qa-item.open .qa-answer {
+            max-height: 200px;
+            margin-top: 12px;
+        }
+
+        .ask-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 32px auto 0;
+            width: fit-content;
+            transition: all 0.4s ease;
+        }
+
+        .ask-wrapper.asking {
+            justify-content: flex-end;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .ask-input-container {
+            display: none;
+            flex: 1;
+            margin-right: 16px;
+            animation: slideLeftIn 0.3s ease;
+        }
+
+        .ask-wrapper.asking .ask-input-container {
+            display: block;
+        }
+
+        .ask-textarea {
+            width: 100%;
+            height: 48px;
+            padding: 12px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.7);
+            outline: none;
+            resize: none;
+            transition: all 0.3s ease;
+        }
+
+        .ask-textarea:focus {
+            background: rgba(255, 253, 245, 0.95);
+            border-color: #c4a77d;
+            height: 100px;
+            border-radius: 20px;
+        }
+
+        .ask-textarea::placeholder {
+            color: #9b8a78;
+        }
+
+        @keyframes slideLeftIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .ask-btn {
+            display: block;
+            background: #8c6d46;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .ask-btn:hover {
+            background: #745b3a;
+        }
+
+        .ask-btn.confirm-mode {
+            background: #8c6d46;
+        }
+
+        .ask-btn.confirm-mode:hover {
+            background: #745b3a;
+        }
+
+        /* 底部样式与首页一致 */
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">学</div>
+    <div class="decoration-big decoration-right">堂</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏（高亮非遗学堂） -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" data-page="首页">首页</a>
+                <a href="非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="非遗学堂.html" class="active" data-page="非遗学堂">非遗学堂</a>
+                <a href="社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索课程..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="购物车.html" class="icon-btn" id="cartIconBtn"><i class="fas fa-shopping-bag"></i></a>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 学堂主视觉 -->
+        <div class="hero-academy">
+            <h1>非遗学堂 · 传习有道</h1>
+            <p>跟随传承人学习传统技艺，在指尖触摸历史，让文化浸润日常。</p>
+        </div>
+
+        <!-- 课程分类标签 -->
+        <div class="category-tabs" id="categoryTabs">
+            <button class="tab-btn active" data-cat="all">全部课程</button>
+            <button class="tab-btn" data-cat="刺绣">刺绣织锦</button>
+            <button class="tab-btn" data-cat="陶瓷">陶瓷烧造</button>
+            <button class="tab-btn" data-cat="雕刻">雕刻工艺</button>
+            <button class="tab-btn" data-cat="书画">书画文房</button>
+            <button class="tab-btn" data-cat="民俗">民俗技艺</button>
+        </div>
+
+        <!-- 课程列表网格 -->
+        <div class="course-grid" id="courseGrid"></div>
+
+        <!-- 今日非遗知识板块 -->
+        <div class="knowledge-section">
+            <div class="knowledge-header">
+                <i class="fas fa-leaf"></i>
+                <h2>今日非遗 · 拾贝</h2>
+            </div>
+            <div class="knowledge-grid">
+                <div class="knowledge-item">
+                    <h3>🌿 二十四节气与非遗</h3>
+                    <p>立春剪春牛，清明制青团，冬至酿米酒……节气民俗是中国人独有的时间美学，多项已列入非遗名录。</p>
+                    <button class="knowledge-more">阅读全文 →</button>
+                </div>
+                <div class="knowledge-item">
+                    <h3>🎋 中国蚕桑丝织技艺</h3>
+                    <p>从嫘祖始蚕到云锦天衣，蚕桑丝织包含栽桑、养蚕、缫丝、染色、织造等完整体系，2009年入选人类非遗。</p>
+                    <button class="knowledge-more">阅读全文 →</button>
+                </div>
+                <div class="knowledge-item">
+                    <h3>🏺 龙泉青瓷传统烧制</h3>
+                    <p>"雨过天青云破处"，龙泉青瓷以粉青、梅子青著称，其烧制技艺是唯一入选世界非遗的陶瓷项目。</p>
+                    <button class="knowledge-more">阅读全文 →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 常见问答区 -->
+        <div class="qa-section">
+            <h2><i class="fas fa-question-circle"></i> 学艺解惑 · 常见问答</h2>
+            <div class="qa-list" id="qaList">
+                <div class="qa-item">
+                    <div class="qa-question">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>零基础可以学习非遗技艺吗？</h4>
+                    </div>
+                    <div class="qa-answer">当然可以！我们许多课程从入门开始，由传承人亲自录制基础技法，手把手带你感受传统工艺的魅力。</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-question">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>课程是免费的吗？如何观看？</h4>
+                    </div>
+                    <div class="qa-answer">大部分基础课程免费开放，登录后即可观看。部分深度研修课需购买，收入将用于支持非遗传承人。</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-question">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>学习材料如何购买？</h4>
+                    </div>
+                    <div class="qa-answer">课程详情页提供材料包链接，均为传承人监制的专业工具，方便你动手实践。</div>
+                </div>
+                <div class="qa-item">
+                    <div class="qa-question">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>完成课程后有证书吗？</h4>
+                    </div>
+                    <div class="qa-answer">完成系列课程并通过考核，可获得云间小阁与传承人联名颁发的"非遗传习证书"。</div>
+                </div>
+            </div>
+            <div class="ask-wrapper" id="askWrapper">
+                <div class="ask-input-container" id="askInputContainer">
+                    <textarea class="ask-textarea" id="askTextarea" placeholder="请输入您的问题，传承人将定期为您解答..."></textarea>
+                </div>
+                <button class="ask-btn" id="askQuestionBtn">我要提问</button>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons">
+                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weibo"></i>
+                    <i class="fab fa-xiaohongshu"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="about">
+                    <p>购买指南</p>
+                </a>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="privacy">
+                    <p>非遗鉴定</p>
+                </a>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="terms">
+                    <p>售后服务</p>
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="about">
+                    <p>传承人合作</p>
+                </a>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="privacy">
+                    <p>非遗保护基金</p>
+                </a>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="terms">
+                    <p>加入我们</p>
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">
+                © 2025 云间小阁 | 非遗美学电商平台 | 传承华夏文明，守护匠心技艺
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 课程数据
+        const courses = [
+            { id: 1, title: "苏绣基础针法", desc: "从穿针引线开始，学习平针、滚针、打籽绣等传统技法", category: "刺绣", img: "https://picsum.photos/id/30/400/250", duration: "12课时", level: "入门" },
+            { id: 2, title: "龙泉青瓷拉坯体验", desc: "亲手体验泥与火的对话，感受千年窑火的温度", category: "陶瓷", img: "https://picsum.photos/id/119/400/250", duration: "8课时", level: "初级" },
+            { id: 3, title: "木版年画雕刻入门", desc: "学习刻版、套色印刷，制作一幅吉祥年画", category: "雕刻", img: "https://picsum.photos/id/20/400/250", duration: "10课时", level: "入门" },
+            { id: 4, title: "徽州剪纸·生肖剪纸", desc: "从折纸到镂空，剪出灵动生肖图案", category: "民俗", img: "https://picsum.photos/id/42/400/250", duration: "6课时", level: "入门" },
+            { id: 5, title: "宣纸捞纸技艺", desc: "探访纸坊，了解一张千年寿纸的诞生", category: "书画", img: "https://picsum.photos/id/39/400/250", duration: "4课时", level: "体验" },
+            { id: 6, title: "苗银锻造·花丝工艺", desc: "学习传统银饰锻造，制作专属银饰", category: "雕刻", img: "https://picsum.photos/id/96/400/250", duration: "14课时", level: "进阶" },
+            { id: 7, title: "青花瓷绘制", desc: "在坯上绘制缠枝莲，体验釉下彩的韵味", category: "陶瓷", img: "https://picsum.photos/id/146/400/250", duration: "8课时", level: "初级" },
+            { id: 8, title: "团扇绘制·工笔花鸟", desc: "学习工笔设色，绘制一把雅致团扇", category: "书画", img: "https://picsum.photos/id/44/400/250", duration: "12课时", level: "中级" }
+        ];
+
+        let currentCategory = "all";
+
+        // 渲染课程
+        const courseGrid = document.getElementById('courseGrid');
+        function renderCourses() {
+            let filtered = courses;
+            if (currentCategory !== "all") {
+                filtered = courses.filter(c => c.category === currentCategory);
+            }
+            if (filtered.length === 0) {
+                courseGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">暂无课程，敬请期待更多非遗课程上线～</div>`;
+                return;
+            }
+            courseGrid.innerHTML = filtered.map(course => `
+                <div class="course-card">
+                    <img class="course-img" src="${course.img}" alt="${course.title}">
+                    <div class="course-info">
+                        <div class="course-tag">${course.category} · ${course.level}</div>
+                        <div class="course-title">${course.title}</div>
+                        <div class="course-desc">${course.desc}</div>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-users"></i> 368人学过</span>
+                        </div>
+                        <button class="btn-learn" data-id="${course.id}" data-title="${course.title}">开始学习 <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            `).join('');
+            // 绑定学习按钮事件
+            document.querySelectorAll('.btn-learn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const courseId = btn.getAttribute('data-id');
+                    const title = btn.getAttribute('data-title');
+                    // 保存课程信息到sessionStorage
+                    sessionStorage.setItem('currentCourse', JSON.stringify({ id: courseId, title: title }));
+                    // 跳转到学习页面
+                    window.location.href = '非遗学堂/开始学习.html';
+                });
+            });
+        }
+
+        // 分类切换
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-cat');
+                renderCourses();
+            });
+        });
+
+        // 搜索课程
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function searchCourses(keyword) {
+            if (!keyword.trim()) {
+                renderCourses();
+                return;
+            }
+            const filtered = courses.filter(c =>
+                c.title.includes(keyword) || c.desc.includes(keyword) || c.category.includes(keyword)
+            );
+            if (filtered.length === 0) {
+                courseGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">未找到相关课程，试试"苏绣"或"陶瓷"吧～</div>`;
+            } else {
+                courseGrid.innerHTML = filtered.map(course => `
+                    <div class="course-card">
+                        <img class="course-img" src="${course.img}" alt="${course.title}">
+                        <div class="course-info">
+                            <div class="course-tag">${course.category} · ${course.level}</div>
+                            <div class="course-title">${course.title}</div>
+                            <div class="course-desc">${course.desc}</div>
+                            <div class="course-meta">
+                                <span><i class="far fa-clock"></i> ${course.duration}</span>
+                                <span><i class="fas fa-users"></i> 368人学过</span>
+                            </div>
+                            <button class="btn-learn" data-id="${course.id}" data-title="${course.title}">开始学习 <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                document.querySelectorAll('.btn-learn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const courseId = btn.getAttribute('data-id');
+                        const title = btn.getAttribute('data-title');
+                        // 保存课程信息到sessionStorage
+                        sessionStorage.setItem('currentCourse', JSON.stringify({ id: courseId, title: title }));
+                        // 跳转到学习页面
+                        window.location.href = '非遗学堂/开始学习.html';
+                    });
+                });
+            }
+        }
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                const keyword = searchInput.value.trim();
+                if (keyword) searchCourses(keyword);
+                else showMessage('🔍 输入课程名称或关键词');
+            });
+        }
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const keyword = searchInput.value.trim();
+                    if (keyword) searchCourses(keyword);
+                    else showMessage('🔍 输入课程名称或关键词');
+                }
+            });
+        }
+
+        // 知识板块阅读更多
+        const knowledgeMoreBtns = document.querySelectorAll('.knowledge-more');
+        knowledgeMoreBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 跳转到非遗文章页面
+                window.location.href = 'index/非遗文章.html';
+            });
+        });
+
+        // 问答折叠展开
+        const qaItems = document.querySelectorAll('.qa-item');
+        qaItems.forEach(item => {
+            const questionDiv = item.querySelector('.qa-question');
+            questionDiv.addEventListener('click', () => {
+                item.classList.toggle('open');
+                const icon = questionDiv.querySelector('i');
+                if (item.classList.contains('open')) {
+                    icon.classList.remove('fa-plus-circle');
+                    icon.classList.add('fa-minus-circle');
+                } else {
+                    icon.classList.remove('fa-minus-circle');
+                    icon.classList.add('fa-plus-circle');
+                }
+            });
+        });
+
+        // 提问按钮交互
+        const askWrapper = document.getElementById('askWrapper');
+        const askBtn = document.getElementById('askQuestionBtn');
+        const askTextarea = document.getElementById('askTextarea');
+        let isAsking = false;
+
+        function toggleAskMode(show = null) {
+            if (show === null) {
+                show = !isAsking;
+            }
+
+            if (show) {
+                isAsking = true;
+                askWrapper.classList.add('asking');
+                askBtn.textContent = '确认';
+                askBtn.classList.add('confirm-mode');
+                askTextarea.style.height = '48px';
+                setTimeout(() => askTextarea.focus(), 100);
+            } else {
+                isAsking = false;
+                askWrapper.classList.remove('asking');
+                askBtn.textContent = '我要提问';
+                askBtn.classList.remove('confirm-mode');
+                askTextarea.value = '';
+                askTextarea.style.height = '48px';
+            }
+        }
+
+        // 点击按钮切换
+        if (askBtn) {
+            askBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (isAsking) {
+                    // 确认提交
+                    const question = askTextarea.value.trim();
+                    if (!question) {
+                        showMessage('💬 请输入您的问题');
+                        return;
+                    }
+                    toggleAskMode(false);
+                    showMessage('✨ 问题已提交！传承人将尽快为您解答');
+                } else {
+                    // 进入提问模式
+                    toggleAskMode(true);
+                }
+            });
+        }
+
+        // 点击输入框阻止冒泡
+        if (askTextarea) {
+            askTextarea.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // 点击对话框以外区域取消
+        document.addEventListener('click', (e) => {
+            if (isAsking) {
+                const qaSection = document.querySelector('.qa-section');
+                if (qaSection && !qaSection.contains(e.target)) {
+                    toggleAskMode(false);
+                }
+            }
+        });
+
+        // Toast提示
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 购物车图标
+        const cartIcon = document.getElementById('cartIconBtn');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', () => {
+                showMessage('🎋 购物车即将开启，匠心好物敬请期待');
+            });
+        }
+
+        // 导航栏其他链接占位
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            const pageName = link.getAttribute('data-page');
+            if (pageName) {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        showMessage(`🌿 云间小阁·${pageName}版块即将开放`);
+                    }
+                });
+            }
+        });
+
+        // 页面淡入
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+            renderCourses();
+
+            // 页尾链接点击事件 - 设置标签状态
+            document.querySelectorAll('.footer-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const tab = this.getAttribute('data-tab');
+                    if (tab) {
+                        sessionStorage.setItem('footerTab', tab);
+                    }
+                });
+            });
+
+            // 检查登录状态
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loginBtn = document.getElementById('loginBtn');
+            if (currentUser && loginBtn) {
+                loginBtn.textContent = currentUser;
+                loginBtn.style.background = '#8c6d46';
+                loginBtn.style.color = '#fff';
+                loginBtn.style.cursor = 'pointer';
+                loginBtn.title = '点击进入个人中心';
+            }
+
+            // 登录按钮点击处理
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const user = sessionStorage.getItem('currentUser');
+                    if (user) {
+                        window.location.href = '个人资料/个人中心.html';
+                    } else {
+                        sessionStorage.setItem('previousPage', 'class');
+                        window.location.href = '登录and注册/登录页面.html';
+                    }
+                });
+            }
+
+            // 检查当前页面是否与上次相同
+            const currentPage = '非遗学堂';
+            const previousPage = sessionStorage.getItem('currentPage');
+
+            // 检查登录用户状态
+            const lastUser = sessionStorage.getItem('lastLoginUser');
+            if (lastUser) {
+                setTimeout(() => {
+                    showMessage(`🍵 欢迎 ${lastUser}，开启非遗传习之旅`);
+                }, 400);
+                sessionStorage.removeItem('lastLoginUser');
+            } else if (previousPage === currentPage) {
+                setTimeout(() => {
+                    showMessage(`📍 您已定位到${currentPage}`);
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    showMessage(`📚 非遗学堂 · 传习有道，欢迎学习`);
+                }, 300);
+            }
+
+            // 保存当前页面
+            sessionStorage.setItem('currentPage', currentPage);
+        });
+    </script>
+</body>
+
+</html>

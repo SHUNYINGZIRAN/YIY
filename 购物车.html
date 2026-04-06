@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗购物车 · 云间小阁 | 匠心雅物待归</title>
+    <!-- Font Awesome 6 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 古风字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        /* ========= 全局样式 (与非遗集市/社区风格完全统一) ========= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风浮云大字装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 (完全沿用之前风格) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        /* 购物车专属横幅 */
+        .cart-banner {
+            background: linear-gradient(105deg, #e7dfd3 0%, #f3ede2 100%);
+            border-radius: 40px;
+            padding: 32px 32px;
+            margin: 24px 0 40px;
+            border: 1px solid #ddd0bf;
+            box-shadow: 0 8px 18px rgba(92, 76, 62, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-banner:before {
+            content: "🛒";
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 120px;
+            position: absolute;
+            right: 10px;
+            bottom: -30px;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        .banner-content h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.3rem;
+            color: #4a382a;
+            margin-bottom: 8px;
+        }
+
+        .banner-content p {
+            font-size: 0.95rem;
+            color: #7f6b5a;
+        }
+
+        /* 购物车双栏布局 */
+        .cart-layout {
+            display: flex;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+
+        .cart-items-section {
+            flex: 2.2;
+            min-width: 260px;
+        }
+
+        .cart-summary {
+            flex: 1.2;
+            min-width: 260px;
+            position: sticky;
+            top: 30px;
+            align-self: start;
+        }
+
+        /* 购物车卡片样式 (类似商品卡片但横向) */
+        .cart-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 28px;
+            margin-bottom: 20px;
+            border: 1px solid #e7dfd3;
+            transition: all 0.2s ease;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 18px 20px;
+            gap: 16px;
+            position: relative;
+        }
+
+        .cart-card:hover {
+            border-color: #c4a77d;
+            box-shadow: 0 8px 18px rgba(92, 76, 62, 0.1);
+        }
+
+        .cart-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #e2d8cd;
+            flex-shrink: 0;
+        }
+
+        .cart-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-info {
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .cart-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #4a382a;
+        }
+
+        .cart-info .cart-desc {
+            font-size: 0.7rem;
+            color: #9b8a78;
+            margin-bottom: 6px;
+        }
+
+        .cart-price {
+            font-weight: 700;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f4ede2;
+            padding: 5px 12px;
+            border-radius: 40px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #5c4c3e;
+            cursor: pointer;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #d6ccc2;
+            color: #8c6d46;
+        }
+
+        .qty-num {
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .cart-subtotal {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #8c6d46;
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .delete-item {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #b99e82;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 6px;
+        }
+
+        .delete-item:hover {
+            color: #c14f2b;
+            transform: scale(1.05);
+        }
+
+        /* 右侧结算卡片 */
+        .summary-card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 32px;
+            padding: 28px 24px;
+            border: 1px solid #e7dfd3;
+        }
+
+        .summary-card h3 {
+            font-size: 1.4rem;
+            border-left: 4px solid #c4a77d;
+            padding-left: 14px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #ddd0bf;
+            margin-top: 16px;
+            padding-top: 18px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #8c6d46;
+        }
+
+        .coupon-area {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .coupon-input {
+            flex: 1;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            padding: 8px 14px;
+            background: #fffef8;
+            font-family: inherit;
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .btn-sm {
+            background: #8c6d46;
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-sm:hover {
+            background: #6e4f2e;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #8c6d46;
+            border: none;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .checkout-btn:hover {
+            background: #5e422c;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 24px;
+            background: rgba(255, 253, 245, 0.8);
+            border-radius: 40px;
+            border: 1px dashed #d6ccc2;
+        }
+
+        .empty-cart i {
+            font-size: 3.5rem;
+            color: #c4a77d;
+            margin-bottom: 16px;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            margin-top: 20px;
+            background: #e7dfd3;
+            padding: 10px 28px;
+            border-radius: 40px;
+            color: #5c4c3e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .continue-shopping:hover {
+            background: #8c6d46;
+            color: white;
+        }
+
+        /* 非遗小筑卡片 (侧边栏装饰) */
+        .mini-culture {
+            margin-top: 30px;
+            background: rgba(231, 219, 203, 0.4);
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 760px) {
+            .cart-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-subtotal, .cart-price {
+                text-align: left;
+            }
+            .delete-item {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+            }
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration-big decoration-left">購</div>
+    <div class="decoration-big decoration-right">物</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" data-page="首页">首页</a>
+                <a href="非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="cartSearchInput">
+                    <button class="icon-btn" id="cartSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <a href="登录页面.html" style="text-decoration: none;"><button class="btn-outline" id="loginBtnRef">登录 / 注册</button></a>
+            </div>
+        </nav>
+
+        <!-- 购物车横幅 -->
+        <div class="cart-banner">
+            <div class="banner-content">
+                <h1><i class="fas fa-shopping-basket"></i> 非遗雅物 · 归心竹篮</h1>
+                <p>每一件匠心手作，都是与传承的相逢。确认心仪好物，让风物常伴身侧。</p>
+            </div>
+        </div>
+
+        <div class="cart-layout">
+            <!-- 左侧商品列表 -->
+            <div class="cart-items-section" id="cartItemsContainer">
+                <!-- 动态渲染购物车商品 -->
+                <div class="empty-cart" style="display: none;" id="emptyCartMsg">
+                    <i class="fas fa-leaf"></i>
+                    <p>竹篮空空，尚未添置非遗雅物</p>
+                    <a href="非遗集市.html" class="continue-shopping"><i class="fas fa-store"></i> 前往集市寻宝</a>
+                </div>
+                <div id="cartList"></div>
+            </div>
+
+            <!-- 右侧结算 + 非遗小筑 -->
+            <div class="cart-summary">
+                <div class="summary-card">
+                    <h3><i class="fas fa-receipt"></i> 订单摘要</h3>
+                    <div class="summary-row">
+                        <span>商品总额</span>
+                        <span id="totalPriceDisplay">¥0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>运费</span>
+                        <span>满¥399包邮</span>
+                    </div>
+                    <div class="coupon-area">
+                        <input type="text" class="coupon-input" id="couponCode" placeholder="非遗雅券 · 输入口令">
+                        <button class="btn-sm" id="applyCouponBtn">使用</button>
+                    </div>
+                    <div class="summary-row total">
+                        <span>合计 (含运费)</span>
+                        <span id="grandTotal">¥0</span>
+                    </div>
+                    <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-feather-alt"></i> 结缘 · 安心支付</button>
+                    <a href="非遗集市.html" style="text-decoration: none; display: block; text-align: center; margin-top: 18px; font-size: 0.8rem; color: #8c6d46;"><i class="fas fa-arrow-left"></i> 继续寻宝</a>
+                </div>
+
+                <!-- 非遗小筑文化卡 (点缀) -->
+                <div class="mini-culture">
+                    <i class="fas fa-hands-praying" style="font-size: 1.8rem; color: #bc8f6b;"></i>
+                    <p style="margin-top: 8px; font-size: 0.75rem;">「择物如择友，器以载道」云间小阁每笔订单都将捐赠1%用于非遗工坊守护计划。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部footer -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <p>购买指南</p>
+                <p>非遗鉴定</p>
+                <p>售后服务</p>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <p>传承人合作</p>
+                <p>非遗保护基金</p>
+                <p>加入我们</p>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学市集 | 雅物归心，匠心永续</div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // ---------- 购物车数据管理 (localStorage) ----------
+        // 默认非遗商品数据集 (供初始化或添加)
+        const defaultProducts = [
+            { id: 1, name: "苏绣·荷韵团扇", desc: "非遗传承人 王秀英 · 双面绣", price: 328, imgId: "30", badge: "传承人监制" },
+            { id: 2, name: "龙泉青瓷·听松茶器", desc: "非遗·徐朝兴 弟窑", price: 899, imgId: "119", badge: "梅子青釉" },
+            { id: 3, name: "徽州剪纸·福禄双全", desc: "省级非遗 吴笑梅", price: 128, imgId: "20", badge: "限量版画" },
+            { id: 4, name: "金陵绒花·牡丹发簪", desc: "绒花非遗 纯手工", price: 256, imgId: "42", badge: "荣华工艺" },
+            { id: 5, name: "檀香扇·手工拉花", desc: "留青竹刻 香韵悠然", price: 439, imgId: "96", badge: "苏州制扇" }
+        ];
+
+        // 获取购物车 (key: craft_cart)
+        let cartItems = [];
+
+        function loadCart() {
+            const stored = localStorage.getItem('yunji_cart');
+            if (stored) {
+                cartItems = JSON.parse(stored);
+            } else {
+                // 初始化示范数据: 三件经典非遗（便于演示购物车丰富）
+                cartItems = [
+                    { id: 1, name: "苏绣·荷韵团扇", price: 328, quantity: 1, imgId: "30", desc: "非遗传承人 王秀英 · 双面绣" },
+                    { id: 2, name: "龙泉青瓷·听松茶器", price: 899, quantity: 1, imgId: "119", desc: "非遗·徐朝兴 弟窑" },
+                    { id: 4, name: "金陵绒花·牡丹发簪", price: 256, quantity: 2, imgId: "42", desc: "绒花非遗 纯手工" }
+                ];
+                saveCart();
+            }
+            updateCartBadge();
+        }
+
+        function saveCart() {
+            localStorage.setItem('yunji_cart', JSON.stringify(cartItems));
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                badge.innerText = totalQty;
+                badge.style.display = totalQty > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // 渲染购物车列表
+        function renderCart() {
+            const container = document.getElementById('cartList');
+            const emptyDiv = document.getElementById('emptyCartMsg');
+            if (!container) return;
+
+            if (cartItems.length === 0) {
+                container.innerHTML = '';
+                if (emptyDiv) emptyDiv.style.display = 'block';
+                document.getElementById('totalPriceDisplay').innerText = '¥0';
+                document.getElementById('grandTotal').innerText = '¥0';
+                return;
+            }
+            if (emptyDiv) emptyDiv.style.display = 'none';
+
+            let html = '';
+            cartItems.forEach((item, idx) => {
+                const imgUrl = `https://picsum.photos/id/${item.imgId}/200/200`;
+                const subtotal = item.price * item.quantity;
+                html += `
+                    <div class="cart-card" data-id="${item.id}">
+                        <div class="cart-img"><img src="${imgUrl}" alt="${item.name}" loading="lazy"></div>
+                        <div class="cart-info">
+                            <h4>${item.name}</h4>
+                            <div class="cart-desc">${item.desc || '非遗匠心'}</div>
+                            <div class="cart-price">¥${item.price}</div>
+                        </div>
+                        <div class="cart-quantity">
+                            <button class="qty-btn dec-qty" data-id="${item.id}">−</button>
+                            <span class="qty-num">${item.quantity}</span>
+                            <button class="qty-btn inc-qty" data-id="${item.id}">+</button>
+                        </div>
+                        <div class="cart-subtotal">¥${subtotal.toFixed(2)}</div>
+                        <button class="delete-item" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            updateTotalAndSummary();
+
+            // 绑定数量/删除事件 (委托)
+            document.querySelectorAll('.dec-qty').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    changeQuantity(id, -1);
+                });
+            });
+            document.querySelectorAll('.inc-qty').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    changeQuantity(id, 1);
+                });
+            });
+            document.querySelectorAll('.delete-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    deleteCartItem(id);
+                });
+            });
+        }
+
+        function changeQuantity(id, delta) {
+            const index = cartItems.findIndex(item => item.id === id);
+            if (index !== -1) {
+                let newQty = cartItems[index].quantity + delta;
+                if (newQty <= 0) {
+                    deleteCartItem(id);
+                } else if (newQty <= 99) {
+                    cartItems[index].quantity = newQty;
+                    saveCart();
+                    renderCart();
+                    showMessage(`✨ "${cartItems[index].name}" 数量已更新`, true);
+                }
+            }
+        }
+
+        function deleteCartItem(id) {
+            const item = cartItems.find(i => i.id === id);
+            if (item) {
+                cartItems = cartItems.filter(i => i.id !== id);
+                saveCart();
+                renderCart();
+                showMessage(`🍃 已将「${item.name}」移出竹篮`, true);
+            }
+        }
+
+        function updateTotalAndSummary() {
+            let total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalSpan = document.getElementById('totalPriceDisplay');
+            const grandSpan = document.getElementById('grandTotal');
+            if (totalSpan) totalSpan.innerText = `¥${total.toFixed(2)}`;
+            // 简单运费逻辑: 满399包邮，否则加15元运费
+            let shipping = (total >= 399 || total === 0) ? 0 : 15;
+            let grandTotal = total + shipping;
+            if (grandSpan) grandSpan.innerText = `¥${grandTotal.toFixed(2)}`;
+            // 同时显示运费文案
+            const shippingRow = document.querySelector('.summary-row:not(.total)');
+            if (shippingRow && shipping === 0) {
+                shippingRow.innerHTML = `<span>运费</span><span>已包邮 🎋</span>`;
+            } else if (shippingRow) {
+                shippingRow.innerHTML = `<span>运费</span><span>¥15.00</span>`;
+            }
+        }
+
+        // 清空购物车 (可用于结算模拟后)
+        function clearCart() {
+            cartItems = [];
+            saveCart();
+            renderCart();
+            showMessage('竹篮已清空，欢迎再次选购非遗雅物', true);
+        }
+
+        // 结算模拟
+        function checkout() {
+            if (cartItems.length === 0) {
+                showMessage('竹篮尚空，请先挑选心仪的非遗好物～');
+                return;
+            }
+            const total = cartItems.reduce((s, i) => s + i.price * i.quantity, 0);
+            const shipping = (total >= 399 || total === 0) ? 0 : 15;
+            const finalTotal = total + shipping;
+            showMessage(`🏮 结缘非遗器物合计 ¥${finalTotal.toFixed(2)}，即将跳转至非遗工坊支付通道。感谢您的守护！`);
+            // 模拟结算后不清空，但为了体验可保留，只提示
+        }
+
+        // 优惠券模拟
+        let couponApplied = false;
+        function applyCoupon(code) {
+            if (couponApplied) {
+                showMessage('非遗雅券已使用，每单仅可享一次风雅优惠');
+                return;
+            }
+            if (code === '非遗回家' || code === 'YUNJIAN' || code === '匠心永续') {
+                let total = cartItems.reduce((s, i) => s + i.price * i.quantity, 0);
+                if (total > 0) {
+                    const discount = 20;
+                    let newTotal = total - discount;
+                    if (newTotal < 0) newTotal = 0;
+                    // 更新前端显示直接重新计算总额并模拟优惠
+                    const totalSpan = document.getElementById('totalPriceDisplay');
+                    if (totalSpan) totalSpan.innerText = `¥${total.toFixed(2)}`;
+                    let shipping = (newTotal >= 399 || newTotal === 0) ? 0 : 15;
+                    let grand = newTotal + shipping;
+                    document.getElementById('grandTotal').innerText = `¥${grand.toFixed(2)}`;
+                    couponApplied = true;
+                    showMessage(`🎋 恭喜获得「非遗回家」雅券，减免¥20`, true);
+                    // 重新渲染摘要（避免运费显示错乱）
+                    const shippingRow = document.querySelector('.summary-row:not(.total)');
+                    if (shippingRow) shippingRow.innerHTML = `<span>运费</span><span>${shipping === 0 ? '已包邮 🎋' : '¥15.00'}</span>`;
+                } else {
+                    showMessage('购物车空无一物，无法使用雅券');
+                }
+            } else {
+                showMessage('雅券口令有误，试试“非遗回家”或“匠心永续”');
+            }
+        }
+
+        // 通用提示
+        function showMessage(msg, isSuccess = true) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // 搜索模拟 (购物车页面搜索集市)
+        function handleSearch() {
+            const kw = document.getElementById('cartSearchInput').value.trim();
+            if (kw) showMessage(`🔍 在非遗市集中搜索「${kw}」，可前往集市发现更多雅物`);
+            else showMessage('🍃 输入匠心关键词，探索非遗风物');
+        }
+
+        // 绑定导航及其他交互
+        function bindEvents() {
+            document.getElementById('checkoutBtn')?.addEventListener('click', checkout);
+            document.getElementById('applyCouponBtn')?.addEventListener('click', () => {
+                const code = document.getElementById('couponCode').value.trim();
+                applyCoupon(code);
+            });
+            document.getElementById('cartSearchBtn')?.addEventListener('click', handleSearch);
+            const searchInput = document.getElementById('cartSearchInput');
+            if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+            // 购物车图标点击提示已在购物车页面
+            document.getElementById('cartIconPage')?.addEventListener('click', () => showMessage('您已在非遗雅物竹篮中 🧺'));
+
+            // 导航链接提示
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const pageName = link.getAttribute('data-page');
+                if (pageName) {
+                    link.addEventListener('click', (e) => {
+                        if (link.getAttribute('href') === '#') {
+                            e.preventDefault();
+                            showMessage(`🌿 云间小阁·${pageName}版块即将开放`);
+                        } else {
+                            // 对于有效的链接，跳转前显示提示（可选）
+                            // showMessage(`🍵 正在前往${pageName}...`);
+                        }
+                    });
+                }
+            });
+        }
+
+        // 额外处理登录session欢迎
+        function showWelcome() {
+            const lastUser = sessionStorage.getItem('lastLoginUser');
+            if (lastUser) {
+                setTimeout(() => showMessage(`🍵 欢迎 ${lastUser}，您的非遗竹篮待续雅缘`), 400);
+                sessionStorage.removeItem('lastLoginUser');
+            } else {
+                setTimeout(() => showMessage(`🎋 云间小阁·非遗购物车 | 匠心所向，素履以往`), 300);
+            }
+        }
+
+        // 初始化
+        function init() {
+            loadCart();
+            renderCart();
+            bindEvents();
+            showWelcome();
+        }
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息通知 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            line-height: 1.6;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 244, 233, 0.8);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.12);
+            border: 1px solid #e7dfd3;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #c4a77d;
+            background: #e7dfd3;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            color: #8c6d46;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .user-bio {
+            color: #7f6b5a;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-size: 0.85rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .profile-btn {
+            padding: 10px;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #8c6d46;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .profile-btn.primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .profile-btn.outline {
+            background: transparent;
+            color: #8c6d46;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(92, 76, 62, 0.15);
+        }
+
+        .quick-links {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .links-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            margin-bottom: 18px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: #5c4c3e;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .link-item:hover {
+            background: rgba(140, 109, 70, 0.08);
+            transform: translateX(5px);
+        }
+
+        .link-item i {
+            margin-right: 12px;
+            width: 24px;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .link-item.active {
+            background: rgba(140, 109, 70, 0.12);
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+        }
+
+        .content-section {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            position: relative;
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e7dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 通知头部工具栏 */
+        .notification-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active {
+            background: #8c6d46;
+            border-color: #8c6d46;
+            color: white;
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: #f0e8dd;
+            border-color: #c4a77d;
+        }
+
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .batch-btn {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .batch-btn:hover {
+            background: #f0e8dd;
+            color: #5c4c3e;
+        }
+
+        /* 通知列表 */
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-item {
+            background: rgba(255, 255, 245, 0.9);
+            border-radius: 16px;
+            padding: 16px 20px;
+            border: 1px solid #e7dfd3;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            position: relative;
+        }
+
+        .notification-item.unread {
+            background: rgba(248, 244, 233, 0.95);
+            border-left: 3px solid #8c6d46;
+        }
+
+        .notification-item:hover {
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border-color: #c4a77d;
+        }
+
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #f0e8dd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #8c6d46;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            margin-bottom: 4px;
+        }
+
+        .notification-desc {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .notification-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.7rem;
+            color: #9b8a78;
+        }
+
+        .notification-meta i {
+            margin-right: 4px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .noti-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: #9b8a78;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 20px;
+            transition: 0.2s;
+        }
+
+        .noti-btn:hover {
+            background: #f0e8dd;
+            color: #8c6d46;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9b8a78;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Toast 提示 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .notification-item {
+                flex-direction: column;
+            }
+
+            .notification-actions {
+                align-self: flex-end;
+            }
+
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile-container">
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <div class="profile-card">
+                    <div class="avatar">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
+                            alt="用户头像">
+                    </div>
+                    <h2 class="user-name">文心居士</h2>
+                    <p class="user-title">传统文化传承者</p>
+                    <p class="user-bio">以文会友，以友辅仁。传承中华文化，分享生活智慧。</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">42</div>
+                            <div class="stat-label">文章</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">128</div>
+                            <div class="stat-label">粉丝</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">86</div>
+                            <div class="stat-label">收藏</div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <a href="后台登录.html" class="profile-btn primary" id="editProfileBtn">守艺掌柜</a>
+                        <a href="../登录and注册/登录页面.html" class="profile-btn outline" id="logoutBtn">退出登录</a>
+                    </div>
+                </div>
+                <div class="quick-links">
+                    <h3 class="links-title">快捷入口</h3>
+                    <a href="个人中心.html" class="link-item"><i class="fas fa-plus-circle"></i><span>创作中心</span></a>
+                    <a href="我的收藏.html" class="link-item"><i class="fas fa-heart"></i><span>我的收藏</span></a>
+                    <a href="文章管理.html" class="link-item"><i class="fas fa-file-alt"></i><span>文章管理</span></a>
+                    <a href="消息通知.html" class="link-item active"><i class="fas fa-comments"></i><span>消息通知</span></a>
+                    <a href="我的订单.html" class="link-item"><i class="fas fa-shopping-bag"></i><span>我的订单</span></a>
+                    <a href="账号设置.html" class="link-item"><i class="fas fa-cog"></i><span>账号设置</span></a>
+                </div>
+            </div>
+
+            <!-- 主内容区域 - 消息通知 -->
+            <div class="main-content">
+                <div class="content-section">
+                    <div class="section-title">
+                        <span><i class="fas fa-bell" style="margin-right: 8px; color: #8c6d46;"></i> 消息通知</span>
+                    </div>
+
+                    <!-- 工具栏 -->
+                    <div class="notification-toolbar">
+                        <div class="filter-tabs" id="filterTabs">
+                            <button class="filter-tab active" data-filter="all">全部</button>
+                            <button class="filter-tab" data-filter="unread">未读</button>
+                            <button class="filter-tab" data-filter="system">系统通知</button>
+                            <button class="filter-tab" data-filter="interaction">互动通知</button>
+                        </div>
+                        <div class="batch-actions">
+                            <button class="batch-btn" id="markAllReadBtn"><i class="fas fa-check-double"></i>
+                                全部已读</button>
+                            <button class="batch-btn" id="clearAllBtn"><i class="fas fa-trash-alt"></i> 清空</button>
+                        </div>
+                    </div>
+
+                    <!-- 通知列表容器 -->
+                    <div id="notificationsContainer" class="notifications-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast-msg"></div>
+
+    <script>
+        // 模拟通知数据
+        let notificationsData = [
+            {
+                id: 1,
+                type: "interaction",
+                title: "绣里江南 点赞了你的文章",
+                content: "《苏绣千年：针尖上的江南》",
+                icon: "fas fa-thumbs-up",
+                time: "2024-03-18 14:32",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 2,
+                type: "interaction",
+                title: "青瓷故里 评论了你的文章",
+                content: "《龙泉青瓷·梅子青釉的秘密》：写得真好，学到了很多！",
+                icon: "fas fa-comment",
+                time: "2024-03-17 09:15",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 3,
+                type: "system",
+                title: "系统通知",
+                content: "恭喜！你的文章《苏绣千年》入选本周非遗精选推荐。",
+                icon: "fas fa-crown",
+                time: "2024-03-16 20:00",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 4,
+                type: "interaction",
+                title: "剪纸阿婆 收藏了你的手作",
+                content: "《徽州剪纸·瑞鹤图》",
+                icon: "fas fa-bookmark",
+                time: "2024-03-15 11:22",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 5,
+                type: "system",
+                title: "活动通知",
+                content: "非遗创作大赛即将开启，快来报名参与吧！",
+                icon: "fas fa-gift",
+                time: "2024-03-14 10:00",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 6,
+                type: "interaction",
+                title: "木雕小生 关注了你",
+                content: "成为了你的新粉丝",
+                icon: "fas fa-user-plus",
+                time: "2024-03-13 18:45",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 7,
+                type: "system",
+                title: "审核通知",
+                content: "你的文章《苗绣纹样解读》已通过审核，正式发布。",
+                icon: "fas fa-check-circle",
+                time: "2024-03-12 14:20",
+                read: true,
+                link: "#"
+            }
+        ];
+
+        let currentFilter = "all";
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 格式化时间显示
+        function formatTime(timeStr) {
+            const date = new Date(timeStr);
+            const now = new Date();
+            const diff = now - date;
+            if (diff < 24 * 3600 * 1000) {
+                return timeStr.slice(11, 16);
+            } else if (diff < 7 * 24 * 3600 * 1000) {
+                const days = Math.floor(diff / (24 * 3600 * 1000));
+                return `${days}天前`;
+            } else {
+                return timeStr.slice(5, 16);
+            }
+        }
+
+        // 渲染通知列表
+        function renderNotifications() {
+            const container = document.getElementById('notificationsContainer');
+            let filtered = [...notificationsData];
+
+            if (currentFilter === 'unread') {
+                filtered = filtered.filter(n => !n.read);
+            } else if (currentFilter === 'system') {
+                filtered = filtered.filter(n => n.type === 'system');
+            } else if (currentFilter === 'interaction') {
+                filtered = filtered.filter(n => n.type === 'interaction');
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="far fa-bell-slash"></i><p>暂无通知，清净自在</p></div>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(noti => {
+                const unreadClass = noti.read ? '' : 'unread';
+                html += `
+                    <div class="notification-item ${unreadClass}" data-id="${noti.id}">
+                        <div class="notification-icon">
+                            <i class="${noti.icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${escapeHtml(noti.title)}</div>
+                            <div class="notification-desc">${escapeHtml(noti.content)}</div>
+                            <div class="notification-meta">
+                                <span><i class="far fa-clock"></i> ${formatTime(noti.time)}</span>
+                            </div>
+                        </div>
+                        <div class="notification-actions">
+                            ${!noti.read ? `<button class="noti-btn mark-read" data-id="${noti.id}"><i class="fas fa-check"></i> 标为已读</button>` : ''}
+                            <button class="noti-btn delete-noti" data-id="${noti.id}"><i class="fas fa-trash-alt"></i> 删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            // 绑定操作事件
+            document.querySelectorAll('.mark-read').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti && !noti.read) {
+                        noti.read = true;
+                        renderNotifications();
+                        showToast('已标记为已读');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.delete-noti').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti && confirm(`确定要删除这条通知吗？`)) {
+                        notificationsData = notificationsData.filter(n => n.id !== id);
+                        renderNotifications();
+                        showToast('通知已删除');
+                    }
+                });
+            });
+
+            // 点击通知跳转（演示）
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('noti-btn')) return;
+                    const id = parseInt(item.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti) {
+                        if (!noti.read) {
+                            noti.read = true;
+                            renderNotifications();
+                        }
+                        showToast(`即将查看: ${noti.title}`);
+                    }
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // 全部已读
+        function markAllRead() {
+            const unreadCount = notificationsData.filter(n => !n.read).length;
+            if (unreadCount === 0) {
+                showToast('暂无未读通知');
+                return;
+            }
+            notificationsData.forEach(n => n.read = true);
+            renderNotifications();
+            showToast('已将所有通知标记为已读');
+        }
+
+        // 清空所有通知
+        function clearAll() {
+            if (notificationsData.length === 0) {
+                showToast('暂无通知可清空');
+                return;
+            }
+            if (confirm('确定要清空所有通知吗？此操作不可恢复。')) {
+                notificationsData = [];
+                renderNotifications();
+                showToast('已清空所有通知');
+            }
+        }
+
+        // 筛选切换
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-tab');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderNotifications();
+                });
+            });
+        }
+
+        // 侧边栏链接演示
+        function initSidebar() {
+            document.querySelectorAll('.quick-links .link-item').forEach(link => {
+                if (link.getAttribute('href') === '#') {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showToast(`✨ 「${link.innerText}」页面即将开放`);
+                    });
+                }
+            });
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    if (confirm('确定要退出登录吗？')) {
+                        showToast('已退出登录');
+                    }
+                });
+            }
+        }
+
+        // 初始化
+        function init() {
+            renderNotifications();
+            initFilters();
+            initSidebar();
+            document.getElementById('markAllReadBtn').addEventListener('click', markAllRead);
+            document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>匠人入驻申请 · 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+        @media (max-width: 768px) {
+            .decoration-big { font-size: 6rem; opacity: 0.15; }
+            .decoration-left { bottom: 2%; left: -8%; }
+            .decoration-right { top: 5%; right: -5%; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 申请卡片 */
+        .apply-card {
+            background: rgba(255, 253, 245, 0.96);
+            border-radius: 32px;
+            padding: 40px 36px;
+            box-shadow: 0 20px 35px -12px rgba(92, 76, 62, 0.25);
+            border: 1px solid #e7dfd3;
+            backdrop-filter: blur(2px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apply-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+        }
+
+        /* 头部 */
+        .apply-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #8c6d46;
+            margin-bottom: 12px;
+        }
+        .title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #4a382a;
+            letter-spacing: 3px;
+        }
+        .badge {
+            background: #f4ede2;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #8c6d46;
+            margin-top: 12px;
+        }
+
+        /* 表单分组 */
+        .form-section {
+            margin-bottom: 28px;
+            border-bottom: 1px solid #eee5db;
+            padding-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #8c6d46;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i {
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5c4c3e;
+        }
+        .form-group label .required {
+            color: #c46b5e;
+            margin-left: 4px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 48px;
+            background: rgba(255, 255, 245, 0.9);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.15);
+            background: #ffffff;
+        }
+        textarea.form-control {
+            border-radius: 24px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        select.form-control {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%238c6d46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        /* 文件上传区域 */
+        .upload-area {
+            border: 2px dashed #d6ccc2;
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            background: rgba(255, 255, 245, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: #8c6d46;
+            background: rgba(241, 233, 221, 0.4);
+        }
+        .upload-area i {
+            font-size: 2rem;
+            color: #8c6d46;
+            margin-bottom: 8px;
+        }
+        .upload-area p {
+            font-size: 0.85rem;
+            color: #8c6d46;
+        }
+        .upload-hint {
+            font-size: 0.7rem;
+            color: #9b8a78;
+            margin-top: 6px;
+        }
+        .file-list {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .file-tag {
+            background: #f1e9dd;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .file-tag i {
+            cursor: pointer;
+            color: #c46b5e;
+        }
+
+        /* 提交按钮 */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #8c6d46;
+            border: none;
+            border-radius: 48px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .submit-btn:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(92, 76, 62, 0.25);
+        }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        @media (max-width: 600px) {
+            .toast-msg { white-space: normal; width: 80%; text-align: center; }
+            .apply-card { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration-big decoration-left">申</div>
+    <div class="decoration-big decoration-right">请</div>
+
+    <div class="container">
+        <div class="apply-card">
+            <div class="apply-header">
+                <div class="logo-icon"><i class="fas fa-hands-helping"></i></div>
+                <h1 class="title">匠人入驻申请</h1>
+                <div class="badge"><i class="fas fa-feather-alt"></i> 非遗传承 · 匠心入驻</div>
+            </div>
+
+            <form id="applyForm">
+                <!-- 基本信息 -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-user-circle"></i> 基本信息</div>
+                    <div class="form-group">
+                        <label>真实姓名 <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="fullname" placeholder="与身份证一致" required>
+                    </div>
+                    <div class="form-group">
+                        <label>联系电话 <span class="required">*</span></label>
+                        <input type="tel" class="form-control" id="phone" placeholder="手机号码" required>
+                    </div>
+                    <div class="form-group">
+                        <label>电子邮箱</label>
+                        <input type="email" class="form-control" id="email" placeholder="用于接收通知">
+                    </div>
+                    <div class="form-group">
+                        <label>身份证号 <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="idcard" placeholder="18位身份证号码" required>
+                    </div>
+                </div>
+
+                <!-- 非遗项目 -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-palette"></i> 非遗项目信息</div>
+                    <div class="form-group">
+                        <label>非遗项目名称 <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="projectName" placeholder="例：景德镇手工制瓷技艺" required>
+                    </div>
+                    <div class="form-group">
+                        <label>所属类别 <span class="required">*</span></label>
+                        <select class="form-control" id="category" required>
+                            <option value="">请选择</option>
+                            <option>传统技艺</option>
+                            <option>传统美术</option>
+                            <option>传统音乐</option>
+                            <option>传统舞蹈</option>
+                            <option>传统戏剧</option>
+                            <option>曲艺</option>
+                            <option>民俗</option>
+                            <option>传统医药</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>传承级别</label>
+                        <select class="form-control" id="level">
+                            <option value="">请选择</option>
+                            <option>国家级非遗传承人</option>
+                            <option>省级非遗传承人</option>
+                            <option>市级非遗传承人</option>
+                            <option>区/县级非遗传承人</option>
+                            <option>其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>个人简介 / 传承经历 <span class="required">*</span></label>
+                        <textarea class="form-control" id="bio" placeholder="请简述您的从艺经历、传承谱系、代表作品等（200字以内）" required></textarea>
+                    </div>
+                </div>
+
+                <!-- 证明材料上传 -->
+                <div class="form-section">
+                    <div class="section-title"><i class="fas fa-file-alt"></i> 证明材料</div>
+                    <div class="form-group">
+                        <label>身份证明（身份证正反面）<span class="required">*</span></label>
+                        <div class="upload-area" id="idUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽上传</p>
+                            <div class="upload-hint">支持JPG、PNG，不超过5MB</div>
+                            <input type="file" id="idFile" accept="image/*" style="display:none;" multiple>
+                        </div>
+                        <div class="file-list" id="idFileList"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>非遗传承人证书 / 相关证明</label>
+                        <div class="upload-area" id="certUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽上传</p>
+                            <div class="upload-hint">支持JPG、PNG、PDF，最多5个文件</div>
+                            <input type="file" id="certFile" accept="image/*,application/pdf" style="display:none;" multiple>
+                        </div>
+                        <div class="file-list" id="certFileList"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>作品图片 / 视频（可选）</label>
+                        <div class="upload-area" id="workUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>点击或拖拽上传</p>
+                            <div class="upload-hint">支持图片、视频，展示您的技艺</div>
+                            <input type="file" id="workFile" accept="image/*,video/*" style="display:none;" multiple>
+                        </div>
+                        <div class="file-list" id="workFileList"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> 提交申请</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // Toast
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg, isError = false) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // 通用文件上传处理
+        function setupFileUpload(uploadAreaId, fileInputId, fileListId, maxFiles = 5, maxSizeMB = 5) {
+            const uploadArea = document.getElementById(uploadAreaId);
+            const fileInput = document.getElementById(fileInputId);
+            const fileListDiv = document.getElementById(fileListId);
+            let files = [];
+
+            // 点击区域触发文件选择
+            uploadArea.addEventListener('click', () => fileInput.click());
+            // 拖拽上传
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#8c6d46';
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#d6ccc2';
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#d6ccc2';
+                const droppedFiles = Array.from(e.dataTransfer.files);
+                addFiles(droppedFiles);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                addFiles(Array.from(e.target.files));
+                fileInput.value = ''; // 清空以便重复选择同一文件
+            });
+
+            function addFiles(newFiles) {
+                for (let file of newFiles) {
+                    if (files.length >= maxFiles) {
+                        showMessage(`最多上传 ${maxFiles} 个文件`, true);
+                        break;
+                    }
+                    if (file.size > maxSizeMB * 1024 * 1024) {
+                        showMessage(`${file.name} 超过 ${maxSizeMB}MB`, true);
+                        continue;
+                    }
+                    files.push(file);
+                }
+                renderFileList();
+            }
+
+            function renderFileList() {
+                fileListDiv.innerHTML = '';
+                files.forEach((file, idx) => {
+                    const tag = document.createElement('div');
+                    tag.className = 'file-tag';
+                    tag.innerHTML = `<i class="fas fa-file"></i> ${file.name} <i class="fas fa-times" data-index="${idx}"></i>`;
+                    tag.querySelector('.fa-times').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        files.splice(idx, 1);
+                        renderFileList();
+                    });
+                    fileListDiv.appendChild(tag);
+                });
+            }
+
+            return {
+                getFiles: () => files
+            };
+        }
+
+        // 初始化上传模块
+        const idUpload = setupFileUpload('idUploadArea', 'idFile', 'idFileList', 2, 5);
+        const certUpload = setupFileUpload('certUploadArea', 'certFile', 'certFileList', 5, 10);
+        const workUpload = setupFileUpload('workUploadArea', 'workFile', 'workFileList', 5, 20);
+
+        // 表单提交
+        const form = document.getElementById('applyForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 获取字段值
+            const fullname = document.getElementById('fullname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const idcard = document.getElementById('idcard').value.trim();
+            const projectName = document.getElementById('projectName').value.trim();
+            const category = document.getElementById('category').value;
+            const level = document.getElementById('level').value;
+            const bio = document.getElementById('bio').value.trim();
+
+            // 简单验证必填项
+            if (!fullname || !phone || !idcard || !projectName || !category || !bio) {
+                showMessage('请填写所有必填项', true);
+                return;
+            }
+            if (!/^1[3-9]\d{9}$/.test(phone)) {
+                showMessage('请输入正确的手机号码', true);
+                return;
+            }
+            if (idcard.length !== 18 && idcard.length !== 15) {
+                showMessage('请输入有效的身份证号码', true);
+                return;
+            }
+            const idFiles = idUpload.getFiles();
+            if (idFiles.length === 0) {
+                showMessage('请上传身份证明文件', true);
+                return;
+            }
+
+            // 模拟提交（实际应使用 FormData 发送至后端）
+            // 这里仅演示成功提示
+            showMessage('申请已提交，审核通过后会以短信/邮件通知您登录账号', false);
+            // 可选：重置表单或跳转
+            setTimeout(() => {
+                // 可跳转至登录页或其他
+                // window.location.href = "登录页面.html";
+            }, 2500);
+        });
+    </script>
+</body>
+</html>

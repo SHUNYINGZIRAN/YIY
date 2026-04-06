@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗·传视频·记手作 | 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        /* 分类筛选标签 */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: transparent;
+            border: 1px solid #d6ccc2;
+            padding: 8px 28px;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter-tab.active,
+        .filter-tab:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        /* 视频卡片 & 手作卡片公用样式 */
+        .share-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 32px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e7dfd3;
+            box-shadow: 0 8px 18px rgba(92, 76, 62, 0.06);
+        }
+
+        .share-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(92, 76, 62, 0.2);
+            border-color: #c4a77d;
+        }
+
+        .media-preview {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            background: #e2d8cd;
+        }
+
+        .media-preview img,
+        .media-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .share-card:hover .media-preview img,
+        .share-card:hover .media-preview video {
+            transform: scale(1.03);
+        }
+
+        .video-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(92, 76, 62, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        .card-info {
+            padding: 20px 22px 24px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a382a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card-title i {
+            color: #8c6d46;
+            font-size: 1rem;
+        }
+
+        .card-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            background: #d6ccc2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #8c6d46;
+        }
+
+        .user-name {
+            font-size: 0.85rem;
+            color: #8c6d46;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #7f6b5a;
+            margin: 12px 0;
+            display: -webkit-box;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #f0e8dd;
+        }
+
+        .stat-item {
+            font-size: 0.8rem;
+            color: #9b8a78;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .stat-item i {
+            margin-right: 6px;
+        }
+
+        .stat-item:hover {
+            color: #8c6d46;
+        }
+
+        .badge-craft {
+            display: inline-block;
+            background: #f4ede2;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #8c6d46;
+            margin-bottom: 8px;
+        }
+
+        /* 精选内容区域（保留类似原深度故事的结构，但内容改为视频/手作推荐） */
+        .feature-story {
+            background: rgba(231, 219, 203, 0.5);
+            border-radius: 48px;
+            padding: 48px 40px;
+            margin-bottom: 60px;
+            border: 1px solid #ddd0bf;
+        }
+
+        .story-feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .story-feature-img {
+            flex: 1;
+            min-width: 240px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-feature-img img,
+        .story-feature-img video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .story-feature-text {
+            flex: 1.2;
+        }
+
+        .story-feature-text h3 {
+            font-size: 1.8rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            margin-bottom: 16px;
+            color: #4a382a;
+        }
+
+        .story-feature-text p {
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 760px) {
+            .story-feature-grid {
+                flex-direction: column;
+            }
+
+            .feature-story {
+                padding: 32px 24px;
+            }
+        }
+
+        .btn-story {
+            background: #f4ede2;
+            border: 1px solid #d6ccc2;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-weight: 500;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-story:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 底部 */
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">影</div>
+    <div class="decoration-big decoration-right">作</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索视频或手作..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="../购物车.html" class="icon-btn"><i class="fas fa-shopping-bag"></i></a>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 面包屑 & 页头 -->
+        <div class="breadcrumb">
+            <a href="../匠心传承.html">匠心传承</a> <span>/</span> <span style="color:#8c6d46;">记手作 · 传视频</span>
+        </div>
+        <div class="page-header">
+            <h1>守艺光影 · 指尖传承</h1>
+            <p>非遗创作者们用镜头和双手记录匠心 | 视频 · 手作分享</p>
+        </div>
+
+        <!-- 分类筛选 -->
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-type="all">全部</button>
+            <button class="filter-tab" data-type="craft">记手作</button>
+            <button class="filter-tab" data-type="video">传视频</button>
+        </div>
+
+        <!-- 卡片网格容器 -->
+        <div id="cardsContainer" class="card-grid"></div>
+
+        <!-- 精选推荐区（第一个：视频精选） -->
+        <div class="feature-story">
+            <div class="story-feature-grid">
+                <div class="story-feature-img">
+                    <video src="#" poster="https://picsum.photos/id/159/600/400" controls
+                        style="width:100%; height:100%; object-fit:cover;"></video>
+                </div>
+                <div class="story-feature-text">
+                    <h3>🎬 精选视频 · 苗绣技艺</h3>
+                    <p>创作者「山野绣娘」记录苗绣传承人吴桂英的日常：从理线、劈丝到绣制蝴蝶妈妈纹样，每一帧都是手艺的温度。本片获得“非遗青年”最佳纪录短片提名。</p>
+                    <button class="btn-story" data-feature="video">观看完整视频 <i class="fas fa-play-circle"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 精选推荐区（第二个：手作精选） -->
+        <div class="feature-story">
+            <div class="story-feature-grid">
+                <div class="story-feature-text">
+                    <h3>🖐️ 精选手作 · 竹编花器</h3>
+                    <p>手作人「竹心」用一周时间完成一只竹编花器，从破竹、刮青、编织到收口，全程记录。她说：“竹子是有生命的，编织的过程是与自然的对话。” 作品已入选非遗手作展。</p>
+                    <button class="btn-story" data-feature="craft">查看制作过程 <i class="fas fa-hands"></i></button>
+                </div>
+                <div class="story-feature-img">
+                    <img src="https://picsum.photos/id/96/600/400" alt="竹编手作">
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部footer -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons">
+                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weibo"></i>
+                    <i class="fab fa-xiaohongshu"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <p>购买指南</p>
+                <p>非遗鉴定</p>
+                <p>售后服务</p>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <p>传承人合作</p>
+                <p>非遗保护基金</p>
+                <p>加入我们</p>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">
+                © 2025 云间小阁 | 非遗美学平台 | 传承华夏文明，守护匠心技艺
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // ---------- 模拟数据 ----------
+        const allShares = [
+            // 视频类
+            { id: 1, type: "video", title: "龙泉青瓷 · 跳刀纹饰", userName: "青瓷小匠", userAvatar: "fa-fire", desc: "徐朝兴大师弟子演示跳刀绝技，一刀成纹，如行云流水。", imgId: "119", videoPoster: "119", likes: 342, comments: 28, url: "#" },
+            { id: 2, type: "video", title: "徽州剪纸 · 一刀剪字", userName: "纸上乾坤", userAvatar: "fa-cut", desc: "吴笑梅老师即兴创作，一刀剪出“福”字，令人叹为观止。", imgId: "20", videoPoster: "20", likes: 278, comments: 19, url: "#" },
+            { id: 3, type: "video", title: "金陵绒花 · 牡丹制作", userName: "绒花小院", userAvatar: "fa-feather", desc: "赵树宪团队展示绒花牡丹的染色、搓丝、传花过程。", imgId: "42", videoPoster: "42", likes: 456, comments: 34, url: "#" },
+            // 手作类
+            { id: 4, type: "craft", title: "木雕 · 荷塘清趣", userName: "木语者", userAvatar: "fa-tree", desc: "一块黄杨木，经过打胚、修光、打磨，变成栩栩如生的荷叶青蛙。", imgId: "127", likes: 189, comments: 23, craftMaterial: "黄杨木", url: "#" },
+            { id: 5, type: "craft", title: "漆器 · 犀皮漆镇纸", userName: "漆园", userAvatar: "fa-fill-drip", desc: "用天然大漆制作犀皮漆纹理，反复髹漆、打磨，耗时两月。", imgId: "125", likes: 267, comments: 31, craftMaterial: "大漆、瓦灰", url: "#" },
+            { id: 6, type: "craft", title: "竹编 · 福禄收纳篮", userName: "竹心", userAvatar: "fa-leaf", desc: "采用慈竹，破篾、编织、收口，纯手工完成，可用于收纳茶器。", imgId: "96", likes: 203, comments: 17, craftMaterial: "慈竹", url: "#" },
+            { id: 7, type: "video", title: "苏绣 · 双面绣技法", userName: "绣里江南", userAvatar: "fa-thread", desc: "王秀英老师演示劈丝1/16，双面绣制牡丹，正反如一。", imgId: "30", videoPoster: "30", likes: 512, comments: 46, url: "#" },
+            { id: 8, type: "craft", title: "剪纸 · 百蝶图", userName: "剪花娘子", userAvatar: "fa-cut", desc: "将传统剪纸与当代设计结合，创作百只蝴蝶长卷。", imgId: "155", likes: 178, comments: 14, craftMaterial: "宣纸", url: "#" }
+        ];
+
+        // 辅助图片url
+        function getImageUrl(imgId) {
+            return `https://picsum.photos/id/${imgId}/400/300`;
+        }
+
+        // Toast
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // 渲染卡片
+        let currentFilter = "all";
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            if (!container) return;
+            let filtered = allShares;
+            if (currentFilter !== "all") {
+                filtered = allShares.filter(item => item.type === currentFilter);
+            }
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px; background:rgba(255,253,245,0.7); border-radius:48px;"><i class="fas fa-video-slash"></i> 暂无相关分享，期待你的创作~</div>`;
+                return;
+            }
+            let html = '';
+            filtered.forEach(item => {
+                if (item.type === 'video') {
+                    html += `
+                        <div class="share-card" data-id="${item.id}" data-type="video">
+                            <div class="media-preview">
+                                <img src="${getImageUrl(item.videoPoster)}" alt="${item.title}">
+                                <div class="video-play-icon"><i class="fas fa-play"></i></div>
+                            </div>
+                            <div class="card-info">
+                                <div class="card-title"><i class="fas fa-video"></i> ${item.title}</div>
+                                <div class="card-user"><div class="user-avatar"><i class="${item.userAvatar}"></i></div><span class="user-name">${item.userName}</span></div>
+                                <div class="card-desc">${item.desc}</div>
+                                <div class="card-stats">
+                                    <span class="stat-item like-btn" data-id="${item.id}"><i class="far fa-heart"></i> ${item.likes}</span>
+                                    <span class="stat-item comment-btn"><i class="far fa-comment"></i> ${item.comments}</span>
+                                    <span class="stat-item share-btn"><i class="far fa-share-square"></i> 分享</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="share-card" data-id="${item.id}" data-type="craft">
+                            <div class="media-preview">
+                                <img src="${getImageUrl(item.imgId)}" alt="${item.title}">
+                            </div>
+                            <div class="card-info">
+                                <div class="card-title"><i class="fas fa-hands"></i> ${item.title}</div>
+                                <div class="badge-craft"><i class="fas fa-tools"></i> 手作 · ${item.craftMaterial || '传统工艺'}</div>
+                                <div class="card-user"><div class="user-avatar"><i class="${item.userAvatar}"></i></div><span class="user-name">${item.userName}</span></div>
+                                <div class="card-desc">${item.desc}</div>
+                                <div class="card-stats">
+                                    <span class="stat-item like-btn" data-id="${item.id}"><i class="far fa-heart"></i> ${item.likes}</span>
+                                    <span class="stat-item comment-btn"><i class="far fa-comment"></i> ${item.comments}</span>
+                                    <span class="stat-item share-btn"><i class="far fa-share-square"></i> 分享</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            container.innerHTML = html;
+
+            // 绑定点赞事件（模拟）
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const item = allShares.find(i => i.id === id);
+                    if (item) {
+                        item.likes += 1;
+                        renderCards();
+                        showMessage(`❤️ 你为「${item.title}」点了一个赞`);
+                    }
+                });
+            });
+            // 评论/分享演示
+            document.querySelectorAll('.comment-btn').forEach(btn => {
+                btn.addEventListener('click', () => showMessage('💬 评论功能即将开放，敬请期待'));
+            });
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                btn.addEventListener('click', () => showMessage('📤 分享非遗美好，让更多人看见'));
+            });
+            // 视频卡片点击播放提示
+            document.querySelectorAll('.share-card[data-type="video"]').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('like-btn') || e.target.classList.contains('comment-btn') || e.target.classList.contains('share-btn')) return;
+                    const title = card.querySelector('.card-title')?.innerText || '视频';
+                    showMessage(`🎬 即将播放《${title}》，完整视频请关注创作者主页`);
+                });
+            });
+            // 手作卡片点击详情
+            document.querySelectorAll('.share-card[data-type="craft"]').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('like-btn') || e.target.classList.contains('comment-btn') || e.target.classList.contains('share-btn')) return;
+                    const title = card.querySelector('.card-title')?.innerText || '手作';
+                    showMessage(`🖐️ 查看《${title}》详细制作教程，敬请期待`);
+                });
+            });
+        }
+
+        // 筛选切换
+        function initFilters() {
+            const tabs = document.querySelectorAll('.filter-tab');
+            // 根据当前筛选状态设置激活标签
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-type') === currentFilter) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.getAttribute('data-type');
+                    renderCards();
+                });
+            });
+        }
+
+        // 精选按钮交互
+        function initFeatureBtns() {
+            const btns = document.querySelectorAll('.btn-story');
+            btns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const feature = btn.getAttribute('data-feature');
+                    if (feature === 'video') showMessage('🎬 完整版《苗绣技艺》即将上线，敬请期待非遗影像馆');
+                    else if (feature === 'craft') showMessage('🖐️ 《竹编花器》制作图解即将发布，关注手作专栏');
+                    else showMessage('📖 更多非遗故事，正在收录中');
+                });
+            });
+        }
+
+        // 导航栏搜索等交互
+        function initNav() {
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            if (searchBtn && searchInput) {
+                const handleSearch = () => {
+                    const kw = searchInput.value.trim();
+                    if (kw) {
+                        showMessage(`🔍 搜索“${kw}”，相关视频与手作正在整理中`);
+                        searchInput.value = '';
+                    } else {
+                        showMessage('🔍 输入关键词，发现更多非遗创作');
+                    }
+                };
+                searchBtn.addEventListener('click', handleSearch);
+                searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+            }
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const currentUser = sessionStorage.getItem('currentUser');
+                    if (currentUser) window.location.href = '个人中心.html';
+                    else {
+                        sessionStorage.setItem('previousPage', '传视频记手作');
+                        window.location.href = '登录页面.html';
+                    }
+                });
+            }
+            // 购物车图标
+            const cartIcon = document.querySelector('a[href="购物车.html"]');
+            if (cartIcon) cartIcon.addEventListener('click', (e) => { e.preventDefault(); showMessage('🎋 购物车功能即将开启，敬请期待非遗好物'); });
+        }
+
+        // 页面入场
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查是否有来自匠心传承页面的筛选状态
+            const savedFilter = sessionStorage.getItem('artisanFilter');
+            if (savedFilter === 'craft' || savedFilter === 'video') {
+                currentFilter = savedFilter;
+                sessionStorage.removeItem('artisanFilter'); // 使用后清除
+            }
+
+            renderCards();
+            initFilters();
+            initFeatureBtns();
+            initNav();
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+        });
+    </script>
+</body>
+
+</html>

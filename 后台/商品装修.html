@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>商品装修 | 云间小阁 · 匠坊</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.86);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主布局：侧边栏 + 内容区 */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 253, 245, 0.92);
+            backdrop-filter: blur(6px);
+            border-right: 1px solid #e2d9cf;
+            padding: 28px 0 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 0 20px 24px;
+            border-bottom: 1px solid #e2d9cf;
+            margin-bottom: 24px;
+            color: #5c4c3e;
+        }
+
+        .sidebar-logo span {
+            color: #8c6d46;
+            font-size: 1.3rem;
+        }
+
+        .shop-info {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 16px;
+        }
+
+        .shop-avatar {
+            width: 70px;
+            height: 70px;
+            background: #e2d5c6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            color: #8c6d46;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .shop-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .shop-badge {
+            font-size: 0.7rem;
+            background: #f3ede4;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #e5d9cd;
+        }
+
+        .logout-footer {
+            margin-top: 32px;
+            padding: 20px 16px;
+            border-top: 1px solid #e2d9cf;
+        }
+
+        /* 右侧主内容 */
+        .main-content {
+            flex: 1;
+            padding: 24px 32px 48px;
+            overflow-x: auto;
+        }
+
+        .page-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 28px;
+            border-left: 5px solid #c4a77d;
+            padding-left: 18px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 32px;
+            border: 1px solid #e2d9cf;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(2px);
+        }
+
+        .service-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .service-intro h2 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #8c6d46;
+            margin-bottom: 16px;
+        }
+
+        .service-intro p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #5c4c3e;
+        }
+
+        /* 优势网格 */
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .advantage-card {
+            background: rgba(255, 253, 245, 0.7);
+            border-radius: 28px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: 0.2s;
+            border: 1px solid #e9e1d5;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-4px);
+            border-color: #c4a77d;
+            background: #fffef8;
+        }
+
+        .advantage-card i {
+            font-size: 2.6rem;
+            color: #8c6d46;
+            margin-bottom: 16px;
+        }
+
+        .advantage-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .advantage-card p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+        }
+
+        /* 流程步骤 */
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 30px 0 20px;
+        }
+
+        .step-item {
+            flex: 1;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: #e2d5c6;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #8c6d46;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .step-item p {
+            font-size: 0.8rem;
+            color: #7f6b5a;
+        }
+
+        /* 套餐表格 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            background: #fffef8;
+            border-radius: 32px;
+            padding: 28px 24px;
+            border: 1px solid #e2d9cf;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(92, 76, 62, 0.1);
+            border-color: #c4a77d;
+        }
+
+        .pricing-card .plan-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #8c3c2c;
+            margin-bottom: 12px;
+        }
+
+        .pricing-card .plan-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #8c6d46;
+            margin-bottom: 24px;
+        }
+
+        .pricing-card .plan-price small {
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .pricing-card .plan-features {
+            list-style: none;
+            text-align: left;
+            margin: 24px 0;
+        }
+
+        .pricing-card .plan-features li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ede3d7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-card .plan-features i {
+            color: #8c6d46;
+            width: 20px;
+        }
+
+        .btn-service {
+            background: #8c6d46;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 60px;
+            color: white;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+        }
+
+        .btn-service-outline {
+            background: transparent;
+            border: 1px solid #8c6d46;
+            color: #8c6d46;
+        }
+
+        .btn-service:hover {
+            background: #6b4f34;
+        }
+
+        /* 案例展示 */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .case-item {
+            background: rgba(255, 253, 245, 0.7);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid #e2d9cf;
+            transition: 0.2s;
+        }
+
+        .case-img {
+            height: 180px;
+            background-color: #e2d5c6;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .case-info {
+            padding: 16px;
+        }
+
+        .case-info h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .case-info p {
+            font-size: 0.75rem;
+            color: #8c6d46;
+        }
+
+        /* 联系区域 */
+        .contact-area {
+            text-align: center;
+            background: #fefaf2;
+            margin-top: 20px;
+        }
+
+        .contact-btn {
+            background: #8c6d46;
+            padding: 12px 32px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 12px 0 8px;
+        }
+
+        @media (max-width: 860px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 0;
+            }
+
+            .sidebar-logo {
+                font-size: 1rem;
+                padding: 0 8px 16px;
+            }
+
+            .shop-info {
+                display: none;
+            }
+
+            .nav-item span:not(i) {
+                display: none;
+            }
+
+            .nav-item i {
+                margin: 0 auto;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+
+            .logout-footer .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .pricing-grid {
+                gap: 20px;
+            }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            z-index: 2000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">匠</div>
+    <div class="decoration-big decoration-right">心</div>
+
+    <div class="dashboard-wrapper">
+        <!-- 侧边栏 (与商品管理风格完全一致) -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">云间小阁<span>·匠坊</span></div>
+            <div class="shop-info">
+                <div class="shop-avatar"><i class="fas fa-feather-alt"></i></div>
+                <div class="shop-name">听松窑 · 青瓷坊</div>
+                <div class="shop-badge"><i class="fas fa-certificate"></i> 非遗传承人</div>
+            </div>
+            <div class="nav-menu">
+                <a href="经营总览.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> <span>经营总览</span></a>
+                <a href="商品管理.html" class="nav-item"><i class="fas fa-boxes"></i> <span>商品管理</span></a>
+                <a href="咨询管理.html" class="nav-item"><i class="fas fa-comment-dots"></i> <span>咨询管理</span></a>
+                <a href="店铺收益.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>店铺收益</span></a>
+                <a href="数据统计.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span>数据统计</span></a>
+                <a href="商品装修.html" class="nav-item active"><i class="fas fa-magic"></i> <span>商品装修</span></a>
+            </div>
+            <div class="logout-footer">
+                <a href="#" class="nav-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>退出工作台</span></a>
+            </div>
+        </aside>
+
+        <!-- 主内容区：商品装修代做服务介绍 -->
+        <main class="main-content">
+            <div class="page-title"><i class="fas fa-magic"></i> 商品装修</div>
+
+            <!-- 服务说明卡片 -->
+            <div class="card service-intro">
+                <h2><i class="fas fa-hands-helping"></i> 非遗商品 · 一站式装修代做</h2>
+                <p>专业团队为匠人量身打造高转化商品详情页，从视觉设计、3D模型嵌入、视频包装到非遗文案策划，让每一件器物在云间小阁绽放独特光彩。</p>
+            </div>
+
+            <!-- 优势亮点 -->
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <i class="fas fa-palette"></i>
+                    <h4>专业视觉设计</h4>
+                    <p>资深古风设计师操刀，呈现器物肌理与意境，提升点击与停留时长</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-cube"></i>
+                    <h4>3D模型交互</h4>
+                    <p>支持GLB/OBJ模型嵌入，360°展示瓷器雕刻细节，科技赋能非遗</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-video"></i>
+                    <h4>视频拍摄包装</h4>
+                    <p>匠人制作花絮、器物特写短视频，讲述手艺背后的故事</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-feather-alt"></i>
+                    <h4>非遗文案策划</h4>
+                    <p>深入挖掘技艺传承脉络，撰写有温度的器物传记，增强文化共鸣</p>
+                </div>
+            </div>
+
+            <!-- 服务流程 -->
+            <div class="card">
+                <h3 style="font-family:'Ma Shan Zheng'; font-size:1.6rem; text-align:center; margin-bottom:24px;"><i
+                        class="fas fa-chart-line"></i> 代做服务流程</h3>
+                <div class="steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>需求沟通</h4>
+                        <p>匠人提交商品资料、风格偏好，客服一对一确认需求</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>方案设计</h4>
+                        <p>出具详情页草图、3D模型/视频脚本方案，3日内反馈</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>内容制作</h4>
+                        <p>设计师/建模师/文案协同制作，5-7个工作日交付初稿</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>审核上架</h4>
+                        <p>匠人确认定稿，由平台直接装修至商品页，即时生效</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 服务套餐 -->
+            <div class="card">
+                <h3 style="font-family:'Ma Shan Zheng'; font-size:1.6rem; text-align:center; margin-bottom:16px;"><i
+                        class="fas fa-gem"></i> 精选装修套餐</h3>
+                <div class="pricing-grid">
+                    <!-- 基础套餐 -->
+                    <div class="pricing-card">
+                        <div class="plan-name">雅韵·基础包</div>
+                        <div class="plan-price">¥ 980 <small>/ 单品</small></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check-circle"></i> 商品主图精修(5张)</li>
+                            <li><i class="fas fa-check-circle"></i> 详情页设计(1版)</li>
+                            <li><i class="fas fa-check-circle"></i> 非遗文案撰写(300字)</li>
+                            <li><i class="fas fa-check-circle"></i> 基础排版优化</li>
+                            <li><i class="fas fa-times-circle" style="color:#c4a77d;"></i> 3D模型嵌入</li>
+                            <li><i class="fas fa-times-circle" style="color:#c4a77d;"></i> 视频包装</li>
+                        </ul>
+                        <button class="btn-service" onclick="alert('📿 基础套餐咨询：请联系云间小阁非遗管家 400-889-0662')">咨询代做</button>
+                    </div>
+                    <!-- 标准套餐 -->
+                    <div class="pricing-card">
+                        <div class="plan-name">匠心·标准包</div>
+                        <div class="plan-price">¥ 1,880 <small>/ 单品</small></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check-circle"></i> 主图精修(8张) + 场景图</li>
+                            <li><i class="fas fa-check-circle"></i> 详情页深度设计(2版选一)</li>
+                            <li><i class="fas fa-check-circle"></i> 非遗深度文案(800字)</li>
+                            <li><i class="fas fa-check-circle"></i> 3D模型展示(1个模型)</li>
+                            <li><i class="fas fa-check-circle"></i> 30秒产品短视频</li>
+                            <li><i class="fas fa-check-circle"></i> 匠人故事专栏</li>
+                        </ul>
+                        <button class="btn-service" onclick="alert('✨ 匠心标准包支持3D+视频，打造沉浸式非遗详情页，专属顾问对接')">咨询代做</button>
+                    </div>
+                    <!-- 旗舰套餐 -->
+                    <div class="pricing-card">
+                        <div class="plan-name">传世·旗舰包</div>
+                        <div class="plan-price">¥ 3,280 <small>/ 单品</small></div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check-circle"></i> 全视觉定制(含拍摄/建模)</li>
+                            <li><i class="fas fa-check-circle"></i> 360°环物展示+交互3D</li>
+                            <li><i class="fas fa-check-circle"></i> 纪录片式短视频(2分钟内)</li>
+                            <li><i class="fas fa-check-circle"></i> 独家非遗IP故事包装</li>
+                            <li><i class="fas fa-check-circle"></i> 平台首页推荐位1周</li>
+                            <li><i class="fas fa-check-circle"></i> 全年装修免费维护</li>
+                        </ul>
+                        <button class="btn-service" onclick="alert('🏮 传世旗舰包限量开放，包含全案策划与流量扶持，预约匠人专属名额')">预约旗舰服务</button>
+                    </div>
+                </div>
+                <p style="font-size:0.8rem; text-align:center; color:#8c6d46; margin-top:12px;">*
+                    所有套餐均签订非遗服务协议，支持定制化需求，详询非遗管家</p>
+            </div>
+
+            <!-- 装修案例展示 (静态图片占位) -->
+            <div class="card">
+                <h3 style="font-family:'Ma Shan Zheng'; font-size:1.6rem; margin-bottom:20px;"><i
+                        class="fas fa-images"></i> 代做案例 · 器物新生</h3>
+                <div class="case-grid">
+                    <div class="case-item">
+                        <div class="case-img" style="background-image: url('https://picsum.photos/id/119/400/300');">
+                        </div>
+                        <div class="case-info">
+                            <h4>龙泉青瓷·听松茶器</h4>
+                            <p>3D交互+匠人纪录片，转化提升42%</p>
+                        </div>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-img" style="background-image: url('https://picsum.photos/id/30/400/300');">
+                        </div>
+                        <div class="case-info">
+                            <h4>苏绣·荷韵团扇</h4>
+                            <p>视频包装+文案升级，月销突破200件</p>
+                        </div>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-img" style="background-image: url('https://picsum.photos/id/42/400/300');">
+                        </div>
+                        <div class="case-info">
+                            <h4>金陵绒花·牡丹发簪</h4>
+                            <p>场景图+非遗故事，客单价提升30%</p>
+                        </div>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-img" style="background-image: url('https://picsum.photos/id/104/400/300');">
+                        </div>
+                        <div class="case-info">
+                            <h4>朱仙镇木版年画</h4>
+                            <p>3D模型+传统配色，收藏级详情页</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 联系/咨询区域 -->
+            <div class="card contact-area">
+                <h3><i class="fas fa-comments"></i> 让您的非遗好物更具魅力</h3>
+                <p style="margin:12px 0;">立即预约“商品装修”服务，专业团队为您定制上架方案，提升店铺调性与销量。</p>
+                <button class="contact-btn" onclick="alert('📞 云间小阁非遗服务热线：400-889-0662  或添加微信 yunjian_zs 获取报价单')"><i
+                        class="fas fa-headset"></i> 联系装修顾问</button>
+                <p style="margin-top:16px; font-size:0.75rem;">服务时间：周一至周日 9:00-21:00 · 非遗传承人专享折扣</p>
+            </div>
+        </main>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 仅用于简单的退出提示和toast模拟，无页面切换逻辑，纯静态交互
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const toast = document.getElementById('toastMsg');
+                toast.textContent = '退出工作台，即将返回首页';
+                toast.style.opacity = '1';
+                setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            });
+        }
+
+        // 避免侧边栏其他链接跳转，仅作演示
+        // 已移除，现在链接可以正常跳转
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>云间小阁 · 非遗社区 | 传承人雅集</title>
+    <!-- 引入 Font Awesome 6 (免费图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入古风字体 -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========= 导航栏 ========= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-input::placeholder {
+            color: #9b8a78;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        .search-input:focus {
+            border-color: #c4a77d;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ========= 社区专属样式 ========= */
+        /* 英雄区 */
+        .hero-community {
+            background: linear-gradient(105deg, rgba(225, 210, 185, 0.85) 0%, rgba(205, 185, 155, 0.75) 100%), url('https://picsum.photos/id/10/1400/400?grayscale') center/cover no-repeat;
+            border-radius: 36px;
+            padding: 64px 40px;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .hero-community h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3rem;
+            color: #3e2e24;
+            margin-bottom: 16px;
+        }
+
+        .hero-community p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #5c4c3e;
+        }
+
+        @media (max-width: 780px) {
+            .hero-community {
+                padding: 48px 28px;
+            }
+
+            .hero-community h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        /* 社区分类标签 */
+        .community-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 253, 245, 0.9);
+            border: 1px solid #d6ccc2;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 社区内容布局 */
+        .community-layout {
+            max-width: 800px;
+            margin: 0 auto 48px;
+        }
+
+
+
+        /* 主内容区 */
+        .post-create {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 28px;
+            border: 1px solid #e7dfd3;
+        }
+
+        .create-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .my-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #c4a77d;
+        }
+
+        .create-input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid #d6ccc2;
+            border-radius: 24px;
+            background: rgba(255, 253, 245, 0.7);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .create-input:focus {
+            background: rgba(255, 253, 245, 0.95);
+            border-color: #c4a77d;
+        }
+
+        .create-input::placeholder {
+            color: #9b8a78;
+        }
+
+        .create-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 60px;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-icon {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-icon:hover {
+            color: #c4a77d;
+            transform: scale(1.1);
+        }
+
+        .btn-publish {
+            background: #8c6d46;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .btn-publish:hover {
+            background: #745b3a;
+        }
+
+        /* 帖子列表 */
+        .post-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #e7dfd3;
+            transition: 0.3s ease;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 8px 20px rgba(92, 76, 62, 0.1);
+            border-color: #c4a77d;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .post-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #c4a77d;
+        }
+
+        .post-author {
+            flex: 1;
+        }
+
+        .post-author h4 {
+            font-size: 1rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .post-author .author-tag {
+            font-size: 0.75rem;
+            color: #c4a77d;
+            padding: 2px 8px;
+            border: 1px solid #c4a77d;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: #9b8a78;
+        }
+
+        .post-content {
+            margin-bottom: 16px;
+        }
+
+        .post-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #5c4c3e;
+            margin-bottom: 16px;
+        }
+
+        .post-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .post-images.single {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+        }
+
+        .post-images.double {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .post-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .post-img:hover {
+            transform: scale(1.02);
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .post-tag {
+            font-size: 0.8rem;
+            color: #8c6d46;
+            background: rgba(140, 109, 70, 0.1);
+            padding: 4px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .post-tag:hover {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #e7dfd3;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .post-action:hover {
+            color: #c4a77d;
+        }
+
+        .post-action i {
+            font-size: 1.1rem;
+        }
+
+        .post-action.liked {
+            color: #e57373;
+        }
+
+        /* 右侧边栏 */
+
+
+        /* 底部样式 */
+        .footer {
+            margin-top: 70px;
+            border-top: 1px solid #ddd0bf;
+            padding: 40px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 12px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.4rem;
+            margin-right: 18px;
+            color: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        /* 一起回家吧卡片样式 */
+        .homecoming-card {
+            background: linear-gradient(135deg, #fff9ef, #fef3e4);
+            border-radius: 48px;
+            padding: 32px 36px;
+            margin: 40px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+            border: 1px solid #e2cfb0;
+            box-shadow: 0 12px 24px rgba(92, 76, 62, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .homecoming-card:after {
+            content: "🏮";
+            font-size: 140px;
+            position: absolute;
+            right: -20px;
+            bottom: -40px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .homecoming-text {
+            flex: 2;
+        }
+
+        .homecoming-text h2 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #8c6d46;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .homecoming-text p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+        }
+
+        .homecoming-btn {
+            background: #8c6d46;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 60px;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .homecoming-btn:hover {
+            background: #6b4f34;
+            transform: translateY(-2px);
+        }
+
+        .homecoming-img {
+            flex: 1;
+            min-width: 240px;
+            text-align: right;
+        }
+
+        .homecoming-img img {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 28px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 700px) {
+            .homecoming-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 28px 20px;
+            }
+
+            .homecoming-text h2 {
+                justify-content: center;
+            }
+        }
+
+        /* Toast 提示 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 560px) {
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">社</div>
+    <div class="decoration-big decoration-right">区</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏（高亮社区） -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" data-page="首页">首页</a>
+                <a href="非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="社区.html" class="active" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索帖子..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="购物车.html" class="icon-btn" id="cartIconBtn"><i class="fas fa-shopping-bag"></i></a>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 社区主视觉 -->
+        <div class="hero-community">
+            <h1>非遗社区 · 传承人雅集</h1>
+            <p>与志同道合的匠人论道，分享技艺心得，让传统在交流中焕新。</p>
+        </div>
+
+        <!-- 社区分类标签 -->
+        <div class="community-tabs" id="communityTabs">
+            <button class="tab-btn active" data-tab="all">全部</button>
+            <button class="tab-btn" data-tab="showcase">作品展示</button>
+            <button class="tab-btn" data-tab="discuss">技艺交流</button>
+            <button class="tab-btn" data-tab="resource">资源共享</button>
+            <button class="tab-btn" data-tab="event">线下雅集</button>
+        </div>
+
+        <!-- 社区内容布局 -->
+        <div class="community-layout">
+            <!-- 发帖区 -->
+            <div class="post-create">
+                <div class="create-header">
+                    <img src="https://picsum.photos/id/60/100/100" alt="my avatar" class="my-avatar">
+                    <input type="text" class="create-input" id="postInput" placeholder="分享你的非遗心得、作品或疑问...">
+                </div>
+                <div class="create-actions">
+                    <div class="action-icons">
+                        <button class="action-icon" title="添加图片"><i class="far fa-image"></i></button>
+                        <button class="action-icon" title="添加标签"><i class="fas fa-tag"></i></button>
+                        <button class="action-icon" title="添加位置"><i class="fas fa-map-marker-alt"></i></button>
+                    </div>
+                    <button class="btn-publish" id="publishBtn">发布</button>
+                </div>
+            </div>
+
+            <!-- 帖子列表 -->
+            <div id="postList"></div>
+        </div>
+
+        <!-- 重点卡片：一起回家吧 -->
+        <div class="homecoming-card">
+            <div class="homecoming-text">
+                <h2><i class="fas fa-home"></i> 一起回家吧</h2>
+                <p>云间小阁 · 文物守护人回家计划 | 无论你身在何方,文物永远是归乡的路。加入社群,参与线下雅集、文物共修、守艺夜话,让传统成为我们共同的温暖归宿。</p>
+                <a href="我们一起回家吧/选择博物馆.html" class="homecoming-btn" target="_blank" rel="noopener noreferrer"><i
+                        class="fas fa-compass"></i>&nbsp;&nbsp;&nbsp;开启探索之旅</a>
+            </div>
+            <div class="homecoming-img">
+                <img src="https://picsum.photos/id/30/260/180" alt="文物家园">
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons">
+                    <i class="fab fa-weixin"></i>
+                    <i class="fab fa-weibo"></i>
+                    <i class="fab fa-xiaohongshu"></i>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>帮助中心</h4>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="about">
+                    <p>购买指南</p>
+                </a>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="privacy">
+                    <p>非遗鉴定</p>
+                </a>
+                <a href="页尾/帮助中心.html" class="footer-link" data-tab="terms">
+                    <p>售后服务</p>
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4>关于我们</h4>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="about">
+                    <p>传承人合作</p>
+                </a>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="privacy">
+                    <p>非遗保护基金</p>
+                </a>
+                <a href="页尾/关于我们.html" class="footer-link" data-tab="terms">
+                    <p>加入我们</p>
+                </a>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">
+                © 2025 云间小阁 | 非遗美学电商平台 | 传承华夏文明，守护匠心技艺
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 帖子数据
+        const posts = [
+            {
+                id: 1,
+                avatar: 'https://picsum.photos/id/64/100/100',
+                author: '李绣娘',
+                tag: '苏绣传承人',
+                time: '2小时前',
+                content: '今天完成了一幅《百鸟朝凤》的苏绣作品，历时三个月。每一针都是心血，希望能得到大家的指正。苏绣不仅仅是技艺，更是一种修身养性的方式。',
+                images: ['https://picsum.photos/id/120/500/500', 'https://picsum.photos/id/121/500/500', 'https://picsum.photos/id/122/500/500'],
+                tags: ['刺绣', '作品展示', '苏绣'],
+                likes: 328,
+                comments: 56,
+                shares: 12
+            },
+            {
+                id: 2,
+                avatar: 'https://picsum.photos/id/65/100/100',
+                author: '张青瓷',
+                tag: '龙泉青瓷大师',
+                time: '5小时前',
+                content: '与大家分享一下青瓷开片的秘密。开片是一种自然形成的裂纹，是釉面与胎体热膨胀系数不同造成的。开片大小、形状与烧制温度、冷却速度都有关系。初学者不必刻意追求开片，重要的是器型与釉色。',
+                images: ['https://picsum.photos/id/123/500/500'],
+                tags: ['陶瓷', '技艺交流', '青瓷'],
+                likes: 256,
+                comments: 89,
+                shares: 45
+            },
+            {
+                id: 3,
+                avatar: 'https://picsum.photos/id/66/100/100',
+                author: '王剪纸',
+                tag: '剪纸艺术家',
+                time: '8小时前',
+                content: '分享一个小技巧：剪纸时如何保持线条流畅？关键在于握刀的角度和力度，建议初学者先从简单的几何图形练起，再逐步过渡到复杂的图案。好的作品需要耐心和时间的打磨。',
+                images: ['https://picsum.photos/id/124/500/500', 'https://picsum.photos/id/125/500/500'],
+                tags: ['剪纸', '技艺交流', '民俗'],
+                likes: 198,
+                comments: 34,
+                shares: 8
+            },
+            {
+                id: 4,
+                avatar: 'https://picsum.photos/id/67/100/100',
+                author: '陈书画',
+                tag: '工笔画家',
+                time: '1天前',
+                content: '工笔画的线条练习非常重要。每日坚持画百字描，一个月后你会发现线条的质感和控笔能力都有很大提升。传承传统技艺，贵在坚持。',
+                images: [],
+                tags: ['书画', '技艺交流', '工笔'],
+                likes: 167,
+                comments: 23,
+                shares: 5
+            }
+        ];
+
+        let currentTab = 'all';
+
+        // 渲染帖子
+        const postList = document.getElementById('postList');
+        function renderPosts() {
+            let filtered = posts;
+            if (currentTab !== 'all') {
+                // 根据标签过滤
+                filtered = posts.filter(post => post.tags.some(tag => {
+                    if (currentTab === 'showcase') return tag === '作品展示';
+                    if (currentTab === 'discuss') return tag === '技艺交流';
+                    if (currentTab === 'resource') return tag === '资源共享';
+                    if (currentTab === 'event') return tag === '线下雅集';
+                    return false;
+                }));
+            }
+
+            if (filtered.length === 0) {
+                postList.innerHTML = `<div style="text-align:center; padding:40px; color:#9b8a78;">暂无相关帖子，成为第一个发布的人吧～</div>`;
+                return;
+            }
+
+            postList.innerHTML = filtered.map(post => {
+                const imagesHTML = post.images.length > 0 ? `
+                    <div class="post-images ${post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : ''}">
+                        ${post.images.map(img => `<img src="${img}" alt="post image" class="post-img">`).join('')}
+                    </div>
+                ` : '';
+
+                const tagsHTML = post.tags.map(tag => `<span class="post-tag">#${tag}</span>`).join('');
+
+                return `
+                    <div class="post-card" data-id="${post.id}">
+                        <div class="post-header">
+                            <img src="${post.avatar}" alt="${post.author}" class="post-avatar">
+                            <div class="post-author">
+                                <h4>${post.author}</h4>
+                                <span class="author-tag">${post.tag}</span>
+                            </div>
+                            <span class="post-time">${post.time}</span>
+                        </div>
+                        <div class="post-content">
+                            <p class="post-text">${post.content}</p>
+                            ${imagesHTML}
+                            <div class="post-tags">${tagsHTML}</div>
+                        </div>
+                        <div class="post-actions">
+                            <button class="post-action" onclick="toggleLike(${post.id}, this)">
+                                <i class="far fa-heart"></i>
+                                <span>${post.likes}</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="far fa-comment"></i>
+                                <span>${post.comments}</span>
+                            </button>
+                            <button class="post-action">
+                                <i class="far fa-share-square"></i>
+                                <span>${post.shares}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 点赞功能
+        function toggleLike(postId, btn) {
+            const icon = btn.querySelector('i');
+            const countSpan = btn.querySelector('span');
+            let count = parseInt(countSpan.textContent);
+
+            if (btn.classList.contains('liked')) {
+                btn.classList.remove('liked');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                countSpan.textContent = count - 1;
+            } else {
+                btn.classList.add('liked');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                countSpan.textContent = count + 1;
+                // 添加动画效果
+                icon.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    icon.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+
+        // 分类切换
+        const tabBtns = document.querySelectorAll('.community-tabs .tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.getAttribute('data-tab');
+                renderPosts();
+            });
+        });
+
+        // 发布帖子
+        const publishBtn = document.getElementById('publishBtn');
+        const postInput = document.getElementById('postInput');
+        if (publishBtn) {
+            publishBtn.addEventListener('click', () => {
+                const content = postInput.value.trim();
+                if (!content) {
+                    showMessage('💬 请输入帖子内容');
+                    return;
+                }
+                // 模拟发布
+                postInput.value = '';
+                showMessage('✨ 帖子发布成功！');
+            });
+        }
+
+        // 搜索帖子
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                const keyword = searchInput.value.trim();
+                if (keyword) {
+                    showMessage(`🔍 搜索功能即将上线`);
+                } else {
+                    showMessage('🔍 请输入关键词');
+                }
+            });
+        }
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const keyword = searchInput.value.trim();
+                    if (keyword) {
+                        showMessage(`🔍 搜索功能即将上线`);
+                    } else {
+                        showMessage('🔍 请输入关键词');
+                    }
+                }
+            });
+        }
+
+        // Toast 提示
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 购物车图标
+        const cartIcon = document.getElementById('cartIconBtn');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', () => {
+                showMessage('🎋 购物车即将开启，匠心好物敬请期待');
+            });
+        }
+
+        // 导航栏其他链接占位
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            const pageName = link.getAttribute('data-page');
+            if (pageName) {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        showMessage(`🌿 云间小阁·${pageName}版块即将开放`);
+                    }
+                });
+            }
+        });
+
+        // 一起回家吧按钮
+
+        // 页面淡入
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+            renderPosts();
+
+            // 页尾链接点击事件 - 设置标签状态
+            document.querySelectorAll('.footer-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    const tab = this.getAttribute('data-tab');
+                    if (tab) {
+                        sessionStorage.setItem('footerTab', tab);
+                    }
+                });
+            });
+
+            // 检查登录状态
+            const currentUser = sessionStorage.getItem('currentUser');
+            const loginBtn = document.getElementById('loginBtn');
+            if (currentUser && loginBtn) {
+                loginBtn.textContent = currentUser;
+                loginBtn.style.background = '#8c6d46';
+                loginBtn.style.color = '#fff';
+                loginBtn.style.cursor = 'pointer';
+                loginBtn.title = '点击进入个人中心';
+            }
+
+            // 登录按钮点击处理
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const user = sessionStorage.getItem('currentUser');
+                    if (user) {
+                        window.location.href = '个人资料/个人中心.html';
+                    } else {
+                        sessionStorage.setItem('previousPage', 'community');
+                        window.location.href = '登录and注册/登录页面.html';
+                    }
+                });
+            }
+
+            // 检查当前页面是否与上次相同
+            const currentPage = '社区';
+            const previousPage = sessionStorage.getItem('currentPage');
+
+            // 检查登录用户状态
+            const lastUser = sessionStorage.getItem('lastLoginUser');
+            if (lastUser) {
+                setTimeout(() => {
+                    showMessage(`🍵 欢迎 ${lastUser}，加入非遗传承人雅集`);
+                }, 400);
+                sessionStorage.removeItem('lastLoginUser');
+            } else if (previousPage === currentPage) {
+                setTimeout(() => {
+                    showMessage(`📍 您已定位到${currentPage}`);
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    showMessage(`🌿 非遗社区 · 传承人雅集，欢迎交流`);
+                }, 300);
+            }
+
+            // 保存当前页面
+            sessionStorage.setItem('currentPage', currentPage);
+        });
+    </script>
+</body>
+
+</html>
