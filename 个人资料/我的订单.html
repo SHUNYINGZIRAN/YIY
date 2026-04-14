@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+        }
+
+        /* 古风浮云大字装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 个人主页内容 */
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.12);
+            border: 1px solid #e7dfd3;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #c4a77d;
+            background: #e7dfd3;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            color: #8c6d46;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .user-bio {
+            color: #7f6b5a;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-size: 0.85rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .profile-btn {
+            padding: 10px;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #8c6d46;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .profile-btn.primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .profile-btn.outline {
+            background: transparent;
+            color: #8c6d46;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(92, 76, 62, 0.15);
+        }
+
+        .quick-links {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .links-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            margin-bottom: 18px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: #5c4c3e;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .link-item:hover {
+            background: rgba(140, 109, 70, 0.08);
+            transform: translateX(5px);
+        }
+
+        .link-item i {
+            margin-right: 12px;
+            width: 24px;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .link-item.active {
+            background: rgba(140, 109, 70, 0.12);
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+        }
+
+        .content-section {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            position: relative;
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e7dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 订单统计卡片 */
+        .order-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: rgba(248, 244, 233, 0.7);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            background: #fffef8;
+            border-color: #c4a77d;
+            transform: translateY(-2px);
+        }
+
+        .stat-card i {
+            font-size: 1.6rem;
+            color: #8c6d46;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #5c4c3e;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        /* 订单卡片 */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 245, 0.9);
+            border-radius: 20px;
+            border: 1px solid #e7dfd3;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 8px 20px rgba(92, 76, 62, 0.1);
+            border-color: #c4a77d;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: rgba(231, 219, 203, 0.3);
+            border-bottom: 1px solid #e7dfd3;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .order-info-left {
+            display: flex;
+            gap: 24px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .order-number {
+            font-weight: 600;
+            color: #5c4c3e;
+            font-size: 0.9rem;
+        }
+
+        .order-number span {
+            color: #9b8a78;
+            font-weight: normal;
+        }
+
+        .order-date {
+            font-size: 0.8rem;
+            color: #9b8a78;
+        }
+
+        .order-status {
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #f0e8dd;
+            color: #8c6d46;
+        }
+
+        .order-status.shipped {
+            background: #e8e4d8;
+            color: #8c6d46;
+        }
+
+        .order-status.delivered {
+            background: #dde8dd;
+            color: #4c8c4c;
+        }
+
+        .order-status.pending {
+            background: #f5e6d3;
+            color: #c47d3a;
+        }
+
+        .order-status.cancelled {
+            background: #f0e0e0;
+            color: #b36b6b;
+        }
+
+        /* 物流进度条 */
+        .logistics-progress {
+            padding: 16px 24px;
+            background: rgba(248, 244, 233, 0.5);
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 12px 0 8px;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e7dfd3;
+            z-index: 0;
+        }
+
+        .step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            background: #fff;
+            border: 2px solid #e7dfd3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 0.7rem;
+            color: #9b8a78;
+            transition: all 0.2s;
+        }
+
+        .step.active .step-dot {
+            background: #8c6d46;
+            border-color: #8c6d46;
+            color: white;
+        }
+
+        .step.completed .step-dot {
+            background: #c4a77d;
+            border-color: #c4a77d;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.7rem;
+            color: #9b8a78;
+        }
+
+        .step.active .step-label,
+        .step.completed .step-label {
+            color: #5c4c3e;
+        }
+
+        .logistics-text {
+            font-size: 0.75rem;
+            color: #8c6d46;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* 商品列表 */
+        .order-products {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .order-product {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px dashed #f0e8dd;
+        }
+
+        .order-product:last-child {
+            border-bottom: none;
+        }
+
+        .order-product-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #e7dfd3;
+        }
+
+        .order-product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .order-product-info {
+            flex: 1;
+        }
+
+        .order-product-name {
+            font-weight: 600;
+            color: #5c4c3e;
+            margin-bottom: 4px;
+        }
+
+        .order-product-spec {
+            font-size: 0.7rem;
+            color: #9b8a78;
+            margin-bottom: 6px;
+        }
+
+        .order-product-price {
+            font-weight: 600;
+            color: #8c6d46;
+        }
+
+        .order-product-quantity {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin-top: 4px;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: rgba(248, 244, 233, 0.3);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .order-total {
+            font-size: 0.9rem;
+        }
+
+        .order-total span {
+            font-weight: 700;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .order-btn {
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #d6ccc2;
+            background: transparent;
+            color: #5c4c3e;
+        }
+
+        .order-btn:hover {
+            background: #8c6d46;
+            border-color: #8c6d46;
+            color: white;
+        }
+
+        .order-btn.primary {
+            background: #8c6d46;
+            border-color: #8c6d46;
+            color: white;
+        }
+
+        .order-btn.primary:hover {
+            background: #5c4c3e;
+        }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .order-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-info-left {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .order-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .step {
+                flex: none;
+                width: calc(25% - 12px);
+            }
+
+            .progress-steps::before {
+                display: none;
+            }
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">訂</div>
+    <div class="decoration-big decoration-right">單</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="navSearchInput">
+                    <button class="icon-btn" id="navSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="navCartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="navCartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="navLoginBtn">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="profile-container">
+                <!-- 侧边栏 -->
+                <div class="sidebar">
+                    <div class="profile-card">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
+                                alt="用户头像">
+                        </div>
+                        <h2 class="user-name">文心居士</h2>
+                        <p class="user-title">传统文化传承者</p>
+                        <p class="user-bio">以文会友，以友辅仁。传承中华文化，分享生活智慧。</p>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-number">42</div>
+                                <div class="stat-label">文章</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">128</div>
+                                <div class="stat-label">粉丝</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">86</div>
+                                <div class="stat-label">收藏</div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <a href="后台登录.html" class="profile-btn primary" id="editProfileBtn">守艺掌柜</a>
+                            <a href="../登录and注册/登录页面.html" class="profile-btn outline" id="logoutBtn">退出登录</a>
+                        </div>
+                    </div>
+                    <div class="quick-links">
+                        <h3 class="links-title">快捷入口</h3>
+                        <a href="个人中心.html" class="link-item"><i class="fas fa-plus-circle"></i><span>创作中心</span></a>
+                        <a href="我的收藏.html" class="link-item"><i class="fas fa-heart"></i><span>我的收藏</span></a>
+                        <a href="文章管理.html" class="link-item"><i class="fas fa-file-alt"></i><span>文章管理</span></a>
+                        <a href="消息通知.html" class="link-item"><i class="fas fa-comments"></i><span>消息通知</span></a>
+                        <a href="我的订单.html" class="link-item active"><i
+                                class="fas fa-shopping-bag"></i><span>我的订单</span></a>
+                        <a href="账号设置.html" class="link-item"><i class="fas fa-cog"></i><span>账号设置</span></a>
+                    </div>
+                </div>
+
+                <!-- 主内容区域 - 订单模块 -->
+                <div class="main-content">
+                    <div class="content-section">
+                        <div class="section-title">
+                            <span><i class="fas fa-shopping-bag" style="margin-right: 8px; color: #8c6d46;"></i>
+                                我的订单</span>
+                        </div>
+
+                        <!-- 订单统计卡片 -->
+                        <div class="order-stats" id="orderStats">
+                            <div class="stat-card" data-status="all">
+                                <i class="fas fa-receipt"></i>
+                                <div class="stat-num">6</div>
+                                <div class="stat-label">全部订单</div>
+                            </div>
+                            <div class="stat-card" data-status="pending">
+                                <i class="fas fa-clock"></i>
+                                <div class="stat-num">1</div>
+                                <div class="stat-label">待付款</div>
+                            </div>
+                            <div class="stat-card" data-status="shipped">
+                                <i class="fas fa-truck"></i>
+                                <div class="stat-num">1</div>
+                                <div class="stat-label">待收货</div>
+                            </div>
+                            <div class="stat-card" data-status="delivered">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="stat-num">4</div>
+                                <div class="stat-label">已完成</div>
+                            </div>
+                        </div>
+
+                        <!-- 订单列表容器 -->
+                        <div id="orderListContainer" class="order-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+
+        <script>
+            // 初始化登录按钮
+            document.addEventListener('DOMContentLoaded', () => {
+                initLoginBtn('navLoginBtn', '个人中心.html', '../登录and注册/登录页面.html');
+            });
+
+            // 订单数据（丰富版）
+            const ordersData = [
+                {
+                    id: "DD20240315001",
+                    date: "2024-03-15",
+                    status: "shipped",
+                    statusText: "已发货",
+                    logistics: { current: 2, total: 4, text: "您的包裹已到达【杭州转运中心】，预计2日内送达" },
+                    products: [
+                        { name: "景德镇手工青花瓷茶具套装", spec: "青花瓷 | 6件套", price: 1280, quantity: 1, img: "https://picsum.photos/id/30/100/100" },
+                        { name: "非遗剪纸艺术 - 福禄寿喜系列", spec: "红色剪纸 | 4幅装", price: 360, quantity: 1, img: "https://picsum.photos/id/104/100/100" }
+                    ],
+                    total: 1640,
+                    discount: 80,
+                    actualTotal: 1560
+                },
+                {
+                    id: "DD20240220002",
+                    date: "2024-02-20",
+                    status: "delivered",
+                    statusText: "已完成",
+                    logistics: { current: 4, total: 4, text: "已签收，感谢您的支持" },
+                    products: [
+                        { name: "苏绣团扇 - 花鸟图", spec: "手工刺绣 | 直径25cm", price: 580, quantity: 1, img: "https://picsum.photos/id/42/100/100" }
+                    ],
+                    total: 580,
+                    discount: 0,
+                    actualTotal: 580,
+                    reviewed: false
+                },
+                {
+                    id: "DD20240105003",
+                    date: "2024-01-05",
+                    status: "pending",
+                    statusText: "待付款",
+                    logistics: null,
+                    products: [
+                        { name: "东阳木雕笔筒 - 竹林七贤", spec: "黄杨木 | 12×12×15cm", price: 890, quantity: 1, img: "https://picsum.photos/id/96/100/100" }
+                    ],
+                    total: 890,
+                    discount: 0,
+                    actualTotal: 890
+                },
+                {
+                    id: "DD20231210004",
+                    date: "2023-12-10",
+                    status: "delivered",
+                    statusText: "已完成",
+                    logistics: { current: 4, total: 4, text: "已签收" },
+                    products: [
+                        { name: "徽墨·松烟墨锭", spec: "二两 | 手工古法", price: 268, quantity: 2, img: "https://picsum.photos/id/20/100/100" },
+                        { name: "宣纸·红星特净", spec: "四尺 | 10张", price: 156, quantity: 1, img: "https://picsum.photos/id/39/100/100" }
+                    ],
+                    total: 692,
+                    discount: 0,
+                    actualTotal: 692,
+                    reviewed: true
+                },
+                {
+                    id: "DD20231108005",
+                    date: "2023-11-08",
+                    status: "delivered",
+                    statusText: "已完成",
+                    logistics: { current: 4, total: 4, text: "已签收" },
+                    products: [
+                        { name: "龙泉青瓷·梅子青主人杯", spec: "手工胎 | 80ml", price: 328, quantity: 1, img: "https://picsum.photos/id/119/100/100" }
+                    ],
+                    total: 328,
+                    discount: 0,
+                    actualTotal: 328,
+                    reviewed: false
+                },
+                {
+                    id: "DD20231022006",
+                    date: "2023-10-22",
+                    status: "delivered",
+                    statusText: "已完成",
+                    logistics: { current: 4, total: 4, text: "已签收" },
+                    products: [
+                        { name: "金陵绒花·牡丹发簪", spec: "手工缠绒 | 铜镀金", price: 256, quantity: 1, img: "https://picsum.photos/id/42/100/100" }
+                    ],
+                    total: 256,
+                    discount: 0,
+                    actualTotal: 256,
+                    reviewed: true
+                }
+            ];
+
+
+            // 渲染订单列表
+            function renderOrders(filterStatus = 'all') {
+                const filtered = filterStatus === 'all'
+                    ? ordersData
+                    : ordersData.filter(order => order.status === filterStatus);
+
+                const container = document.getElementById('orderListContainer');
+                if (filtered.length === 0) {
+                    container.innerHTML = `<div style="text-align: center; padding: 60px 20px; color: #9b8a78;"><i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 16px;"></i><p>暂无订单，去集市逛逛吧~</p></div>`;
+                    return;
+                }
+
+                container.innerHTML = filtered.map(order => `
+                <div class="order-card" data-order-id="${order.id}">
+                    <div class="order-header">
+                        <div class="order-info-left">
+                            <div class="order-number">订单号：${order.id}</div>
+                            <div class="order-date"><i class="far fa-calendar-alt"></i> ${order.date}</div>
+                        </div>
+                        <div class="order-status ${order.status}">${order.statusText}</div>
+                    </div>
+                    
+                    ${order.logistics ? `
+                    <div class="logistics-progress">
+                        <div class="progress-steps">
+                            ${getProgressSteps(order.logistics.current, order.logistics.total)}
+                        </div>
+                        <div class="logistics-text"><i class="fas fa-truck"></i> ${order.logistics.text}</div>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="order-products">
+                        ${order.products.map(product => `
+                            <div class="order-product">
+                                <div class="order-product-img">
+                                    <img src="${product.img}" alt="${product.name}" loading="lazy">
+                                </div>
+                                <div class="order-product-info">
+                                    <div class="order-product-name">${product.name}</div>
+                                    <div class="order-product-spec">${product.spec}</div>
+                                    <div class="order-product-price">¥${product.price}</div>
+                                    <div class="order-product-quantity">x${product.quantity}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="order-footer">
+                        <div class="order-total">共${order.products.length}件商品，实付 <span>¥${order.actualTotal}</span></div>
+                        <div class="order-actions">
+                            ${getOrderActions(order)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+                // 绑定订单操作按钮事件
+                bindOrderEvents();
+            }
+
+            function getProgressSteps(current, total) {
+                const steps = ['已下单', '已发货', '运输中', '已送达'];
+                let html = '';
+                for (let i = 0; i < steps.length; i++) {
+                    let stepClass = '';
+                    if (i + 1 <= current) stepClass = 'completed';
+                    if (i + 1 === current) stepClass = 'active';
+                    html += `
+                    <div class="step ${stepClass}">
+                        <div class="step-dot"><i class="fas ${i === 0 ? 'fa-shopping-cart' : (i === 1 ? 'fa-box' : (i === 2 ? 'fa-truck' : 'fa-check'))}"></i></div>
+                        <div class="step-label">${steps[i]}</div>
+                    </div>
+                `;
+                }
+                return html;
+            }
+
+            function getOrderActions(order) {
+                const actions = [];
+                if (order.status === 'pending') {
+                    actions.push(`<button class="order-btn primary" data-action="pay" data-id="${order.id}">去支付</button>`);
+                    actions.push(`<button class="order-btn" data-action="cancel" data-id="${order.id}">取消订单</button>`);
+                } else if (order.status === 'shipped') {
+                    actions.push(`<button class="order-btn" data-action="track" data-id="${order.id}">查看物流</button>`);
+                    actions.push(`<button class="order-btn primary" data-action="confirm" data-id="${order.id}">确认收货</button>`);
+                } else if (order.status === 'delivered') {
+                    actions.push(`<button class="order-btn" data-action="track" data-id="${order.id}">查看物流</button>`);
+                    // 未评价的商品显示评价按钮
+                    const hasUnreviewed = order.products.some(p => !order.reviewed);
+                    if (hasUnreviewed && !order.reviewed) {
+                        actions.push(`<a href="../购物/商品评价.html" class="order-btn">评价晒单</a>`);
+                    } else {
+                        actions.push(`<button class="order-btn" data-action="buyAgain" data-id="${order.id}">再次购买</button>`);
+                    }
+                } else {
+                    actions.push(`<button class="order-btn" data-action="buyAgain" data-id="${order.id}">再次购买</button>`);
+                }
+                actions.push(`<a href="../购物/订单详情.html" class="order-btn">订单详情</a>`);
+                return actions.join('');
+            }
+
+            function bindOrderEvents() {
+                document.querySelectorAll('[data-action="pay"]').forEach(btn => {
+                    btn.addEventListener('click', () => showMessage('即将跳转至支付页面'));
+                });
+                document.querySelectorAll('[data-action="cancel"]').forEach(btn => {
+                    btn.addEventListener('click', () => showMessage('订单已取消'));
+                });
+                document.querySelectorAll('[data-action="track"]').forEach(btn => {
+                    btn.addEventListener('click', () => showMessage('物流信息：您的包裹正在运输中，预计2日内送达'));
+                });
+                document.querySelectorAll('[data-action="confirm"]').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const orderId = this.getAttribute('data-id');
+                        if (confirm('确认已收到货品吗？')) {
+                            const order = ordersData.find(o => o.id === orderId);
+                            if (order) {
+                                order.status = 'delivered';
+                                order.statusText = '已完成';
+                                renderOrders();
+                            }
+                        }
+                    });
+                });
+                document.querySelectorAll('[data-action="buyAgain"]').forEach(btn => {
+                    btn.addEventListener('click', () => showMessage('已加入购物车，可前往集市结算'));
+                });
+            }
+
+            // 统计卡片筛选
+            function initStatsFilter() {
+                const stats = document.querySelectorAll('.stat-card');
+                stats.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const status = card.getAttribute('data-status');
+                        renderOrders(status);
+                        stats.forEach(s => s.style.background = '');
+                        card.style.background = 'rgba(140, 109, 70, 0.08)';
+                    });
+                });
+            }
+
+            function showMessage(msg) {
+                const toast = document.createElement('div');
+                toast.textContent = msg;
+                toast.style.cssText = `
+                position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+                background: #5c4c3e; color: #fef5e6; padding: 12px 28px;
+                border-radius: 50px; font-size: 0.9rem; z-index: 1001;
+                white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2000);
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                renderOrders('all');
+                initStatsFilter();
+
+                // 编辑资料按钮
+
+
+                document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+                    if (!confirm('确定要退出登录吗？')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // ========== 导航栏交互逻辑 ==========
+
+            // 获取购物车数量
+            function updateCartBadge() {
+                const badge = document.getElementById('navCartBadge');
+                if (badge) {
+                    const stored = localStorage.getItem('yunji_cart');
+                    let cartItems = stored ? JSON.parse(stored) : [];
+                    const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                    badge.innerText = totalQty;
+                    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+                }
+            }
+
+            // 导航栏搜索功能
+            function initNavSearch() {
+                const searchBtn = document.getElementById('navSearchBtn');
+                const searchInput = document.getElementById('navSearchInput');
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', () => {
+                        const keyword = searchInput ? searchInput.value.trim() : '';
+                        if (keyword) {
+                            // 可扩展搜索功能
+                        }
+                    });
+                }
+                if (searchInput) {
+                    searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            const keyword = searchInput.value.trim();
+                            if (keyword) {
+                                // 可扩展搜索功能
+                            }
+                        }
+                    });
+                }
+            }
+
+            // 导航链接处理
+            function initNavLinks() {
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach(link => {
+                    const pageName = link.getAttribute('data-page');
+                    if (pageName) {
+                        link.addEventListener('click', (e) => {
+                            // 移除其他链接的active
+                            navLinks.forEach(l => l.classList.remove('active'));
+                            // 添加当前active
+                            link.classList.add('active');
+                        });
+                    }
+                });
+            }
+
+            // 购物车图标点击跳转
+            function initCartIcon() {
+                const cartIcon = document.getElementById('navCartIcon');
+                if (cartIcon) {
+                    cartIcon.addEventListener('click', () => {
+                        window.location.href = '../购物车.html';
+                    });
+                }
+            }
+
+            // 初始化导航栏功能
+            function initNavbar() {
+                updateCartBadge();
+                initNavSearch();
+                initNavLinks();
+                initCartIcon();
+
+                // 当前页面高亮
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // 页面加载完成后初始化
+            document.addEventListener('DOMContentLoaded', initNavbar);
+        </script>
+
+</body>
+
+</html>

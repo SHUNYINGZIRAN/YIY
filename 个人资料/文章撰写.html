@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗创作中心 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+        }
+
+        /* 古风浮云大字装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 面包屑 */
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8c6d46, transparent);
+            margin: 30px 0;
+        }
+
+        /* 分类选择卡片 */
+        .creation-type-section {
+            background: rgba(255, 253, 245, 0.9);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.1);
+            margin-bottom: 30px;
+            border: 1px solid #d6ccc2;
+        }
+
+        .type-tabs {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e7dfd3;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .type-tab {
+            padding: 8px 24px;
+            background: transparent;
+            border: none;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.2rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 40px;
+            position: relative;
+        }
+
+        .type-tab i {
+            margin-right: 8px;
+            color: #8c6d46;
+        }
+
+        .type-tab.active {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .type-tab.active i {
+            color: white;
+        }
+
+        .type-tab:hover:not(.active) {
+            background: #f1e9dd;
+        }
+
+        .type-description {
+            font-size: 0.9rem;
+            color: #8c6d46;
+            margin-top: 8px;
+            padding-left: 8px;
+        }
+
+        /* 原有搜索区域 */
+        .search-section {
+            background: rgba(255, 253, 245, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.1);
+            margin-bottom: 30px;
+            border: 1px solid #d6ccc2;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #8c3c2c;
+        }
+
+        .draft-info {
+            font-size: 0.9rem;
+            color: #8c6d46;
+            background: #f1e9dd;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            border: 1px solid #d6ccc2;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #5c4c3e;
+            box-shadow: 0 2px 8px rgba(92, 76, 62, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8c6d46;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #d6ccc2;
+            border-radius: 30px;
+            color: #5c4c3e;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .category-item {
+            background: #f1e9dd;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d6ccc2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            background: #e5d9c8;
+            transform: translateY(-3px);
+        }
+
+        .category-item.selected {
+            background: #d8e8d8;
+            border-color: #8c6d46;
+        }
+
+        .category-name {
+            font-weight: bold;
+            color: #8c3c2c;
+            margin-bottom: 0px;
+        }
+
+        .category-meta {
+            margin-bottom: 12px;
+        }
+
+        .category-status {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .user-count {
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        /* 编辑器区域 */
+        .editor-section {
+            background: rgba(255, 253, 245, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.1);
+            margin-bottom: 30px;
+            border: 1px solid #d6ccc2;
+        }
+
+        .editor-header {
+            margin-bottom: 25px;
+        }
+
+        .editor-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #8c3c2c;
+            margin-bottom: 15px;
+        }
+
+        .selected-category {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1e9dd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-width: fit-content;
+            flex-wrap: wrap;
+        }
+
+        .selected-category span {
+            font-weight: bold;
+            color: #8c3c2c;
+        }
+
+        .change-category {
+            color: #8c6d46;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #5c4c3e;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #5c4c3e;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 2px rgba(140, 109, 70, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .editor-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #8c6d46;
+            color: #8c6d46;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.25);
+        }
+
+        .btn-primary:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 文件上传样式 */
+        .custom-file-upload {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-file-upload input[type="file"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: -1;
+        }
+
+        .file-upload-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            border: 2px dashed #d6ccc2;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .custom-file-upload:hover .file-upload-box {
+            border-color: #8c6d46;
+            background: rgba(241, 233, 221, 0.5);
+        }
+
+        .file-upload-box i {
+            font-size: 2.5rem;
+            color: #8c6d46;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.3rem;
+            color: #8c3c2c;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #8c6d46;
+        }
+
+        .file-preview-container,
+        .video-preview-container,
+        .audio-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .file-preview,
+        .video-preview {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #d6ccc2;
+            box-shadow: 0 2px 8px rgba(92, 76, 62, 0.1);
+        }
+
+        .audio-preview {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #d6ccc2;
+            box-shadow: 0 2px 8px rgba(92, 76, 62, 0.1);
+            background-color: #f1e9dd;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .file-preview img,
+        .video-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .audio-preview audio {
+            width: 100%;
+            height: 40px;
+        }
+
+        .file-preview .remove-file,
+        .video-preview .remove-file,
+        .audio-preview .remove-file {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: rgba(140, 60, 44, 0.8);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: #f8f4e9;
+            border: 1px solid #d6ccc2;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #4c8c4c;
+        }
+
+        .notification.error {
+            border-left: 4px solid #8c4c4c;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.2rem;
+            }
+
+            .search-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .editor-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .type-tabs {
+                justify-content: center;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .footer-col {
+                width: 100%;
+            }
+
+            .social-icons i {
+                margin: 0 10px;
+            }
+        }
+
+        .decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #8c3c2c;
+        }
+
+        .decoration-1 {
+            top: 50px;
+            left: 5%;
+            font-size: 6rem;
+            transform: rotate(-10deg);
+        }
+
+        .decoration-2 {
+            bottom: 100px;
+            right: 5%;
+            font-size: 5rem;
+            transform: rotate(15deg);
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">创</div>
+    <div class="decoration-big decoration-right">作</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="navSearchInput">
+                    <button class="icon-btn" id="navSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="navCartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="navCartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="navLoginBtn">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb"><a href="#">#</a> <span>/</span> <a href="个人中心.html">创作中心</a> <span>/</span> <span
+                style="color:#8c6d46;">非遗创作中心</span></div>
+        <div class="page-header">
+            <h1>非遗创作中心</h1>
+            <p>写文章 · 传视频 · 记手作</p>
+        </div>
+
+        <div class="container">
+            <!-- 新增：三种创作分类切换 -->
+            <div class="creation-type-section">
+                <div class="type-tabs" id="typeTabs">
+                    <button class="type-tab active" data-type="article"><i class="fas fa-pen-fancy"></i> 写文章</button>
+                    <button class="type-tab" data-type="video"><i class="fas fa-video"></i> 传视频</button>
+                    <button class="type-tab" data-type="craft"><i class="fas fa-hands"></i> 记手作</button>
+                </div>
+                <div class="type-description" id="typeDescription">
+                    <i class="fas fa-info-circle"></i> 撰写非遗相关文章，分享您的见解与故事
+                </div>
+            </div>
+
+            <!-- 非遗类目选择区 -->
+            <div class="search-section">
+                <div class="search-header">
+                    <h2 class="search-title">选择非遗类目</h2>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="categorySearch" placeholder="搜索非遗类目...">
+                </div>
+
+                <div class="category-filters">
+                    <button class="filter-btn active">全部</button>
+                    <button class="filter-btn">传统技艺</button>
+                    <button class="filter-btn">表演艺术</button>
+                    <button class="filter-btn">民俗活动</button>
+                    <button class="filter-btn">传统医药</button>
+                    <button class="filter-btn">口头传统</button>
+                </div>
+
+                <div class="search-results" id="categoryResults">
+                    <!-- 分类项目将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 编辑器区域（根据创作类型动态调整表单） -->
+            <div class="editor-section" id="editorSection" style="display: none;">
+                <div class="editor-header">
+                    <h2 class="editor-title" id="editorDynamicTitle">撰写文章</h2>
+                    <div class="selected-category">
+                        <span>已选类目：</span>
+                        <div id="selectedCategoryName">暂无选择</div>
+                        <div class="change-category" id="changeCategory">更改类目</div>
+                    </div>
+                </div>
+
+                <!-- 动态表单内容将放在这里 -->
+                <div id="dynamicFormContainer"></div>
+
+                <div class="editor-actions">
+                    <button class="btn btn-outline" id="saveDraft">保存草稿</button>
+                    <button class="btn btn-primary" id="submitCreation" disabled>提交审核</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div id="notificationText">操作成功</div>
+    </div>
+
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('navLoginBtn', '个人中心.html', '../登录and注册/登录页面.html');
+        });
+
+        // 模拟非遗类目数据（扩充示例）
+        const intangibleCulturalHeritages = [
+            { id: 1, name: "京剧", category: "表演艺术", used: false, userCount: 0 },
+            { id: 2, name: "剪纸", category: "传统技艺", used: false, userCount: 0 },
+            { id: 3, name: "端午节", category: "民俗活动", used: false, userCount: 0 },
+            { id: 4, name: "中医针灸", category: "传统医药", used: true, userCount: 5 },
+            { id: 5, name: "皮影戏", category: "表演艺术", used: false, userCount: 0 },
+            { id: 6, name: "龙泉青瓷", category: "传统技艺", used: false, userCount: 0 },
+            { id: 7, name: "妈祖信俗", category: "民俗活动", used: true, userCount: 1 },
+            { id: 8, name: "珠算", category: "传统技艺", used: false, userCount: 0 },
+            { id: 9, name: "二十四节气", category: "民俗活动", used: false, userCount: 0 },
+            { id: 10, name: "书法", category: "传统技艺", used: true, userCount: 8 },
+            { id: 11, name: "古琴艺术", category: "表演艺术", used: false, userCount: 0 },
+            { id: 12, name: "中国篆刻", category: "传统技艺", used: false, userCount: 0 },
+            { id: 13, name: "蒙古族长调民歌", category: "口头传统", used: true, userCount: 3 },
+            { id: 14, name: "侗族大歌", category: "表演艺术", used: false, userCount: 0 },
+            { id: 15, name: "云锦织造", category: "传统技艺", used: false, userCount: 0 }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // DOM 元素
+            const categorySearch = document.getElementById('categorySearch');
+            const categoryResults = document.getElementById('categoryResults');
+            const editorSection = document.getElementById('editorSection');
+            const selectedCategoryName = document.getElementById('selectedCategoryName');
+            const changeCategoryBtn = document.getElementById('changeCategory');
+            const saveDraftBtn = document.getElementById('saveDraft');
+            const submitCreationBtn = document.getElementById('submitCreation');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const typeTabs = document.querySelectorAll('.type-tab');
+            const typeDescription = document.getElementById('typeDescription');
+            const editorDynamicTitle = document.getElementById('editorDynamicTitle');
+            const dynamicFormContainer = document.getElementById('dynamicFormContainer');
+
+            // 状态变量
+            let selectedCategory = null;
+            let currentFilter = '全部';
+            let currentCreationType = 'article'; // 'article', 'video', 'craft'
+
+            // 存储上传的文件数据（仅用于模拟，实际可用FormData）
+            let uploadedImages = [];
+            let uploadedVideo = null;
+            let uploadedAudio = null;
+
+            // ---------- 渲染动态表单（根据创作类型） ----------
+            function renderDynamicForm() {
+                if (!dynamicFormContainer) return;
+                if (currentCreationType === 'article') {
+                    dynamicFormContainer.innerHTML = `
+                        <div class="form-group">
+                            <label for="articleTitle">文章标题</label>
+                            <input type="text" id="articleTitle" class="form-control" placeholder="请输入文章标题">
+                        </div>
+                        <div class="form-group">
+                            <label for="articleContent">文章内容</label>
+                            <textarea id="articleContent" class="form-control" placeholder="请输入文章内容..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>图片（可选）</label>
+                            <div class="custom-file-upload" id="imageUploadArea">
+                                <input type="file" id="articleImages" multiple accept="image/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽图片至此处</span>
+                                    <span class="upload-hint">支持JPG、PNG格式</span>
+                                </div>
+                                <div class="file-preview-container"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>视频（可选）</label>
+                            <div class="custom-file-upload" id="videoUploadArea">
+                                <input type="file" id="articleVideo" accept="video/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽视频至此处</span>
+                                    <span class="upload-hint">支持MP4、MOV格式，仅限1个</span>
+                                </div>
+                                <div class="video-preview-container"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>音频（可选）</label>
+                            <div class="custom-file-upload" id="audioUploadArea">
+                                <input type="file" id="articleAudio" accept="audio/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽音频至此处</span>
+                                    <span class="upload-hint">支持MP3、WAV格式，仅限1个</span>
+                                </div>
+                                <div class="audio-preview-container"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                else if (currentCreationType === 'video') {
+                    dynamicFormContainer.innerHTML = `
+                        <div class="form-group">
+                            <label for="videoTitle">视频标题</label>
+                            <input type="text" id="videoTitle" class="form-control" placeholder="请输入视频标题">
+                        </div>
+                        <div class="form-group">
+                            <label for="videoDesc">视频简介</label>
+                            <textarea id="videoDesc" class="form-control" placeholder="请描述视频内容..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>视频文件 *</label>
+                            <div class="custom-file-upload" id="videoOnlyUploadArea">
+                                <input type="file" id="videoFile" accept="video/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽视频至此处</span>
+                                    <span class="upload-hint">支持MP4、MOV格式，仅限1个</span>
+                                </div>
+                                <div class="video-preview-container"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>封面图片（可选）</label>
+                            <div class="custom-file-upload" id="videoCoverUpload">
+                                <input type="file" id="videoCover" accept="image/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽封面图</span>
+                                    <span class="upload-hint">支持JPG、PNG</span>
+                                </div>
+                                <div class="file-preview-container"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                else if (currentCreationType === 'craft') {
+                    dynamicFormContainer.innerHTML = `
+                        <div class="form-group">
+                            <label for="craftTitle">手作名称</label>
+                            <input type="text" id="craftTitle" class="form-control" placeholder="请输入手作名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="craftProcess">制作过程/故事</label>
+                            <textarea id="craftProcess" class="form-control" placeholder="记录手作的过程、心得、材料等..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>过程图片（可选）</label>
+                            <div class="custom-file-upload" id="craftImageUpload">
+                                <input type="file" id="craftImages" multiple accept="image/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽图片</span>
+                                    <span class="upload-hint">支持JPG、PNG</span>
+                                </div>
+                                <div class="file-preview-container"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>过程视频（可选）</label>
+                            <div class="custom-file-upload" id="craftVideoUpload">
+                                <input type="file" id="craftVideo" accept="video/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span class="upload-text">点击或拖拽视频</span>
+                                    <span class="upload-hint">MP4格式，记录手作瞬间</span>
+                                </div>
+                                <div class="video-preview-container"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 重新绑定文件上传事件（为了避免重复，使用事件委托或重新绑定）
+                rebindFileUploads();
+                // 重新绑定输入验证
+                rebindValidation();
+            }
+
+            // 文件上传辅助函数（复用原逻辑，简化版）
+            function rebindFileUploads() {
+                // 图片上传处理
+                const imageInputs = document.querySelectorAll('input[type="file"][accept*="image"]');
+                imageInputs.forEach(input => {
+                    const container = input.closest('.custom-file-upload');
+                    if (!container) return;
+                    const previewContainer = container.querySelector('.file-preview-container');
+                    const uploadBox = container.querySelector('.file-upload-box');
+
+                    const handleFiles = (files) => {
+                        for (let file of files) {
+                            if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                                showNotification('只支持JPG和PNG格式的图片', 'error');
+                                continue;
+                            }
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                const preview = document.createElement('div');
+                                preview.className = 'file-preview';
+                                preview.innerHTML = `
+                                    <img src="${e.target.result}" alt="预览">
+                                    <div class="remove-file"><i class="fas fa-times"></i></div>
+                                `;
+                                preview.querySelector('.remove-file').addEventListener('click', (ev) => {
+                                    ev.stopPropagation();
+                                    preview.remove();
+                                });
+                                previewContainer.appendChild(preview);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+
+                    input.addEventListener('change', (e) => {
+                        handleFiles(Array.from(e.target.files));
+                    });
+                    if (uploadBox) {
+                        uploadBox.addEventListener('click', (e) => {
+                            if (e.target === uploadBox || uploadBox.contains(e.target)) {
+                                input.click();
+                            }
+                        });
+                        uploadBox.addEventListener('dragover', (e) => e.preventDefault());
+                        uploadBox.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            if (e.dataTransfer.files.length) handleFiles(Array.from(e.dataTransfer.files));
+                        });
+                    }
+                });
+
+                // 视频上传处理（单个）
+                const videoInputs = document.querySelectorAll('input[type="file"][accept*="video"]');
+                videoInputs.forEach(input => {
+                    const container = input.closest('.custom-file-upload');
+                    const previewContainer = container.querySelector('.video-preview-container');
+                    const uploadBox = container.querySelector('.file-upload-box');
+                    const handleVideo = (file) => {
+                        if (!file) return;
+                        if (!file.type.match('video/mp4') && !file.type.match('video/quicktime')) {
+                            showNotification('只支持MP4和MOV格式的视频', 'error');
+                            return;
+                        }
+                        const url = URL.createObjectURL(file);
+                        const preview = document.createElement('div');
+                        preview.className = 'video-preview';
+                        preview.innerHTML = `
+                            <video src="${url}" controls></video>
+                            <div class="remove-file"><i class="fas fa-times"></i></div>
+                        `;
+                        preview.querySelector('.remove-file').addEventListener('click', (ev) => {
+                            ev.stopPropagation();
+                            preview.remove();
+                        });
+                        if (previewContainer) {
+                            previewContainer.innerHTML = '';
+                            previewContainer.appendChild(preview);
+                        }
+                    };
+                    input.addEventListener('change', (e) => {
+                        if (e.target.files.length) handleVideo(e.target.files[0]);
+                    });
+                    if (uploadBox) {
+                        uploadBox.addEventListener('click', (e) => {
+                            if (uploadBox.contains(e.target)) input.click();
+                        });
+                        uploadBox.addEventListener('dragover', (e) => e.preventDefault());
+                        uploadBox.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            if (e.dataTransfer.files.length) handleVideo(e.dataTransfer.files[0]);
+                        });
+                    }
+                });
+            }
+
+            function rebindValidation() {
+                const inputs = dynamicFormContainer.querySelectorAll('input, textarea');
+                inputs.forEach(input => {
+                    input.removeEventListener('input', validateForm);
+                    input.addEventListener('input', validateForm);
+                });
+            }
+
+            // 表单验证
+            function validateForm() {
+                let isValid = false;
+                if (currentCreationType === 'article') {
+                    const title = document.getElementById('articleTitle')?.value.trim();
+                    const content = document.getElementById('articleContent')?.value.trim();
+                    isValid = !!(title && content && selectedCategory);
+                } else if (currentCreationType === 'video') {
+                    const title = document.getElementById('videoTitle')?.value.trim();
+                    const videoFile = document.querySelector('#videoFile')?.files[0];
+                    isValid = !!(title && videoFile && selectedCategory);
+                } else if (currentCreationType === 'craft') {
+                    const title = document.getElementById('craftTitle')?.value.trim();
+                    const process = document.getElementById('craftProcess')?.value.trim();
+                    isValid = !!(title && process && selectedCategory);
+                }
+                submitCreationBtn.disabled = !isValid;
+            }
+
+            // 提交创作
+            function submitCreation() {
+                if (submitCreationBtn.disabled) return;
+                showNotification('发布成功！您的作品已提交审核', 'success');
+                // 重置状态
+                setTimeout(() => {
+                    editorSection.style.display = 'none';
+                    selectedCategory = null;
+                    selectedCategoryName.textContent = '暂无选择';
+                    submitCreationBtn.disabled = true;
+                    // 标记类目为已使用
+                    if (selectedCategory) {
+                        const idx = intangibleCulturalHeritages.findIndex(c => c.id === selectedCategory.id);
+                        if (idx !== -1) {
+                            intangibleCulturalHeritages[idx].used = true;
+                            intangibleCulturalHeritages[idx].usedBy = "当前用户";
+                        }
+                    }
+                    renderCategories(getFilteredCategories());
+                }, 1500);
+            }
+
+            // 保存草稿
+            function saveDraft() {
+                showNotification('草稿已保存', 'success');
+            }
+
+            // 更改类目
+            changeCategoryBtn.addEventListener('click', () => {
+                editorSection.style.display = 'none';
+                selectedCategory = null;
+                selectedCategoryName.textContent = '暂无选择';
+                renderCategories(getFilteredCategories());
+            });
+
+            // 获取筛选后的类目
+            function getFilteredCategories() {
+                const searchTerm = categorySearch.value.toLowerCase();
+                return intangibleCulturalHeritages.filter(cat => {
+                    return cat.name.toLowerCase().includes(searchTerm) &&
+                        (currentFilter === '全部' || cat.category === currentFilter);
+                });
+            }
+
+            // 渲染类目列表
+            function renderCategories(categories) {
+                categoryResults.innerHTML = '';
+                if (categories.length === 0) {
+                    categoryResults.innerHTML = '<div class="no-results">未找到相关非遗类目</div>';
+                    return;
+                }
+                categories.forEach(category => {
+                    const div = document.createElement('div');
+                    div.className = 'category-item';
+                    if (selectedCategory && selectedCategory.id === category.id) div.classList.add('selected');
+                    div.innerHTML = `
+                        <div class="category-name">${category.name}</div>
+                        <div class="category-meta">${category.category}</div>
+                        <div class="category-status">
+                            <i class="fas fa-users"></i><span class="user-count">${category.userCount}人已创作</span>
+                        </div>
+                    `;
+                    div.addEventListener('click', () => {
+                        selectCategory(category);
+                    });
+                    categoryResults.appendChild(div);
+                });
+            }
+
+            function selectCategory(category) {
+                selectedCategory = category;
+                selectedCategoryName.textContent = category.name;
+                editorSection.style.display = 'block';
+                editorSection.scrollIntoView({ behavior: 'smooth' });
+                renderCategories(getFilteredCategories());
+                validateForm();
+            }
+
+            // 切换创作类型
+            function switchCreationType(type) {
+                currentCreationType = type;
+                // 更新UI
+                typeTabs.forEach(tab => {
+                    if (tab.getAttribute('data-type') === type) tab.classList.add('active');
+                    else tab.classList.remove('active');
+                });
+                // 更新描述
+                if (type === 'article') {
+                    typeDescription.innerHTML = '<i class="fas fa-info-circle"></i> 撰写非遗相关文章，分享您的见解与故事';
+                    editorDynamicTitle.innerText = '撰写文章';
+                } else if (type === 'video') {
+                    typeDescription.innerHTML = '<i class="fas fa-info-circle"></i> 上传非遗相关视频，记录珍贵技艺';
+                    editorDynamicTitle.innerText = '上传视频';
+                } else {
+                    typeDescription.innerHTML = '<i class="fas fa-info-circle"></i> 记录手作过程，传承匠心精神';
+                    editorDynamicTitle.innerText = '记录手作';
+                }
+                // 重新渲染表单（如果编辑器可见则刷新）
+                if (editorSection.style.display !== 'none') {
+                    renderDynamicForm();
+                    validateForm();
+                } else {
+                    renderDynamicForm(); // 预渲染
+                }
+            }
+
+            // 初始化事件监听
+            function initEventListeners() {
+                categorySearch.addEventListener('input', () => renderCategories(getFilteredCategories()));
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilter = this.textContent;
+                        renderCategories(getFilteredCategories());
+                    });
+                });
+                saveDraftBtn.addEventListener('click', saveDraft);
+                submitCreationBtn.addEventListener('click', submitCreation);
+                typeTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const type = tab.getAttribute('data-type');
+                        switchCreationType(type);
+                    });
+                });
+            }
+
+            // 显示通知
+            function showNotification(message, type) {
+                notificationText.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), 3000);
+            }
+
+            // 初始化
+            renderCategories(getFilteredCategories());
+            renderDynamicForm(); // 预先渲染写文章表单
+            initEventListeners();
+        });
+
+        // ========== 导航栏交互逻辑 ==========
+
+        // 获取购物车数量
+        function updateCartBadge() {
+            const badge = document.getElementById('navCartBadge');
+            if (badge) {
+                const stored = localStorage.getItem('yunji_cart');
+                let cartItems = stored ? JSON.parse(stored) : [];
+                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                badge.innerText = totalQty;
+                badge.style.display = totalQty > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // 导航栏搜索功能
+        function initNavSearch() {
+            const searchBtn = document.getElementById('navSearchBtn');
+            const searchInput = document.getElementById('navSearchInput');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    const keyword = searchInput ? searchInput.value.trim() : '';
+                    if (keyword) {
+                        // 可扩展搜索功能
+                    }
+                });
+            }
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const keyword = searchInput.value.trim();
+                        if (keyword) {
+                            // 可扩展搜索功能
+                        }
+                    }
+                });
+            }
+        }
+
+        // 导航链接处理
+        function initNavLinks() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const pageName = link.getAttribute('data-page');
+                if (pageName) {
+                    link.addEventListener('click', (e) => {
+                        // 移除其他链接的active
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        // 添加当前active
+                        link.classList.add('active');
+                    });
+                }
+            });
+        }
+
+        // 购物车图标点击跳转
+        function initCartIcon() {
+            const cartIcon = document.getElementById('navCartIcon');
+            if (cartIcon) {
+                cartIcon.addEventListener('click', () => {
+                    window.location.href = '../购物车.html';
+                });
+            }
+        }
+
+        // 初始化导航栏功能
+        function initNavbar() {
+            updateCartBadge();
+            initNavSearch();
+            initNavLinks();
+            initCartIcon();
+
+            // 当前页面高亮
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    </script>
+</body>
+
+</html>

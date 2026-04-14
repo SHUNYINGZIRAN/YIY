@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收货地址 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        /* 地址列表区域 */
+        .address-section {
+            margin: 40px 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d6ccc2;
+        }
+
+        .address-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* 地址卡片 */
+        .address-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
+            border: 1px solid #d6ccc2;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .address-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .address-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .address-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .receiver-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .receiver-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #5c4c3e;
+        }
+
+        .receiver-phone {
+            color: #8c6d46;
+            font-size: 1rem;
+        }
+
+        .default-badge {
+            background: #8c6d46;
+            color: white;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .address-detail {
+            margin-bottom: 20px;
+            color: #745b3a;
+            line-height: 1.7;
+            padding-right: 20px;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .address-btn {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Serif SC', serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .address-btn:hover {
+            background: #f1e9dd;
+            border-color: #8c6d46;
+        }
+
+        .address-btn.delete:hover {
+            background: #f8e0e0;
+            border-color: #c53d2d;
+            color: #c53d2d;
+        }
+
+        /* 新增地址卡片 */
+        .new-address-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
+            border: 1px solid #d6ccc2;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .new-address-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .form-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #8c3c2c;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5c4c3e;
+            font-weight: bold;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d6ccc2;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #5c4c3e;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #8c6d46;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #8c6d46;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #8c6d46;
+        }
+
+        .action-btn.primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #745b3a;
+        }
+
+        .action-btn.outline {
+            background: transparent;
+            color: #8c6d46;
+        }
+
+        .action-btn.outline:hover {
+            background: #f1e9dd;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        .footer-col a:hover {
+            color: #8c6d46;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .address-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .receiver-info {
+                flex-wrap: wrap;
+            }
+
+            .address-actions {
+                justify-content: flex-start;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">地</div>
+    <div class="decoration-big decoration-right">址</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="addressSearchInput">
+                    <button class="icon-btn" id="addressSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="addressCartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="addressCartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtnRef">登录 /
+                        注册</button>
+            </div>
+        </nav>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="#">#</a> <span>/</span> <a href="产品详情.html">产品详情</a> <span>/</span> <span
+                style="color:#8c6d46;">收货地址</span>
+        </div>
+
+        <!-- 页面标题 -->
+        <header class="page-header">
+            <h1>收货地址</h1>
+            <p>管理您的配送地址</p>
+        </header>
+
+        <!-- 地址列表区域 -->
+        <div class="address-section">
+            <h2 class="section-title">已保存地址</h2>
+            <div class="address-grid" id="addressList">
+                <!-- 示例地址1 (默认) -->
+                <div class="address-card" data-id="1">
+                    <div class="address-header">
+                        <div class="receiver-info">
+                            <span class="receiver-name">张明远</span>
+                            <span class="receiver-phone">138****5678</span>
+                            <span class="default-badge"><i class="fas fa-check-circle"></i> 默认地址</span>
+                        </div>
+                    </div>
+                    <div class="address-detail">
+                        北京市朝阳区建国门外大街甲6号 SK大厦 15层 1508室
+                    </div>
+                    <div class="address-actions">
+                        <button class="address-btn edit-btn"><i class="fas fa-edit"></i> 编辑</button>
+                        <button class="address-btn delete-btn"><i class="fas fa-trash-alt"></i> 删除</button>
+                        <button class="address-btn set-default-btn" style="display: none;"><i class="fas fa-star"></i>
+                            设为默认</button>
+                    </div>
+                </div>
+
+                <!-- 示例地址2 -->
+                <div class="address-card" data-id="2">
+                    <div class="address-header">
+                        <div class="receiver-info">
+                            <span class="receiver-name">李秋雨</span>
+                            <span class="receiver-phone">139****1234</span>
+                            <!-- 没有默认标签 -->
+                        </div>
+                    </div>
+                    <div class="address-detail">
+                        上海市浦东新区世纪大道100号 上海环球金融中心 72层
+                    </div>
+                    <div class="address-actions">
+                        <button class="address-btn edit-btn"><i class="fas fa-edit"></i> 编辑</button>
+                        <button class="address-btn delete-btn"><i class="fas fa-trash-alt"></i> 删除</button>
+                        <button class="address-btn set-default-btn"><i class="fas fa-star"></i> 设为默认</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增地址卡片（表单） -->
+            <div class="new-address-card">
+                <h3 class="form-title">新增收货地址</h3>
+                <form id="newAddressForm">
+                    <div class="form-group">
+                        <label class="form-label" for="receiverName">收货人姓名</label>
+                        <input type="text" class="form-input" id="receiverName" placeholder="例如：张三" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="receiverPhone">手机号码</label>
+                        <input type="tel" class="form-input" id="receiverPhone" placeholder="11位手机号" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="addressDetail">详细地址</label>
+                        <textarea class="form-textarea" id="addressDetail" placeholder="省/市/区 街道 门牌号"
+                            required></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="setDefault">
+                        <label for="setDefault">设为默认地址</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="action-btn outline" id="cancelBtn">取消</button>
+                        <button type="submit" class="action-btn primary">保存地址</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化登录按钮
+            initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+
+            // 导航栏功能
+            function loadCartBadge() {
+                const stored = localStorage.getItem('yunji_cart');
+                if (stored) {
+                    const cartItems = JSON.parse(stored);
+                    updateCartBadge(cartItems);
+                }
+            }
+
+            function updateCartBadge(cartItems) {
+                const badge = document.getElementById('addressCartBadge');
+                if (badge) {
+                    const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                    badge.innerText = totalQty;
+                    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+                }
+            }
+
+            function initNavSearch() {
+                const searchBtn = document.getElementById('addressSearchBtn');
+                const searchInput = document.getElementById('addressSearchInput');
+                if (searchBtn) searchBtn.addEventListener('click', () => { });
+                if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { } });
+            }
+
+            function initNavLinks() {
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach(link => {
+                    const pageName = link.getAttribute('data-page');
+                    if (pageName) {
+                        link.addEventListener('click', (e) => {
+                            if (link.getAttribute('href') === '#') {
+                                e.preventDefault();
+                            }
+                        });
+                    }
+                });
+            }
+
+            function initCartIcon() {
+                const cartIcon = document.getElementById('addressCartIcon');
+                if (cartIcon) {
+                    cartIcon.addEventListener('click', () => {
+                        window.location.href = '../购物车.html';
+                    });
+                }
+            }
+
+            function initNavbar() {
+                loadCartBadge();
+                initNavSearch();
+                initNavLinks();
+                initCartIcon();
+            }
+
+            initNavbar();
+
+            // 获取地址卡片容器
+            const addressList = document.getElementById('addressList');
+
+            // 编辑按钮事件
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const card = this.closest('.address-card');
+                    const name = card.querySelector('.receiver-name').textContent;
+                    alert(`编辑地址：${name} (演示功能，实际将打开编辑表单)`);
+                });
+            });
+
+            // 删除按钮事件
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const card = this.closest('.address-card');
+                    const name = card.querySelector('.receiver-name').textContent;
+                    const wasDefault = card.querySelector('.default-badge') !== null;
+                    if (confirm(`确定要删除"${name}"的地址吗？`)) {
+                        card.remove();
+                        // 如果删除的是默认地址，将第一个地址设为新的默认地址
+                        if (wasDefault) {
+                            const firstCard = document.querySelector('.address-card');
+                            if (firstCard) {
+                                const receiverInfo = firstCard.querySelector('.receiver-info');
+                                const setDefaultBtn = firstCard.querySelector('.set-default-btn');
+                                // 添加默认标签
+                                const badge = document.createElement('span');
+                                badge.className = 'default-badge';
+                                badge.innerHTML = '<i class="fas fa-check-circle"></i> 默认地址';
+                                receiverInfo.appendChild(badge);
+                                // 隐藏设为默认按钮
+                                if (setDefaultBtn) setDefaultBtn.style.display = 'none';
+                            }
+                        }
+                    }
+                });
+            });
+
+            // 设为默认按钮事件
+            document.querySelectorAll('.set-default-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const card = this.closest('.address-card');
+                    // 移除其他地址的默认标识
+                    document.querySelectorAll('.address-card').forEach(c => {
+                        const badge = c.querySelector('.default-badge');
+                        const setDefaultBtn = c.querySelector('.set-default-btn');
+                        if (badge) badge.remove();
+                        if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex'; // 显示设为默认按钮
+                    });
+                    // 为当前卡片添加默认标识
+                    const receiverInfo = card.querySelector('.receiver-info');
+                    // 检查是否已有默认标签
+                    if (!card.querySelector('.default-badge')) {
+                        const badge = document.createElement('span');
+                        badge.className = 'default-badge';
+                        badge.innerHTML = '<i class="fas fa-check-circle"></i> 默认地址';
+                        receiverInfo.appendChild(badge);
+                    }
+                    // 隐藏当前卡片的"设为默认"按钮
+                    this.style.display = 'none';
+                });
+            });
+
+            // 新增地址表单提交
+            const newForm = document.getElementById('newAddressForm');
+            newForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('receiverName').value.trim();
+                const phone = document.getElementById('receiverPhone').value.trim();
+                const address = document.getElementById('addressDetail').value.trim();
+                const isDefault = document.getElementById('setDefault').checked;
+
+                if (!name || !phone || !address) {
+                    alert('请完整填写表单');
+                    return;
+                }
+
+                // 简单手机号验证
+                if (!/^\d{11}$/.test(phone)) {
+                    alert('请输入11位手机号码');
+                    return;
+                }
+
+                // 创建新地址卡片
+                const newCard = document.createElement('div');
+                newCard.className = 'address-card';
+                // 随机生成一个id
+                const id = Date.now();
+                newCard.setAttribute('data-id', id);
+
+                // 构建卡片内容
+                let defaultBadgeHtml = isDefault ? '<span class="default-badge"><i class="fas fa-check-circle"></i> 默认地址</span>' : '';
+                // 如果是默认地址，需要移除其他地址的默认标识
+                if (isDefault) {
+                    document.querySelectorAll('.address-card').forEach(c => {
+                        const badge = c.querySelector('.default-badge');
+                        const setDefaultBtn = c.querySelector('.set-default-btn');
+                        if (badge) badge.remove();
+                        if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
+                    });
+                }
+
+                newCard.innerHTML = `
+                    <div class="address-header">
+                        <div class="receiver-info">
+                            <span class="receiver-name">${name}</span>
+                            <span class="receiver-phone">${phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}</span>
+                            ${defaultBadgeHtml}
+                        </div>
+                    </div>
+                    <div class="address-detail">${address}</div>
+                    <div class="address-actions">
+                        <button class="address-btn edit-btn"><i class="fas fa-edit"></i> 编辑</button>
+                        <button class="address-btn delete-btn"><i class="fas fa-trash-alt"></i> 删除</button>
+                        <button class="address-btn set-default-btn" style="${isDefault ? 'display: none;' : ''}"><i class="fas fa-star"></i> 设为默认</button>
+                    </div>
+                `;
+
+                // 添加到列表最前面
+                addressList.insertBefore(newCard, addressList.firstChild);
+
+                // 为新卡片绑定事件
+                bindCardEvents(newCard);
+
+                // 清空表单
+                newForm.reset();
+            });
+
+            // 取消按钮
+            document.getElementById('cancelBtn').addEventListener('click', function () {
+                newForm.reset();
+            });
+
+            // 为卡片绑定事件的函数
+            function bindCardEvents(card) {
+                // 编辑
+                card.querySelector('.edit-btn').addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const name = card.querySelector('.receiver-name').textContent;
+                    alert(`编辑地址：${name} (演示功能，实际将打开编辑表单)`);
+                });
+
+                // 删除
+                card.querySelector('.delete-btn').addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const name = card.querySelector('.receiver-name').textContent;
+                    const wasDefault = card.querySelector('.default-badge') !== null;
+                    if (confirm(`确定要删除"${name}"的地址吗？`)) {
+                        card.remove();
+                        // 如果删除的是默认地址，将第一个地址设为新的默认地址
+                        if (wasDefault) {
+                            const firstCard = document.querySelector('.address-card');
+                            if (firstCard) {
+                                const receiverInfo = firstCard.querySelector('.receiver-info');
+                                const setDefaultBtn = firstCard.querySelector('.set-default-btn');
+                                // 添加默认标签
+                                const badge = document.createElement('span');
+                                badge.className = 'default-badge';
+                                badge.innerHTML = '<i class="fas fa-check-circle"></i> 默认地址';
+                                receiverInfo.appendChild(badge);
+                                // 隐藏设为默认按钮
+                                if (setDefaultBtn) setDefaultBtn.style.display = 'none';
+                            }
+                        }
+                    }
+                });
+
+                // 设为默认
+                const setDefaultBtn = card.querySelector('.set-default-btn');
+                if (setDefaultBtn) {
+                    setDefaultBtn.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        // 移除其他地址的默认标识
+                        document.querySelectorAll('.address-card').forEach(c => {
+                            const badge = c.querySelector('.default-badge');
+                            const btn = c.querySelector('.set-default-btn');
+                            if (badge) badge.remove();
+                            if (btn) btn.style.display = 'inline-flex';
+                        });
+                        // 为当前卡片添加默认标识
+                        const receiverInfo = card.querySelector('.receiver-info');
+                        if (!card.querySelector('.default-badge')) {
+                            const badge = document.createElement('span');
+                            badge.className = 'default-badge';
+                            badge.innerHTML = '<i class="fas fa-check-circle"></i> 默认地址';
+                            receiverInfo.appendChild(badge);
+                        }
+                        // 隐藏当前卡片的"设为默认"按钮
+                        this.style.display = 'none';
+                    });
+                }
+            }
+
+            // 为初始卡片绑定事件（已经存在的，但可能没有绑定完全，比如set-default-btn已经绑定，但为了统一可以重新绑定，不过已经绑定了）
+            // 由于上面已经通过querySelectorAll绑定了，但动态添加的需要重新绑定。初始绑定已经完成，无需重复。
+        });
+    </script>
+</body>
+
+</html>

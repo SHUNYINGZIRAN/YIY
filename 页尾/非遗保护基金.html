@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗保护基金 - 云间文苑</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+        }
+
+        /* 面包屑 */
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+        }
+
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        /* 主卡片 */
+        .order-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 12px;
+            padding: 40px 36px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
+            border: 1px solid #d6ccc2;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .order-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2d8cc;
+        }
+
+        .fund-desc {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            color: #5c4c3e;
+        }
+
+        /* 简约三列卡片 */
+        .simple-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin: 32px 0;
+            justify-content: center;
+        }
+
+        .simple-card {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(255, 250, 240, 0.7);
+            border-radius: 28px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid #e7dfd3;
+        }
+
+        .simple-card i {
+            font-size: 2.2rem;
+            color: #8c6d46;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .simple-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #8c3c2c;
+        }
+
+        .simple-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #6b5a4a;
+        }
+
+        /* 支持区域简约版 */
+        .support-box {
+            background: #f4efe5;
+            border-radius: 28px;
+            padding: 32px 28px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .support-box i {
+            font-size: 2.2rem;
+            color: #8c6d46;
+            margin-bottom: 12px;
+        }
+
+        .support-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: #5c4c3e;
+        }
+
+        .support-desc {
+            max-width: 500px;
+            margin: 0 auto 20px;
+            color: #6b5a4a;
+        }
+
+        .btn-primary {
+            background: #8c6d46;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        .footer-col a:hover {
+            color: #8c6d46;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .order-card {
+                padding: 28px 20px;
+            }
+
+            .simple-card {
+                min-width: 100%;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">护</div>
+    <div class="decoration-big decoration-right">根</div>
+    <div class="site-wrapper">
+        <nav class="navbar">
+            <div class="logo-area"><a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a></div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a><a href="../非遗集市.html">非遗集市</a><a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a><a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container"><input type="text" class="search-input" placeholder="搜非遗..."><button
+                        class="icon-btn"><i class="fas fa-search"></i></button></div>
+                <button class="icon-btn"><i class="fas fa-shopping-bag"></i><span class="cart-badge">0</span></button>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+        <div class="breadcrumb"><a href="#">关于我们</a> <span>/</span> <span style="color:#8c6d46;">非遗保护基金</span></div>
+        <div class="page-header">
+            <h1>非遗保护基金</h1>
+            <p>守护千年技艺，点亮传承之光</p>
+        </div>
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-leaf"></i> 基金概况</h2>
+            <div class="fund-desc">
+                “匠心守护”专项基金由云间小阁联合中国非物质文化遗产保护协会发起，平台每笔交易提取1%注入基金，用于濒危非遗项目抢救、青年传承人扶持及数字化保护。我们相信，每一份购买与关注，都是对传统文化的接力。
+            </div>
+
+            <h2 class="section-title"><i class="fas fa-seedling"></i> 资助方向</h2>
+            <div class="simple-grid">
+                <div class="simple-card"><i class="fas fa-mask"></i>
+                    <h3>濒危技艺抢救</h3>
+                    <p>对只剩极少数传承人的项目进行记录与资金支持</p>
+                </div>
+                <div class="simple-card"><i class="fas fa-graduation-cap"></i>
+                    <h3>青年传承人培养</h3>
+                    <p>设立奖学金，资助年轻学徒拜师学艺</p>
+                </div>
+                <div class="simple-card"><i class="fas fa-database"></i>
+                    <h3>数字化保护</h3>
+                    <p>3D建模、影像记录，建立非遗数字博物馆</p>
+                </div>
+            </div>
+
+            <div class="support-box">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>您的支持，至关重要</h3>
+                <div class="support-desc">
+                    您可以通过以下方式助力非遗传承：<br>
+                    ✔ 下单时勾选“捐赠1%助力非遗”<br>
+                    ✔ 直接捐款至基金专户<br>
+                    ✔ 参与平台公益拍卖
+                </div>
+                <button class="btn-primary"
+                    onclick="alert('感谢您的善意！捐款账户：中国工商银行 6222 0202 0012 3456 789（云间非遗保护基金专户），请备注“非遗捐赠”。')">立即支持</button>
+                <p style="margin-top: 18px; font-size: 0.8rem; color: #8c6d46;">收支明细每季度公示，接受社会监督</p>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+    <script>document.querySelectorAll('.icon-btn').forEach(btn => btn.addEventListener('click', () => { if (btn.querySelector('.fa-shopping-bag')) window.location.href = '../购物车.html'; }));    </script>
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+        });
+    </script>
+</body>
+
+</html>

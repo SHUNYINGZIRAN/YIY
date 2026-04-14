@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>流失文物·回家之路 - 云间文苑</title>
+    <!-- 引入 Font Awesome 与 谷歌字体，与订单详情页完全一致 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <style>
+        /* ========== 全局样式 + 订单详情核心视觉 (导航/页脚/背景纹理) ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 装饰性水墨大字 (保留订单详情氛围) */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主容器 - 复用订单详情容器宽度 */
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== 导航栏 (完全移植订单详情) ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 面包屑导航 (订单详情风格) */
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        /* 页面头部 (订单详情风格) */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        /* ===== 选择博物馆核心布局 (保留原三级导航风格，优化美感) ===== */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+        }
+
+        .nav-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 28px;
+            background: rgba(255, 253, 245, 0.85);
+            border-radius: 50px;
+            box-shadow: 0 2px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e2d8cc;
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .nav-step.active {
+            background: rgba(140, 109, 70, 0.12);
+            border-color: #8c6d46;
+            box-shadow: 0 6px 14px rgba(140, 109, 70, 0.12);
+        }
+
+        .nav-step.clickable {
+            cursor: pointer;
+        }
+
+        .nav-step.clickable:hover {
+            background: rgba(140, 109, 70, 0.08);
+            border-color: #a08860;
+            transform: translateY(-2px);
+        }
+
+        .nav-step.visited {
+            background: rgba(140, 109, 70, 0.06);
+            border-color: #c4b49f;
+            cursor: pointer;
+        }
+
+        .nav-step.visited:hover {
+            background: rgba(140, 109, 70, 0.1);
+            border-color: #8c6d46;
+        }
+
+        .step-number {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #8c6d46;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .step-text {
+            font-weight: 600;
+            color: #5c4c3e;
+            font-size: 1.05rem;
+        }
+
+        /* 内容切换区 (保留原始选择博物馆的结构，背景柔和透亮) */
+        .content-section {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 优雅网格卡片 (保留原有卡片细节，提升质感) */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 28px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 24px;
+            padding: 28px 20px;
+            box-shadow: 0 8px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 24px 36px -12px rgba(92, 76, 62, 0.25);
+            background: rgba(255, 254, 250, 1);
+            border-color: #c4b49f;
+        }
+
+        .card-icon {
+            font-size: 2.8rem;
+            color: #8c6d46;
+            margin-bottom: 18px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #8c6d46;
+        }
+
+        .back-btn {
+            padding: 8px 26px;
+            background: transparent;
+            color: #8c6d46;
+            border: 1.5px solid #8c6d46;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .back-btn:hover {
+            background: rgba(140, 109, 70, 0.1);
+            transform: translateX(-5px);
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        .footer-col a:hover {
+            color: #8c6d46;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+
+            .nav-step {
+                padding: 6px 18px;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <!-- 水墨氛围装饰 -->
+    <div class="decoration-big decoration-left">归</div>
+    <div class="decoration-big decoration-right">家</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (完整订单详情风格) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="寻流失文物..." id="heritageSearchInput">
+                    <button class="icon-btn" id="heritageSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconMuseum">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadgeMuseum">0</span>
+                </button>
+                <a href="登录页面.html" style="text-decoration: none;"><button class="btn-outline" id="loginBtnRef">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../社区.html">社区</a> <span>/</span>
+            <!-- <a href="流失文物.html">文化守望</a> <span>/</span>  -->
+            <span style="color:#8c6d46; font-weight:500;">选择博物馆 · 流失文物回家之路</span>
+        </div>
+
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <h1>我们一起回家吧</h1>
+            <p>追寻流失海外的中国文物，唤醒文化记忆，守护民族遗产</p>
+        </div>
+
+        <!-- 三级导航步骤 (复用选择博物馆核心交互) -->
+        <div class="navigation">
+            <div class="nav-step active" id="stepContinentNav">
+                <div class="step-number">1</div>
+                <div class="step-text">选择地区</div>
+            </div>
+            <div class="nav-step" id="stepCountryNav">
+                <div class="step-number">2</div>
+                <div class="step-text">选择国家</div>
+            </div>
+            <div class="nav-step" id="stepMuseumNav">
+                <div class="step-number">3</div>
+                <div class="step-text">选择博物馆</div>
+            </div>
+        </div>
+
+        <!-- 动态内容区域 (复用原始选择博物馆结构，但布局更精致) -->
+        <!-- 地区选择 -->
+        <div class="content-section active" id="continentsSection">
+            <h2 class="section-title" id="continentsTitle"
+                style="font-family: 'Ma Shan Zheng', cursive; font-size: 1.8rem; color:#5c4c3e; margin-bottom: 20px; border-bottom: 1px solid #d6ccc2; padding-bottom: 8px;">
+                <i class="fas fa-globe-asia"></i> 选择地区
+            </h2>
+            <div class="grid-container" id="continentsGrid"></div>
+        </div>
+
+        <!-- 国家选择 -->
+        <div class="content-section" id="countriesSection">
+            <h2 class="section-title" id="countriesTitle"
+                style="font-family: 'Ma Shan Zheng', cursive; font-size: 1.8rem; color:#5c4c3e; margin-bottom: 20px; border-bottom: 1px solid #d6ccc2; padding-bottom: 8px;">
+                <i class="fas fa-flag"></i> 选择国家
+            </h2>
+            <div class="grid-container" id="countriesGrid"></div>
+        </div>
+
+        <!-- 博物馆选择 -->
+        <div class="content-section" id="museumsSection">
+            <h2 class="section-title" id="museumsTitle"
+                style="font-family: 'Ma Shan Zheng', cursive; font-size: 1.8rem; color:#5c4c3e; margin-bottom: 20px; border-bottom: 1px solid #d6ccc2; padding-bottom: 8px;">
+                <i class="fas fa-university"></i> 选择博物馆
+            </h2>
+            <div class="grid-container" id="museumsGrid"></div>
+        </div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+        });
+
+        // ---------- 流失文物数据 (同原选择博物馆，完整保留) ----------
+        const museumData = {
+            "亚洲": {
+                "日本": ["东京国立博物馆", "京都国立博物馆", "大阪市立美术馆"],
+                "韩国": ["国立中央博物馆", "国立民俗博物馆", "湖岩美术馆"],
+                "印度": ["印度国家博物馆", "加尔各答印度博物馆"]
+            },
+            "欧洲": {
+                "英国": ["大英博物馆", "维多利亚与阿尔伯特博物馆", "大英图书馆"],
+                "法国": ["卢浮宫", "吉美博物馆", "枫丹白露宫"],
+                "德国": ["柏林亚洲艺术博物馆", "科隆东亚艺术博物馆", "德累斯顿国家艺术收藏馆"],
+                "俄罗斯": ["埃尔米塔日博物馆", "普希金博物馆", "俄罗斯国家东方艺术博物馆"]
+            },
+            "北美洲": {
+                "美国": ["大都会艺术博物馆", "波士顿美术馆", "弗利尔美术馆", "纳尔逊-阿特金斯艺术博物馆"],
+                "加拿大": ["皇家安大略博物馆", "蒙特利尔美术馆"]
+            },
+            "南美洲": {
+                "巴西": ["巴西国家博物馆", "圣保罗艺术博物馆"]
+            },
+            "非洲": {
+                "埃及": ["埃及国家博物馆", "伊斯兰艺术博物馆"],
+                "南非": ["南非国家美术馆"]
+            },
+            "大洋洲": {
+                "澳大利亚": ["澳大利亚国家博物馆", "维多利亚国家美术馆"],
+                "新西兰": ["新西兰国家博物馆"]
+            }
+        };
+
+        let currentContinent = "";
+        let currentCountry = "";
+
+        // 获取URL参数 (支持外部直接定位)
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                continent: params.get('continent'),
+                country: params.get('country')
+            };
+        }
+
+        // 渲染七大洲 (复用原选择博物馆图标)
+        function renderContinents() {
+            const container = document.getElementById('continentsGrid');
+            if (!container) return;
+            container.innerHTML = '';
+            const continents = Object.keys(museumData);
+            const continentIcons = {
+                "亚洲": "fas fa-globe-asia", "欧洲": "fas fa-globe-europe", "北美洲": "fas fa-globe-americas",
+                "南美洲": "fas fa-globe-americas", "非洲": "fas fa-globe-africa", "大洋洲": "fas fa-globe-oceania"
+            };
+            continents.forEach(continent => {
+                const countryCount = Object.keys(museumData[continent]).length;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => selectContinent(continent);
+                card.innerHTML = `
+                    <div class="card-icon"><i class="${continentIcons[continent] || 'fas fa-globe'}"></i></div>
+                    <h3 class="card-title">${continent}</h3>
+                    <p class="card-desc">${countryCount} 个国家 / 地区</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectContinent(continent) {
+            currentContinent = continent;
+            // 更新步骤高亮
+            document.getElementById('stepContinentNav').classList.remove('active');
+            document.getElementById('stepCountryNav').classList.add('active');
+            document.getElementById('stepMuseumNav').classList.remove('active');
+            // 切换显示区域
+            document.getElementById('continentsSection').classList.remove('active');
+            document.getElementById('countriesSection').classList.add('active');
+            document.getElementById('museumsSection').classList.remove('active');
+            const countriesTitle = document.getElementById('countriesTitle');
+            if (countriesTitle) countriesTitle.innerHTML = `<i class="fas fa-flag"></i> ${continent} · 选择国家`;
+            renderCountries(continent);
+            updateNavStepStates();
+            scrollToFixedPosition();
+        }
+
+        function renderCountries(continent) {
+            const container = document.getElementById('countriesGrid');
+            if (!container) return;
+            container.innerHTML = '';
+            const countries = Object.keys(museumData[continent]);
+            countries.forEach(country => {
+                const museumCount = museumData[continent][country].length;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => selectCountry(country);
+                card.innerHTML = `
+                    <div class="card-icon"><i class="fas fa-landmark"></i></div>
+                    <h3 class="card-title">${country}</h3>
+                    <p class="card-desc">${museumCount} 座博物馆 · 流失文物</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectCountry(country) {
+            currentCountry = country;
+            document.getElementById('stepCountryNav').classList.remove('active');
+            document.getElementById('stepMuseumNav').classList.add('active');
+            document.getElementById('countriesSection').classList.remove('active');
+            document.getElementById('museumsSection').classList.add('active');
+            const museumsTitle = document.getElementById('museumsTitle');
+            if (museumsTitle) museumsTitle.innerHTML = `<i class="fas fa-university"></i> ${currentContinent} · ${country} · 馆藏中国文物`;
+            renderMuseums(country);
+            updateNavStepStates();
+            scrollToFixedPosition();
+        }
+
+        function renderMuseums(country) {
+            const container = document.getElementById('museumsGrid');
+            if (!container) return;
+            container.innerHTML = '';
+            const museums = museumData[currentContinent][country];
+            museums.forEach(museum => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => selectMuseum(museum);
+                card.innerHTML = `
+                    <div class="card-icon"><i class="fas fa-archway"></i></div>
+                    <h3 class="card-title">${museum}</h3>
+                    <p class="card-desc">查看馆藏流失文物 · 回家故事</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectMuseum(museum) {
+            // 跳转至文物介绍页面，保留原始参数
+            const url = `介绍.html?museum=${encodeURIComponent(museum)}&country=${encodeURIComponent(currentCountry)}&continent=${encodeURIComponent(currentContinent)}`;
+            window.location.href = url;
+        }
+
+        // 更新导航步骤的可点击状态
+        function updateNavStepStates() {
+            const continentNav = document.getElementById('stepContinentNav');
+            const countryNav = document.getElementById('stepCountryNav');
+            const museumNav = document.getElementById('stepMuseumNav');
+
+            // 移除所有特殊状态
+            continentNav.classList.remove('clickable', 'visited');
+            countryNav.classList.remove('clickable', 'visited');
+            museumNav.classList.remove('clickable', 'visited');
+
+            // 第一步"选择地区"：始终不可点击
+            continentNav.classList.add('active');
+
+            // 判断当前状态并更新可点击性
+            const isCountryActive = countryNav.classList.contains('active');
+            const isMuseumActive = museumNav.classList.contains('active');
+
+            if (isCountryActive) {
+                // 当前在第二步：第一步可点击返回
+                continentNav.classList.add('clickable');
+            } else if (isMuseumActive) {
+                // 当前在第三步：第一步和第二步都可点击返回
+                continentNav.classList.add('visited');
+                countryNav.classList.add('visited');
+            }
+        }
+
+        // 记录"选择地区"标题的初始固定位置
+        let continentsTitleOffsetTop = 0;
+
+        // 统一滚动到"选择地区"标题的固定位置
+        function scrollToFixedPosition() {
+            if (continentsTitleOffsetTop > 0) {
+                window.scrollTo({ top: continentsTitleOffsetTop, behavior: 'smooth' });
+            }
+        }
+
+        // 导航步骤点击处理
+        function handleNavStepClick(targetStep) {
+            const continentNav = document.getElementById('stepContinentNav');
+            const countryNav = document.getElementById('stepCountryNav');
+            const museumNav = document.getElementById('stepMuseumNav');
+
+            const isMuseumActive = museumNav.classList.contains('active');
+            const isCountryActive = countryNav.classList.contains('active');
+
+            // 点击"选择地区"（第一步）
+            if (targetStep === 'continent') {
+                // 无论在第二步还是第三步，都返回第一步
+                continentNav.classList.remove('active');
+                countryNav.classList.remove('active');
+                museumNav.classList.remove('active');
+                document.getElementById('continentsSection').classList.add('active');
+                document.getElementById('countriesSection').classList.remove('active');
+                document.getElementById('museumsSection').classList.remove('active');
+                updateNavStepStates();
+                scrollToFixedPosition();
+            }
+            // 点击"选择国家"（第二步）
+            else if (targetStep === 'country' && isMuseumActive) {
+                // 只有在第三步时才能点击返回第二步
+                museumNav.classList.remove('active');
+                countryNav.classList.add('active');
+                document.getElementById('museumsSection').classList.remove('active');
+                document.getElementById('countriesSection').classList.add('active');
+                updateNavStepStates();
+                scrollToFixedPosition();
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderContinents();
+
+            // 计算并记录"选择地区"标题的初始位置
+            const continentsTitle = document.getElementById('continentsTitle');
+            if (continentsTitle) {
+                continentsTitleOffsetTop = continentsTitle.offsetTop - 30;
+            }
+
+            // 绑定导航步骤点击事件
+            document.getElementById('stepContinentNav').addEventListener('click', () => handleNavStepClick('continent'));
+            document.getElementById('stepCountryNav').addEventListener('click', () => handleNavStepClick('country'));
+            document.getElementById('stepMuseumNav').addEventListener('click', () => handleNavStepClick('museum'));
+
+            // 初始化导航步骤状态
+            updateNavStepStates();
+
+            // 处理 URL 参数直接跳转到博物馆列表
+            const params = getUrlParams();
+            if (params.continent && params.country && museumData[params.continent] && museumData[params.continent][params.country]) {
+                currentContinent = params.continent;
+                currentCountry = params.country;
+                document.getElementById('stepContinentNav').classList.remove('active');
+                document.getElementById('stepCountryNav').classList.remove('active');
+                document.getElementById('stepMuseumNav').classList.add('active');
+                document.getElementById('continentsSection').classList.remove('active');
+                document.getElementById('countriesSection').classList.remove('active');
+                document.getElementById('museumsSection').classList.add('active');
+                const museumsTitle = document.getElementById('museumsTitle');
+                if (museumsTitle) museumsTitle.innerHTML = `<i class="fas fa-university"></i> ${currentContinent} · ${currentCountry} · 馆藏中国文物`;
+                renderMuseums(currentCountry);
+                updateNavStepStates();
+                setTimeout(() => {
+                    scrollToFixedPosition();
+                }, 80);
+            }
+
+            // 导航栏 & 购物车辅助 (维持一致体验)
+            const cartBadge = document.getElementById('cartBadgeMuseum');
+            if (cartBadge) cartBadge.style.display = 'none';
+            const cartIcon = document.getElementById('cartIconMuseum');
+            if (cartIcon) cartIcon.addEventListener('click', () => { window.location.href = '../购物车.html'; });
+            const searchBtn = document.getElementById('heritageSearchBtn');
+            const searchInput = document.getElementById('heritageSearchInput');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    if (searchInput && searchInput.value.trim()) {
+                        alert(`“${searchInput.value}” · 更多流失文物故事即将呈现。`);
+                    } else {
+                        alert('输入文物名称或博物馆，探寻国宝归家之路。');
+                    }
+                });
+            }
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && searchInput.value.trim()) {
+                        alert(`搜索：${searchInput.value} · 文物数据持续收录中。`);
+                    }
+                });
+            }
+            const loginBtn = document.getElementById('loginBtnRef');
+            if (loginBtn && loginBtn.parentElement) loginBtn.addEventListener('click', (e) => { window.location.href = '登录页面.html'; });
+            // 避免导航默认跳转空链接
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href') === '#') e.preventDefault();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>博物馆文物详情 - 云间文苑</title>
+    <!-- 引入 Font Awesome 与 谷歌字体，与选择博物馆/订单详情页完全一致 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <style>
+        /* ========== 全局样式 + 订单详情/选择博物馆核心视觉 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 装饰性水墨大字 (雅致氛围) */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主容器 - 与选择博物馆完全一致 */
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== 导航栏 (完全移植自选择博物馆/订单详情) ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 面包屑导航 (选择博物馆风格) */
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        /* 页面头部 (博物馆标题区域，融合优雅卡片感) */
+        .museum-header {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 24px;
+            padding: 30px 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.1);
+            border: 1px solid #e7dfd3;
+            position: relative;
+            text-align: center;
+        }
+
+        .museum-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.8rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .museum-location {
+            font-size: 1.1rem;
+            color: #8c6d46;
+            margin-bottom: 12px;
+        }
+
+        .artifact-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(140, 109, 70, 0.12);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            border: 1px solid #d6ccc2;
+        }
+
+        .back-museum-btn {
+            position: absolute;
+            left: 28px;
+            top: 28px;
+            background: transparent;
+            border: 1.5px solid #8c6d46;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.85rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-museum-btn:hover {
+            background: rgba(140, 109, 70, 0.1);
+            transform: translateX(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .museum-name {
+                font-size: 2rem;
+            }
+
+            .back-museum-btn {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-flex;
+            }
+
+            .museum-header {
+                text-align: center;
+                padding-top: 20px;
+            }
+        }
+
+        /* 搜索和筛选区域 (优雅卡片风格) */
+        .search-card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin-bottom: 32px;
+            border: 1px solid #e7dfd3;
+            box-shadow: 0 2px 12px rgba(92, 76, 62, 0.06);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input-modern {
+            flex: 1;
+            min-width: 240px;
+            padding: 12px 20px;
+            border: 1px solid #d6ccc2;
+            border-radius: 50px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 245, 0.9);
+            transition: all 0.2s;
+        }
+
+        .search-input-modern:focus {
+            outline: none;
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 2px rgba(140, 109, 70, 0.2);
+        }
+
+        .search-btn-modern {
+            padding: 12px 28px;
+            background: #8c6d46;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-btn-modern:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-chip {
+            padding: 6px 18px;
+            background: transparent;
+            border: 1px solid #8c6d46;
+            border-radius: 40px;
+            color: #8c6d46;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip.active {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .filter-chip:hover:not(.active) {
+            background: rgba(140, 109, 70, 0.1);
+        }
+
+        /* 文物网格卡片 (提升质感，与选择博物馆卡片呼应) */
+        .artifacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        .artifact-card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .artifact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -12px rgba(92, 76, 62, 0.2);
+            background: rgba(255, 254, 250, 1);
+        }
+
+        .artifact-img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .artifact-info {
+            padding: 20px;
+        }
+
+        .artifact-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #5c4c3e;
+            margin-bottom: 8px;
+        }
+
+        .artifact-dynasty {
+            color: #8c6d46;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .artifact-material {
+            color: #8c6d46;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .lost-badge {
+            display: inline-block;
+            background: rgba(140, 60, 44, 0.12);
+            color: #8c3c2c;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            border: 1px solid #d6b6a8;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            color: #8c6d46;
+            font-size: 1.2rem;
+            background: rgba(255, 253, 245, 0.6);
+            border-radius: 30px;
+        }
+
+        /* 文物详情弹窗 (精致轻奢) */
+        .artifact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fefcf7;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid #e7dfd3;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 240, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8c3c2c;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 245, 0.9);
+            transform: rotate(90deg);
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: cover;
+        }
+
+        .modal-info {
+            padding: 30px 35px;
+        }
+
+        .modal-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #8c3c2c;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2d8cc;
+            padding-bottom: 8px;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .meta-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8c6d46;
+            font-size: 0.95rem;
+        }
+
+        .modal-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #5c4c3e;
+            margin-bottom: 25px;
+        }
+
+        .lost-history {
+            background: rgba(140, 109, 70, 0.08);
+            padding: 18px 22px;
+            border-radius: 20px;
+            border-left: 5px solid #8c6d46;
+        }
+
+        .lost-history h4 {
+            font-size: 1.1rem;
+            color: #8c3c2c;
+            margin-bottom: 8px;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        .footer-col a:hover {
+            color: #8c6d46;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .artifacts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <!-- 水墨装饰 -->
+    <div class="decoration-big decoration-left">归</div>
+    <div class="decoration-big decoration-right">心</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (与选择博物馆完全一致) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="寻流失文物..." id="globalSearchInput">
+                    <button class="icon-btn" id="globalSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="museumCartIcon" onclick="window.location.href='../购物车.html'">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadgeMuseum">0</span>
+                </button>
+                <a href="登录页面.html" style="text-decoration: none;"><button class="btn-outline" id="loginBtnRef">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../社区.html">社区</a> <span>/</span>
+            <a href="选择博物馆.html" id="museumListLink">选择博物馆 · 流失文物回家之路</a> <span>/</span>
+            <span style="color:#8c6d46; font-weight:500;">实时动态</span>
+        </div>
+
+        <!-- 博物馆头部信息 (优雅卡片) -->
+        <div class="museum-header">
+            <h1 class="museum-name" id="museumName">大英博物馆</h1>
+            <p class="museum-location" id="museumLocation">位于英国伦敦，收藏大量中国流失文物</p>
+            <div class="artifact-badge">
+                <i class="fas fa-box-open"></i> 馆藏中国文物总计：<span id="totalCount">0</span>件
+            </div>
+        </div>
+
+        <!-- 搜索和筛选区域 -->
+        <div class="search-card">
+            <div class="search-form">
+                <input type="text" class="search-input-modern" id="searchInput" placeholder="输入文物名称、朝代或材质...">
+                <button class="search-btn-modern" id="searchBtn"><i class="fas fa-search"></i> 搜索</button>
+            </div>
+            <div class="filter-group" id="filterGroup">
+                <button class="filter-chip active" data-filter="all">全部</button>
+                <button class="filter-chip" data-filter="ceramic">陶瓷</button>
+                <button class="filter-chip" data-filter="bronze">青铜</button>
+                <button class="filter-chip" data-filter="jade">玉器</button>
+                <button class="filter-chip" data-filter="painting">书画</button>
+                <button class="filter-chip" data-filter="sculpture">雕塑</button>
+            </div>
+        </div>
+
+        <!-- 文物卡片网格 -->
+        <div class="artifacts-grid" id="artifactsContainer"></div>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <!-- 文物详情弹窗 -->
+    <div class="artifact-modal" id="artifactModal">
+        <div class="modal-container">
+            <div class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></div>
+            <img src="" alt="" class="modal-img" id="modalImg">
+            <div class="modal-info">
+                <h2 class="modal-name" id="modalName"></h2>
+                <div class="modal-meta">
+                    <span class="meta-tag"><i class="fas fa-calendar-alt"></i> <span id="modalDynasty"></span></span>
+                    <span class="meta-tag"><i class="fas fa-gem"></i> <span id="modalMaterial"></span></span>
+                    <span class="meta-tag"><i class="fas fa-ruler"></i> <span id="modalSize"></span></span>
+                </div>
+                <div class="modal-description" id="modalDesc"></div>
+                <div class="lost-history">
+                    <h4><i class="fas fa-history"></i> 流失历史</h4>
+                    <div id="modalHistory"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+        });
+
+        // ---------- 文物数据 (与原介绍.html一致) ----------
+        const artifactsData = [
+            { id: 1, name: "《女史箴图》", dynasty: "唐代摹本", material: "绢本设色", size: "24.8cm × 348.2cm", category: "painting", image: "https://images.unsplash.com/photo-1541961018884-1c5b7b4fa8e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "《女史箴图》是顾恺之根据张华的《女史箴》一文所作，是中国绘画史上早期人物画的杰出代表。此画描绘了古代宫廷妇女的节仪行为，以道德劝诫为主题。", history: "1900年，八国联军侵华期间，此画被英军上尉克拉伦斯·约翰逊从颐和园盗走，后于1903年以25英镑的价格卖给了大英博物馆。" },
+            { id: 2, name: "敦煌壁画残片", dynasty: "唐代", material: "壁画", size: "尺寸不一", category: "painting", image: "https://images.unsplash.com/photo-1587132135057-48ae4c8cd7e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "这些壁画残片来自敦煌莫高窟，描绘了佛教故事、飞天形象和各种装饰图案，展现了唐代壁画艺术的精湛技艺。", history: "20世纪初，英国探险家斯坦因多次前往敦煌，以极低的价格从王道士手中购得大量敦煌文物。" },
+            { id: 3, name: "青铜双羊尊", dynasty: "商代", material: "青铜", size: "高45cm", category: "bronze", image: "https://images.unsplash.com/photo-1580476265275-d4d7875c8e42?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "商代晚期青铜酒器，造型为两只背对背的羊，羊角弯曲，器身装饰有精美的雷纹和饕餮纹。", history: "原为清宫旧藏，1860年英法联军洗劫圆明园时被掠走。" },
+            { id: 4, name: "唐三彩马", dynasty: "唐代", material: "陶瓷", size: "高68cm", category: "ceramic", image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "唐三彩马造型雄健，马首微昂，四蹄有力，马鞍装饰华丽，釉色以黄、绿、褐为主。", history: "20世纪初由英国收藏家从中国购得，后捐赠给大英博物馆。" },
+            { id: 5, name: "玉猪龙", dynasty: "红山文化", material: "玉石", size: "高15cm", category: "jade", image: "https://images.unsplash.com/photo-1567690346812-4618f1f5ccf3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "红山文化典型玉器，造型为猪首龙身，是早期龙形玉器的代表。", history: "出土于辽宁牛河梁遗址，后被走私出境，由大英博物馆购藏。" },
+            { id: 6, name: "佛教石雕菩萨像", dynasty: "北齐", material: "石雕", size: "高120cm", category: "sculpture", image: "https://images.unsplash.com/photo-1596627113942-65862b5bce4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "北齐菩萨石雕像，面容慈祥，衣纹流畅，体现了北齐佛教造像典型风格。", history: "20世纪初从河北响堂山石窟被盗凿，后经文物贩子转手至大英博物馆。" },
+            { id: 7, name: "青花龙纹大罐", dynasty: "明代永乐", material: "陶瓷", size: "高48cm", category: "ceramic", image: "https://images.unsplash.com/photo-1573408301185-87fd337e0a59?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "永乐时期景德镇官窑产品，罐身绘有五爪龙纹，青花发色浓艳。", history: "原为清宫旧藏，1860年英法联军洗劫圆明园时被掠走。" },
+            { id: 8, name: "《金刚经》刻本", dynasty: "唐代", material: "纸本", size: "26cm × 480cm", category: "painting", image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", description: "现存最早的雕版印刷《金刚经》，卷首有精美扉画，是研究印刷史和佛教传播的重要实物。", history: "1907年由斯坦因从敦煌藏经洞带走，现藏于大英图书馆。" }
+        ];
+
+        // URL参数
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                museum: params.get('museum') || '大英博物馆',
+                country: params.get('country') || '英国',
+                continent: params.get('continent') || '欧洲'
+            };
+        }
+
+        let currentFilter = "all";
+        let currentSearch = "";
+
+        // DOM 元素
+        const artifactsContainer = document.getElementById('artifactsContainer');
+        const totalCountSpan = document.getElementById('totalCount');
+        const museumNameSpan = document.getElementById('museumName');
+        const museumLocationSpan = document.getElementById('museumLocation');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const filterChips = document.querySelectorAll('.filter-chip');
+
+        // 渲染文物列表
+        function renderArtifacts(artifacts) {
+            totalCountSpan.innerText = artifacts.length;
+            if (artifacts.length === 0) {
+                artifactsContainer.innerHTML = '<div class="no-results"><i class="fas fa-heart-broken"></i> 未找到符合条件的文物，愿流失瑰宝早日回家</div>';
+                return;
+            }
+            artifactsContainer.innerHTML = '';
+            artifacts.forEach(art => {
+                const card = document.createElement('div');
+                card.className = 'artifact-card';
+                card.innerHTML = `
+                    <img src="${art.image}" alt="${art.name}" class="artifact-img" loading="lazy">
+                    <div class="artifact-info">
+                        <h3 class="artifact-name">${art.name}</h3>
+                        <div class="artifact-dynasty">${art.dynasty}</div>
+                        <div class="artifact-material">${art.material}</div>
+                        <span class="lost-badge"><i class="fas fa-map-pin"></i> 流失海外</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => showDetail(art));
+                artifactsContainer.appendChild(card);
+            });
+        }
+
+        function applyFilters() {
+            let filtered = artifactsData.filter(art => {
+                if (currentFilter !== 'all' && art.category !== currentFilter) return false;
+                if (currentSearch) {
+                    const kw = currentSearch.toLowerCase();
+                    return art.name.toLowerCase().includes(kw) || art.dynasty.toLowerCase().includes(kw) || art.material.toLowerCase().includes(kw);
+                }
+                return true;
+            });
+            renderArtifacts(filtered);
+        }
+
+        function showDetail(artifact) {
+            const modal = document.getElementById('artifactModal');
+            document.getElementById('modalImg').src = artifact.image;
+            document.getElementById('modalName').innerText = artifact.name;
+            document.getElementById('modalDynasty').innerText = artifact.dynasty;
+            document.getElementById('modalMaterial').innerText = artifact.material;
+            document.getElementById('modalSize').innerText = artifact.size;
+            document.getElementById('modalDesc').innerText = artifact.description;
+            document.getElementById('modalHistory').innerText = artifact.history;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('artifactModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 返回博物馆列表，保持地区和国家参数
+        function backToMuseumList() {
+            const params = getUrlParams();
+            window.location.href = `选择博物馆.html?continent=${encodeURIComponent(params.continent)}&country=${encodeURIComponent(params.country)}`;
+        }
+
+        // 初始化页面信息
+        function initPage() {
+            const params = getUrlParams();
+            museumNameSpan.innerText = params.museum;
+            museumLocationSpan.innerText = `位于${params.country} · ${params.continent}，收藏大量中国流失文物`;
+            document.title = `${params.museum} - 流失文物回家之路`;
+            renderArtifacts(artifactsData);
+        }
+
+        // 事件绑定
+        function bindEvents() {
+            searchBtn.addEventListener('click', () => {
+                currentSearch = searchInput.value.trim();
+                applyFilters();
+            });
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    currentSearch = searchInput.value.trim();
+                    applyFilters();
+                }
+            });
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    currentFilter = chip.getAttribute('data-filter');
+                    applyFilters();
+                });
+            });
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            document.getElementById('artifactModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('artifactModal')) closeModal();
+            });
+            document.getElementById('backToMuseumBtn').addEventListener('click', backToMuseumList);
+            // 面包屑中的博物馆列表链接也支持返回
+            const museumListLink = document.getElementById('museumListLink');
+            if (museumListLink) {
+                museumListLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    backToMuseumList();
+                });
+            }
+            // 导航栏购物车/搜索装饰 (无实际购物车数据)
+            const cartBadge = document.getElementById('cartBadgeMuseum');
+            if (cartBadge) cartBadge.style.display = 'none';
+            document.getElementById('museumCartIcon')?.addEventListener('click', () => window.location.href = '../购物车.html');
+            const globalSearchInput = document.getElementById('globalSearchInput');
+            const globalSearchBtn = document.getElementById('globalSearchBtn');
+            if (globalSearchBtn) {
+                globalSearchBtn.addEventListener('click', () => {
+                    const kw = globalSearchInput.value.trim();
+                    if (kw) alert(`搜索：“${kw}” · 更多流失文物故事即将呈现。`);
+                    else alert('输入文物名称或博物馆，探寻国宝归家之路。');
+                });
+            }
+            if (globalSearchInput) {
+                globalSearchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && globalSearchInput.value.trim()) {
+                        alert(`搜索：${globalSearchInput.value} · 文物数据持续收录中。`);
+                    }
+                });
+            }
+            document.getElementById('loginBtnRef')?.addEventListener('click', () => window.location.href = '登录页面.html');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initPage();
+            bindEvents();
+        });
+    </script>
+</body>
+
+</html>

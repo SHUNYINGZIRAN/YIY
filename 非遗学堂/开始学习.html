@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>开始学习 · 苏绣基础针法 | 云间小阁非遗学堂</title>
+    <!-- 引入 Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 古风字体 -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰字 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        /* 页面标题区 */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        /* 课程学习主体布局 */
+        .learning-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .video-section {
+            flex: 2;
+            min-width: 280px;
+        }
+
+        .sidebar-info {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        /* 视频卡片 */
+        .video-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 1px solid #e7dfd3;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            background: #2c241e;
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+
+
+        .video-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4a382a;
+            margin-bottom: 12px;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: #8c6d46;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .video-desc {
+            line-height: 1.6;
+            color: #6b5a4b;
+        }
+
+        /* 课程信息卡片 */
+        .info-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 32px;
+            border: 1px solid #e7dfd3;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            border-left: 4px solid #c4a77d;
+            padding-left: 14px;
+            color: #4a382a;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #7f6b5a;
+        }
+
+        .teacher-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e7dfd3;
+        }
+
+        .teacher-avatar {
+            width: 56px;
+            height: 56px;
+            background: #e2d8cd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #8c6d46;
+        }
+
+        .teacher-name {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        /* 评论区卡片 */
+        .comment-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 28px;
+            padding: 24px;
+            margin-top: 28px;
+            border: 1px solid #e7dfd3;
+        }
+
+        .comment-card h3 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.4rem;
+            color: #8c3c2c;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+
+        .comment-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 24px;
+            padding-right: 8px;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #e9e1d5;
+            padding: 16px 0;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #5c4c3e;
+        }
+
+        .comment-time {
+            font-size: 0.7rem;
+            color: #9b8a78;
+        }
+
+        .comment-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #7f6b5a;
+        }
+
+        .comment-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .comment-like {
+            font-size: 0.75rem;
+            color: #8c6d46;
+            cursor: pointer;
+        }
+
+        .comment-like i {
+            margin-right: 4px;
+        }
+
+        /* 发表评论表单 */
+        .comment-form {
+            margin-top: 20px;
+            border-top: 1px solid #e7dfd3;
+            padding-top: 20px;
+        }
+
+        .form-row {
+            margin-bottom: 16px;
+        }
+
+        .form-row input,
+        .form-row textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.9);
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-row input:focus,
+        .form-row textarea:focus {
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .submit-btn {
+            background: #8c6d46;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            color: white;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            background: #6b4f34;
+        }
+
+        /* 学习进度块 */
+        .progress-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e7dfd3;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-header span:first-child {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #4a382a;
+        }
+
+        .progress-stats {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #8c6d46;
+            background: #f4ede2;
+            padding: 4px 10px;
+            border-radius: 16px;
+        }
+
+        .progress-info {
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #7f6b5a;
+            margin-top: 8px;
+        }
+
+        .progress-percent {
+            font-weight: 700;
+            color: #8c6d46;
+        }
+
+        /* 学习进度条 */
+        .progress-bar {
+            background: #e2d8cd;
+            border-radius: 30px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #b8a086, #8c6d46);
+            width: 35%;
+            height: 10px;
+            border-radius: 30px;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2));
+            border-radius: 30px;
+        }
+
+        .progress-message {
+            background: #f9f5ec;
+            border-radius: 16px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: #6b5a4b;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            margin-top: 12px;
+        }
+
+        .progress-message i {
+            color: #8c6d46;
+            margin-right: 6px;
+        }
+
+        /* 章节目录 */
+        .chapter-list {
+            list-style: none;
+        }
+
+        .chapter-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0e8dd;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+
+        .chapter-status {
+            width: 28px;
+            text-align: center;
+            color: #c4a77d;
+        }
+
+        .chapter-title {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .chapter-duration {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .chapter-item.completed .chapter-status i {
+            color: #4c8c4c;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* 我的笔记模块样式 */
+        .notes-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 32px;
+            border: 1px solid #e7dfd3;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .notes-header h3 {
+            font-size: 1.2rem;
+            border-left: 4px solid #c4a77d;
+            padding-left: 14px;
+            color: #4a382a;
+            margin: 0;
+        }
+
+        .add-note-btn {
+            background: #f4ede2;
+            border: 1px solid #d6ccc2;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #8c6d46;
+        }
+
+        .add-note-btn:hover {
+            background: #e7dfd3;
+            border-color: #c4a77d;
+        }
+
+        .note-list {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .note-item {
+            background: #fefaf5;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid #ede4d8;
+            transition: 0.2s;
+        }
+
+        .note-item:hover {
+            border-color: #c4a77d;
+        }
+
+        .note-title {
+            font-weight: 700;
+            color: #4a382a;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .note-title span {
+            font-size: 0.9rem;
+        }
+
+        .note-content {
+            font-size: 0.85rem;
+            color: #6b5a4b;
+            line-height: 1.5;
+            margin-top: 6px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .note-actions i {
+            color: #9b8a78;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .note-actions i:hover {
+            color: #8c6d46;
+        }
+
+        .note-time {
+            font-size: 0.7rem;
+            color: #9b8a78;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .empty-notes {
+            text-align: center;
+            padding: 32px 20px;
+            color: #9b8a78;
+            font-size: 0.85rem;
+        }
+
+        /* 笔记模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fffef8;
+            border-radius: 32px;
+            max-width: 500px;
+            width: 90%;
+            padding: 28px;
+            border: 1px solid #c4a77d;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .modal-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #4a382a;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 560px) {
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">学</div>
+    <div class="decoration-big decoration-right">习</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (与非遗分类.html样式一致) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 学习内容主体 -->
+        <div class="learning-container">
+            <!-- 左侧视频区 -->
+            <div class="video-section">
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <!-- 使用公开的示例视频（大熊猫片段），支持controls -->
+                        <video controls poster="https://picsum.photos/id/30/800/450">
+                            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                                type="video/mp4">
+                            您的浏览器不支持视频播放。
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h1 class="video-title">苏绣基础针法 · 平针与滚针</h1>
+                        <div class="video-meta">
+                            <span><i class="far fa-clock"></i> 课时1 · 38分钟</span>
+                            <span><i class="fas fa-chalkboard-user"></i> 周蕴华 苏绣传承人</span>
+                            <span><i class="fas fa-eye"></i> 2.3万次学习</span>
+                        </div>
+                        <div class="video-desc">
+                            本节课从苏绣最基础的平针和滚针开始，讲解穿针、劈丝、起针、收针技巧，并通过一片荷叶的绣制演示，带您感受丝线的韵律。零基础也能轻松上手。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评论区 -->
+                <div class="comment-card">
+                    <h3><i class="fas fa-comments"></i> 学友交流 · 习艺共话</h3>
+                    <div class="comment-list" id="commentList">
+                        <!-- 动态加载评论 -->
+                    </div>
+                    <div class="comment-form">
+                        <div class="form-row">
+                            <input type="text" id="commentName" placeholder="称呼（必填）" value="绣阁学徒">
+                        </div>
+                        <div class="form-row">
+                            <textarea id="commentContent" placeholder="分享您的学习心得或提问..."></textarea>
+                        </div>
+                        <button class="submit-btn" id="submitCommentBtn"><i class="fas fa-feather-alt"></i>
+                            发表评论</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧课程信息栏 -->
+            <div class="sidebar-info">
+                <div class="info-card">
+                    <h3>课程信息</h3>
+                    <div class="teacher-info">
+                        <div class="teacher-avatar"><i class="fas fa-user"></i></div>
+                        <div>
+                            <div class="teacher-name">王秀英 · 国家级非遗传承人</div>
+                            <div style="font-size:0.75rem; color:#8c6d46;">苏绣世家 | 从业50年</div>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>学习进度</span>
+                            <span class="progress-stats">3/12课时</span>
+                        </div>
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>已学完</span>
+                                <span class="progress-percent">35%</span>
+                            </div>
+                        </div>
+                        <div class="progress-message">
+                            <i class="fas fa-lightbulb"></i> 已完成3/12课时 · 继续加油
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>课程目录</h3>
+                    <ul class="chapter-list" id="chapterList">
+                        <li class="chapter-item completed" data-chapter="1">
+                            <div class="chapter-status"><i class="fas fa-check-circle"></i></div>
+                            <div class="chapter-title">第1讲 · 工具介绍与劈丝</div>
+                            <div class="chapter-duration">15:32</div>
+                        </li>
+                        <li class="chapter-item active" data-chapter="2">
+                            <div class="chapter-status"><i class="far fa-circle"></i></div>
+                            <div class="chapter-title">第2讲 · 起针与平针绣</div>
+                            <div class="chapter-duration">18:45</div>
+                        </li>
+                        <li class="chapter-item" data-chapter="3">
+                            <div class="chapter-status"><i class="far fa-circle"></i></div>
+                            <div class="chapter-title">第3讲 · 滚针与接针</div>
+                            <div class="chapter-duration">22:10</div>
+                        </li>
+                        <li class="chapter-item" data-chapter="4">
+                            <div class="chapter-status"><i class="far fa-circle"></i></div>
+                            <div class="chapter-title">第4讲 · 打籽绣技法</div>
+                            <div class="chapter-duration">19:30</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>配套工具</h3>
+                    <p style="margin:12px 0;">推荐使用非遗工坊监制的苏绣材料包：包含真丝底料、蚕丝线、绣绷、绣针。</p>
+                    <button class="btn-outline" style="width:100%;" id="materialBtn">查看材料包 <i
+                            class="fas fa-arrow-right"></i></button>
+                </div>
+
+                <!-- 我的笔记模块 -->
+                <div class="notes-card" id="notesCard">
+                    <div class="notes-header">
+                        <h3>我的笔记</h3>
+                        <button class="add-note-btn" id="addNoteBtn"><i class="fas fa-plus"></i> 新建笔记</button>
+                    </div>
+                    <div id="noteListContainer" class="note-list">
+                        <!-- 动态渲染笔记列表 -->
+                        <div class="empty-notes">暂无笔记，点击"新建笔记"记录学习心得～</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <!-- 笔记编辑模态框 -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeModalBtn">&times;</span>
+            <h4 id="modalTitle">新建笔记</h4>
+            <div class="form-row">
+                <input type="text" id="noteTitle" placeholder="笔记标题（选填）" style="border-radius: 30px;">
+            </div>
+            <div class="form-row">
+                <textarea id="noteContent" placeholder="记录您的学习心得、疑问或灵感..." rows="5"></textarea>
+            </div>
+            <button class="submit-btn" id="saveNoteBtn" style="width:100%; justify-content: center;">保存笔记</button>
+        </div>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 模拟评论数据
+        let comments = [
+            {
+                id: 1,
+                author: "绣花姑娘",
+                content: "老师讲得太细致了！第一次尝试平针就成功了，期待下一课。",
+                time: "2025-03-28 14:23",
+                likes: 12
+            },
+            {
+                id: 2,
+                author: "江南雨",
+                content: "劈丝技巧很实用，以前总是劈不均匀，按照老师的方法顺畅多了。",
+                time: "2025-03-27 09:15",
+                likes: 8
+            },
+            {
+                id: 3,
+                author: "拾贝人",
+                content: "请问老师，平针绣的线迹长度有没有标准？",
+                time: "2025-03-26 20:47",
+                likes: 3
+            }
+        ];
+
+        // 渲染评论列表
+        function renderComments() {
+            const commentList = document.getElementById('commentList');
+            if (!commentList) return;
+            if (comments.length === 0) {
+                commentList.innerHTML = '<div style="text-align:center; padding:24px; color:#9b8a78;">暂无评论，来做第一个分享的学友吧～</div>';
+                return;
+            }
+            commentList.innerHTML = comments.map(comment => `
+                <div class="comment-item" data-id="${comment.id}">
+                    <div class="comment-header">
+                        <span class="comment-author"><i class="fas fa-user-circle"></i> ${escapeHtml(comment.author)}</span>
+                        <span class="comment-time">${comment.time}</span>
+                    </div>
+                    <div class="comment-content">${escapeHtml(comment.content)}</div>
+                    <div class="comment-actions">
+                        <span class="comment-like" data-id="${comment.id}"><i class="far fa-heart"></i> ${comment.likes}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            // 绑定点赞事件
+            document.querySelectorAll('.comment-like').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const comment = comments.find(c => c.id === id);
+                    if (comment) {
+                        comment.likes += 1;
+                        renderComments();
+                    }
+                });
+            });
+        }
+
+        // 简单的防XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+                return c;
+            });
+        }
+
+        // 添加新评论
+        function addComment(author, content) {
+            if (!author.trim()) {
+                return false;
+            }
+            if (!content.trim()) {
+                return false;
+            }
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const newComment = {
+                id: Date.now(),
+                author: author.trim(),
+                content: content.trim(),
+                time: timeStr,
+                likes: 0
+            };
+            comments.unshift(newComment);
+            renderComments();
+            return true;
+        }
+
+        // Toast提示
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 提交评论
+        const submitBtn = document.getElementById('submitCommentBtn');
+        const commentName = document.getElementById('commentName');
+        const commentContent = document.getElementById('commentContent');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                const name = commentName.value.trim();
+                const content = commentContent.value.trim();
+                if (addComment(name, content)) {
+                    commentContent.value = '';
+                }
+            });
+        }
+
+        // ---------- 笔记功能 ----------
+        const COURSE_ID = 'embroidery_basic';
+        let notes = [];
+
+        // 加载笔记
+        function loadNotes() {
+            const stored = localStorage.getItem(`course_notes_${COURSE_ID}`);
+            if (stored) {
+                notes = JSON.parse(stored);
+            } else {
+                // 示例笔记数据
+                notes = [
+                    {
+                        id: Date.now() + 1,
+                        title: "平针技巧笔记",
+                        content: "平针的线迹要均匀，起针藏线头很重要。老师演示的荷叶渐变用了深浅两种绿色，我试了一下效果不错。",
+                        createTime: "2025-03-30 10:23",
+                        updateTime: "2025-03-30 10:23"
+                    }
+                ];
+                saveNotes();
+            }
+            renderNotes();
+        }
+
+        function saveNotes() {
+            localStorage.setItem(`course_notes_${COURSE_ID}`, JSON.stringify(notes));
+        }
+
+        // 渲染笔记列表
+        function renderNotes() {
+            const container = document.getElementById('noteListContainer');
+            if (!container) return;
+            if (notes.length === 0) {
+                container.innerHTML = '<div class="empty-notes"><i class="fas fa-book-open"></i><p>暂无笔记，点击"新建笔记"记录学习心得～</p></div>';
+                return;
+            }
+            // 按更新时间倒序排列
+            const sorted = [...notes].sort((a, b) => new Date(b.updateTime) - new Date(a.updateTime));
+            container.innerHTML = sorted.map(note => `
+                <div class="note-item" data-id="${note.id}">
+                    <div class="note-title">
+                        <span>${escapeHtml(note.title || '无标题笔记')}</span>
+                        <div class="note-actions">
+                            <i class="fas fa-edit edit-note" data-id="${note.id}" title="编辑"></i>
+                            <i class="fas fa-trash-alt delete-note" data-id="${note.id}" title="删除"></i>
+                        </div>
+                    </div>
+                    <div class="note-content">${escapeHtml(note.content.length > 120 ? note.content.substring(0, 120) + '...' : note.content)}</div>
+                    <div class="note-time">更新于 ${note.updateTime}</div>
+                </div>
+            `).join('');
+
+            // 绑定编辑删除事件
+            document.querySelectorAll('.edit-note').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    openEditModal(id);
+                });
+            });
+            document.querySelectorAll('.delete-note').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    if (confirm('确定要删除这条笔记吗？')) {
+                        notes = notes.filter(n => n.id !== id);
+                        saveNotes();
+                        renderNotes();
+                    }
+                });
+            });
+        }
+
+        // 获取当前时间字符串
+        function getCurrentTimeStr() {
+            const now = new Date();
+            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        }
+
+        // 笔记模态框功能
+        let editingId = null;
+        const modal = document.getElementById('noteModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const noteTitleInput = document.getElementById('noteTitle');
+        const noteContentInput = document.getElementById('noteContent');
+        const saveNoteBtn = document.getElementById('saveNoteBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        function openModal(isEdit = false) {
+            modal.style.display = 'flex';
+            if (isEdit) {
+                modalTitle.innerText = '编辑笔记';
+            } else {
+                modalTitle.innerText = '新建笔记';
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+                editingId = null;
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            editingId = null;
+        }
+
+        function openEditModal(id) {
+            const note = notes.find(n => n.id === id);
+            if (note) {
+                editingId = id;
+                noteTitleInput.value = note.title || '';
+                noteContentInput.value = note.content;
+                openModal(true);
+            }
+        }
+
+        function saveCurrentNote() {
+            const title = noteTitleInput.value.trim();
+            const content = noteContentInput.value.trim();
+            if (!content) {
+                return;
+            }
+            const nowStr = getCurrentTimeStr();
+            if (editingId) {
+                // 编辑
+                const index = notes.findIndex(n => n.id === editingId);
+                if (index !== -1) {
+                    notes[index].title = title;
+                    notes[index].content = content;
+                    notes[index].updateTime = nowStr;
+                    saveNotes();
+                    renderNotes();
+                }
+            } else {
+                // 新建
+                const newNote = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    createTime: nowStr,
+                    updateTime: nowStr
+                };
+                notes.unshift(newNote);
+                saveNotes();
+                renderNotes();
+            }
+            closeModal();
+        }
+
+        // 绑定笔记按钮事件
+        const addNoteBtn = document.getElementById('addNoteBtn');
+        if (addNoteBtn) {
+            addNoteBtn.addEventListener('click', () => {
+                editingId = null;
+                noteTitleInput.value = '';
+                noteContentInput.value = '';
+                openModal(false);
+            });
+        }
+        if (saveNoteBtn) {
+            saveNoteBtn.addEventListener('click', saveCurrentNote);
+        }
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        if (modal) {
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        // 页面初始化时加载笔记
+        loadNotes();
+
+        // 购买课程
+        const buyBtn = document.getElementById('buyCourseBtn');
+        if (buyBtn) {
+            buyBtn.addEventListener('click', () => {
+                // 购买课程按钮已移除提示
+            });
+        }
+        // 材料包按钮
+        const materialBtn = document.getElementById('materialBtn');
+        if (materialBtn) {
+            materialBtn.addEventListener('click', () => {
+                // 材料包按钮已移除提示
+            });
+        }
+
+        // 登录按钮
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const user = sessionStorage.getItem('currentUser');
+                if (user) {
+                    window.location.href = '个人资料/个人中心.html';
+                } else {
+                    sessionStorage.setItem('previousPage', 'class');
+                    window.location.href = '登录and注册/登录页面.html';
+                }
+            });
+        }
+
+        // 更新购物车角标
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const cartData = localStorage.getItem('yunji_cart');
+                if (cartData) {
+                    const cartItems = JSON.parse(cartData);
+                    const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                    badge.innerText = totalQty;
+                    badge.style.display = totalQty > 0 ? 'flex' : 'none';
+                } else {
+                    badge.innerText = '0';
+                    badge.style.display = 'none';
+                }
+            }
+        }
+
+        // 导航栏购物车图标点击
+        const cartIconPage = document.getElementById('cartIconPage');
+        if (cartIconPage) {
+            cartIconPage.addEventListener('click', () => {
+                window.location.href = '../购物车.html';
+            });
+        }
+
+        // 搜索框逻辑
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function handleSearch() {
+            const query = searchInput?.value?.trim();
+            if (query) {
+                showMessage(`正在搜索"${query}"相关非遗技艺...`);
+                searchInput.value = '';
+            } else {
+                showMessage('输入关键词，探寻更多非遗之美');
+            }
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // 页面初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            // 初始化登录按钮
+            initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+            
+            renderComments();
+            updateCartBadge();
+
+            // 检查登录用户欢迎
+            const lastUser = sessionStorage.getItem('lastLoginUser');
+            if (lastUser) {
+                sessionStorage.removeItem('lastLoginUser');
+            }
+
+            // 页面淡入
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+        });
+    </script>
+</body>
+
+</html>

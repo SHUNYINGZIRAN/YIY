@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>商品管理 | 云间小阁 · 守艺居</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.86);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 古风装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        /* 主布局：侧边栏 + 内容区 */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 253, 245, 0.92);
+            backdrop-filter: blur(6px);
+            border-right: 1px solid #e2d9cf;
+            padding: 28px 0 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+
+        .sidebar-logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 0 20px 24px;
+            border-bottom: 1px solid #e2d9cf;
+            margin-bottom: 24px;
+            color: #5c4c3e;
+        }
+
+        .sidebar-logo span {
+            color: #8c6d46;
+            font-size: 1.3rem;
+        }
+
+        .shop-info {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 16px;
+        }
+
+        .shop-avatar {
+            width: 70px;
+            height: 70px;
+            background: #e2d5c6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            color: #8c6d46;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .shop-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .shop-badge {
+            font-size: 0.7rem;
+            background: #f3ede4;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 0 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #e5d9cd;
+        }
+
+        .logout-footer {
+            margin-top: 32px;
+            padding: 20px 16px;
+            border-top: 1px solid #e2d9cf;
+        }
+
+        /* 右侧主内容 */
+        .main-content {
+            flex: 1;
+            padding: 24px 32px 48px;
+            overflow-x: auto;
+        }
+
+        .page-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 28px;
+            border-left: 5px solid #c4a77d;
+            padding-left: 18px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 32px;
+            border: 1px solid #e2d9cf;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 商品表格 */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .product-table th,
+        .product-table td {
+            padding: 14px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ede3d7;
+        }
+
+        .product-table th {
+            font-weight: 600;
+            color: #8c6d46;
+        }
+
+        .badge-status {
+            background: #e0f0e5;
+            color: #2e6b3e;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+        }
+
+        .badge-off {
+            background: #f3ede4;
+            color: #9b8a78;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #8c6d46;
+            cursor: pointer;
+            margin-right: 12px;
+            font-size: 1rem;
+        }
+
+        .add-product-btn {
+            background: #8c6d46;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 860px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 0;
+            }
+
+            .sidebar-logo {
+                font-size: 1rem;
+                padding: 0 8px 16px;
+            }
+
+            .shop-info {
+                display: none;
+            }
+
+            .nav-item span:not(i) {
+                display: none;
+            }
+
+            .nav-item i {
+                margin: 0 auto;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+
+            .logout-footer .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            z-index: 2000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+
+        /* 模态弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 253, 245, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2d9cf;
+        }
+
+        .modal-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #8c6d46;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #5c4c3e;
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #5c4c3e;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 10px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #5c4c3e;
+            background: #fefaf2;
+            transition: 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #8c6d46;
+            color: #8c6d46;
+        }
+
+        .btn-outline:hover {
+            background: #e5d9cd;
+        }
+
+        .btn-primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #745b3a;
+        }
+
+        /* 自定义上传区域 */
+        .upload-label-info {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: #5c4c3e;
+        }
+
+        /* 文件上传样式 */
+        .custom-file-upload {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .custom-file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-box {
+            border: 2px dashed #d6ccc2;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            background: rgba(255, 253, 245, 0.8);
+            transition: 0.2s;
+        }
+
+        .file-upload-box:hover {
+            border-color: #8c6d46;
+            background: rgba(255, 253, 245, 1);
+        }
+
+        .file-upload-box i {
+            font-size: 2.5rem;
+            color: #8c6d46;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            display: block;
+            font-size: 1.1rem;
+            color: #5c4c3e;
+            margin-bottom: 5px;
+        }
+
+        .upload-hint {
+            display: block;
+            font-size: 0.9rem;
+            color: #8c6d46;
+        }
+
+        .file-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .file-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e9e1d5;
+        }
+
+        .file-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-preview .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* 视频预览样式 */
+        .video-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .video-preview {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #d6ccc2;
+            box-shadow: 0 2px 8px rgba(92, 76, 62, 0.1);
+        }
+
+        .video-preview video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-preview .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* 规格参数样式 */
+        .product-params {
+            margin-top: 20px;
+        }
+
+        .param-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .param-name {
+            flex: 1;
+        }
+
+        .param-value {
+            flex: 2;
+        }
+
+        .add-param-btn {
+            background: #f1e9dd;
+            border: 1px dashed #d6ccc2;
+            padding: 10px;
+            border-radius: 8px;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .add-param-btn:hover {
+            background: #e9e1d5;
+            border-color: #8c6d46;
+        }
+
+        .remove-param-btn {
+            background: #e8d8d8;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #8c4c4c;
+        }
+
+        /* 3D模型文件预览 */
+        .file-preview .file-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 12px;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">匠</div>
+    <div class="decoration-big decoration-right">心</div>
+
+    <div class="dashboard-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">云间小阁<span>·匠坊</span></div>
+            <div class="shop-info">
+                <div class="shop-avatar"><i class="fas fa-feather-alt"></i></div>
+                <div class="shop-name">听松窑 · 青瓷坊</div>
+                <div class="shop-badge"><i class="fas fa-certificate"></i> 非遗传承人</div>
+            </div>
+            <div class="nav-menu">
+                <a href="经营总览.html" class="nav-item"><i class="fas fa-tachometer-alt"></i> <span>经营总览</span></a>
+                <a href="商品管理.html" class="nav-item active"><i class="fas fa-boxes"></i> <span>商品管理</span></a>
+                <a href="咨询管理.html" class="nav-item"><i class="fas fa-comment-dots"></i> <span>咨询管理</span></a>
+                <a href="店铺收益.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>店铺收益</span></a>
+                <a href="数据统计.html" class="nav-item"><i class="fas fa-chart-pie"></i> <span>数据统计</span></a>
+                <a href="商品装修.html" class="nav-item"><i class="fas fa-magic"></i> <span>商品装修</span></a>
+            </div>
+            <div class="logout-footer">
+                <a href="#" class="nav-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>退出工作台</span></a>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="page-title"><i class="fas fa-boxes"></i> 商品管理</div>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                <button class="add-product-btn" id="addProductBtn"><i class="fas fa-plus"></i> 新增商品</button>
+            </div>
+            <div class="card">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>商品图</th>
+                            <th>商品名称</th>
+                            <th>价格</th>
+                            <th>库存</th>
+                            <th>销量</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <!-- 动态渲染 -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- 添加商品模态弹窗 -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">添加商品</h3>
+                <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productName">商品名称</label>
+                    <input type="text" id="productName" class="form-control" placeholder="请输入商品名称">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">价格</label>
+                        <input type="number" id="productPrice" class="form-control" placeholder="0.00" min="0"
+                            step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">库存</label>
+                        <input type="number" id="productStock" class="form-control" placeholder="0" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">商品分类</label>
+                    <select id="productCategory" class="form-control">
+                        <option value="">请选择商品分类</option>
+                        <option value="tea">茶具茶艺</option>
+                        <option value="papercut">剪纸艺术</option>
+                        <option value="silk">丝绸制品</option>
+                        <option value="pottery">陶瓷制品</option>
+                        <option value="book">文化书籍</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">商品描述</label>
+                    <textarea id="productDescription" class="form-control" placeholder="请输入商品描述..." rows="5"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImages" class="upload-label-info">商品图片</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="productImages" multiple accept="image/*">
+                        <div class="file-upload-box">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span class="upload-text">点击或拖拽图片至此处</span>
+                            <span class="upload-hint">支持JPG、PNG格式，最多5张</span>
+                        </div>
+                        <div class="file-preview-container" id="productImagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productVideo" class="upload-label-info">商品视频</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="productVideo" accept="video/*">
+                        <div class="file-upload-box">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span class="upload-text">点击或拖拽视频至此处</span>
+                            <span class="upload-hint">支持MP4、MOV格式，仅限1个</span>
+                        </div>
+                        <div class="video-preview-container" id="productVideoPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product3DFile" class="upload-label-info">商品模型</label>
+                    <div class="custom-file-upload">
+                        <input type="file" id="product3DFile" accept=".obj,.gltf,.glb,.fbx,.stl,.ply,.dae">
+                        <div class="file-upload-box">
+                            <i class="fas fa-cube"></i>
+                            <span class="upload-text">点击或拖拽3D文件至此处</span>
+                            <span class="upload-hint">支持OBJ、GLTF、GLB、FBX、STL、PLY、DAE格式，仅限1个</span>
+                        </div>
+                        <div class="video-preview-container" id="product3DPreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDetail" class="upload-label-info">产品详情</label>
+                    <textarea id="productDetail" class="form-control" placeholder="请输入产品详情..." rows="8"></textarea>
+                </div>
+
+                <div class="form-group product-params">
+                    <label class="upload-label-info">规格参数</label>
+                    <div id="productParams">
+                        <div class="param-row">
+                            <input type="text" class="form-control param-name" placeholder="参数名称">
+                            <input type="text" class="form-control param-value" placeholder="参数值">
+                            <button class="remove-param-btn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="add-param-btn" id="addParamBtn">
+                        <i class="fas fa-plus"></i> 添加参数
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancelProductBtn">取消</button>
+                    <button type="submit" class="btn btn-primary">保存商品</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 店铺数据
+        let shopData = {
+            shopName: "听松窑 · 青瓷坊",
+            products: [
+                { id: 1, name: "龙泉青瓷·听松茶器", price: 899, stock: 23, status: "上架", sales: 56, image: "https://picsum.photos/id/119/60/60" },
+                { id: 2, name: "梅子青·盖碗", price: 468, stock: 12, status: "上架", sales: 32, image: "https://picsum.photos/id/20/60/60" },
+                { id: 3, name: "青瓷·手工杯", price: 168, stock: 45, status: "上架", sales: 89, image: "https://picsum.photos/id/96/60/60" },
+                { id: 4, name: "仿宋·莲花温碗", price: 1280, stock: 5, status: "下架", sales: 12, image: "https://picsum.photos/id/30/60/60" }
+            ]
+        };
+
+        // 辅助函数
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
+
+        // 保存数据到 localStorage
+        function saveShopData() {
+            localStorage.setItem('yunjian_shop_data', JSON.stringify(shopData));
+        }
+
+        function loadShopData() {
+            const stored = localStorage.getItem('yunjian_shop_data');
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored);
+                    shopData = { ...shopData, ...parsed };
+                } catch (e) { }
+            }
+        }
+
+        // 渲染商品表格
+        function renderProducts() {
+            const tbody = document.getElementById('productsTableBody');
+            tbody.innerHTML = shopData.products.map(p => `
+            <tr>
+                <td><img src="${p.image}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;"></td>
+                <td>${p.name}</td><td>¥${p.price}</td><td>${p.stock}</td><td>${p.sales}</td>
+                <td><span class="badge-status ${p.status === '下架' ? 'badge-off' : ''}">${p.status}</span></td>
+                <td>
+                    <button class="action-btn toggleStatus" data-id="${p.id}"><i class="fas ${p.status === '上架' ? 'fa-eye-slash' : 'fa-eye'}"></i></button>
+                    <button class="action-btn editProduct" data-id="${p.id}"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn deleteProduct" data-id="${p.id}"><i class="fas fa-trash-alt"></i></button>
+                </td>
+            </tr>
+        `).join('');
+
+            // 绑定事件
+            document.querySelectorAll('.toggleStatus').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.dataset.id);
+                    const product = shopData.products.find(p => p.id === id);
+                    if (product) {
+                        product.status = product.status === '上架' ? '下架' : '上架';
+                        saveShopData();
+                        renderProducts();
+                        showToast(`商品已${product.status}`);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.editProduct').forEach(btn => {
+                btn.addEventListener('click', () => showToast('编辑功能开发中，后续可修改价格库存等'));
+            });
+
+            document.querySelectorAll('.deleteProduct').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (confirm('确定删除该商品？')) {
+                        const id = parseInt(btn.dataset.id);
+                        shopData.products = shopData.products.filter(p => p.id !== id);
+                        saveShopData();
+                        renderProducts();
+                        showToast('已删除商品');
+                    }
+                });
+            });
+        }
+
+        // 模态弹窗控制
+        const modal = document.getElementById('addProductModal');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelProductBtn = document.getElementById('cancelProductBtn');
+        const addProductForm = document.getElementById('addProductForm');
+
+        // 打开模态弹窗
+        addProductBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        // 关闭模态弹窗
+        function closeModal() {
+            modal.style.display = 'none';
+            addProductForm.reset();
+            // 清空预览
+            document.getElementById('productImagePreview').innerHTML = '';
+            document.getElementById('productVideoPreview').innerHTML = '';
+            document.getElementById('product3DPreview').innerHTML = '';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelProductBtn.addEventListener('click', closeModal);
+
+        // 点击背景关闭
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // 文件上传预览功能
+        const productImagesInput = document.getElementById('productImages');
+        const productImagePreview = document.getElementById('productImagePreview');
+
+        productImagesInput.addEventListener('change', function (e) {
+            productImagePreview.innerHTML = '';
+            const files = Array.from(e.target.files).slice(0, 5); // 最多5张
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const preview = document.createElement('div');
+                    preview.className = 'file-preview';
+                    preview.innerHTML = `
+                    <img src="${event.target.result}" alt="预览">
+                    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">&times;</button>
+                `;
+                    productImagePreview.appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // 视频上传预览
+        const productVideoInput = document.getElementById('productVideo');
+        const productVideoPreview = document.getElementById('productVideoPreview');
+
+        productVideoInput.addEventListener('change', function (e) {
+            productVideoPreview.innerHTML = '';
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const preview = document.createElement('div');
+                    preview.className = 'video-preview';
+                    preview.innerHTML = `
+                    <video src="${event.target.result}" controls></video>
+                    <button type="button" class="remove-btn" onclick="this.parentElement.parentElement.innerHTML=''">&times;</button>
+                `;
+                    productVideoPreview.appendChild(preview);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 3D文件上传预览
+        const product3DFileInput = document.getElementById('product3DFile');
+        const product3DPreview = document.getElementById('product3DPreview');
+
+        product3DFileInput.addEventListener('change', function (e) {
+            product3DPreview.innerHTML = '';
+            const file = e.target.files[0];
+            if (file) {
+                const preview = document.createElement('div');
+                preview.className = 'file-preview';
+                preview.innerHTML = `
+                <i class="fas fa-cube" style="font-size: 40px; color: #8c6d46; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                <div class="file-info">${file.name}</div>
+                <button type="button" class="remove-btn" style="top: 5px; right: 5px;" onclick="this.parentElement.remove()">&times;</button>
+            `;
+                product3DPreview.appendChild(preview);
+            }
+        });
+
+        // 规格参数添加
+        const addParamBtn = document.getElementById('addParamBtn');
+        const productParams = document.getElementById('productParams');
+
+        addParamBtn.addEventListener('click', function () {
+            const paramRow = document.createElement('div');
+            paramRow.className = 'param-row';
+            paramRow.innerHTML = `
+            <input type="text" class="form-control param-name" placeholder="参数名称">
+            <input type="text" class="form-control param-value" placeholder="参数值">
+            <button type="button" class="remove-param-btn"><i class="fas fa-times"></i></button>
+        `;
+            productParams.appendChild(paramRow);
+        });
+
+        // 规格参数删除
+        productParams.addEventListener('click', function (e) {
+            if (e.target.closest('.remove-param-btn')) {
+                const paramRows = productParams.querySelectorAll('.param-row');
+                if (paramRows.length > 1) {
+                    e.target.closest('.param-row').remove();
+                }
+            }
+        });
+
+        // 表单提交
+        addProductForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('productName').value.trim();
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value.trim();
+            const productDetail = document.getElementById('productDetail').value.trim();
+
+            // 获取规格参数
+            const params = [];
+            const paramRows = productParams.querySelectorAll('.param-row');
+            paramRows.forEach(row => {
+                const paramName = row.querySelector('.param-name').value.trim();
+                const paramValue = row.querySelector('.param-value').value.trim();
+                if (paramName && paramValue) {
+                    params.push({ name: paramName, value: paramValue });
+                }
+            });
+
+            if (!name || !price || !stock) {
+                showToast('请填写必填项');
+                return;
+            }
+
+            // 使用默认图片或上传的图片
+            const defaultImages = [
+                'https://picsum.photos/id/42/60/60',
+                'https://picsum.photos/id/55/60/60',
+                'https://picsum.photos/id/68/60/60',
+                'https://picsum.photos/id/71/60/60',
+                'https://picsum.photos/id/85/60/60'
+            ];
+
+            const newProduct = {
+                id: Date.now(),
+                name: name,
+                price: price,
+                stock: stock,
+                status: '上架',
+                sales: 0,
+                image: defaultImages[Math.floor(Math.random() * defaultImages.length)],
+                category: category,
+                description: description,
+                detail: productDetail,
+                params: params
+            };
+
+            shopData.products.push(newProduct);
+            saveShopData();
+            renderProducts();
+            closeModal();
+            showToast('商品添加成功');
+        });
+
+        // 退出按钮
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('退出工作台后将返回首页，是否确认？')) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = '../个人资料/后台登录.html';
+            }
+        });
+
+        // 初始化
+        loadShopData();
+        renderProducts();
+    </script>
+</body>
+
+</html>

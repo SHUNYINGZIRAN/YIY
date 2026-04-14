@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号设置 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+        }
+
+        /* 古风浮云大字装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.12);
+            border: 1px solid #e7dfd3;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #c4a77d;
+            background: #e7dfd3;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            color: #8c6d46;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .user-bio {
+            color: #7f6b5a;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-size: 0.85rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .profile-btn {
+            padding: 10px;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #8c6d46;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .profile-btn.primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .profile-btn.outline {
+            background: transparent;
+            color: #8c6d46;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(92, 76, 62, 0.15);
+        }
+
+        .quick-links {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .links-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            margin-bottom: 18px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: #5c4c3e;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .link-item:hover {
+            background: rgba(140, 109, 70, 0.08);
+            transform: translateX(5px);
+        }
+
+        .link-item i {
+            margin-right: 12px;
+            width: 24px;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .link-item.active {
+            background: rgba(140, 109, 70, 0.12);
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+        }
+
+        .content-section {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            position: relative;
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e7dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 表单样式 */
+        .settings-form {
+            max-width: 700px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0e8dd;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .form-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section h3 i {
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .form-label {
+            width: 110px;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            padding-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .form-control {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-control input,
+        .form-control textarea {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: #fffef8;
+            transition: all 0.2s;
+        }
+
+        .form-control textarea {
+            border-radius: 20px;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-control input:focus,
+        .form-control textarea:focus {
+            outline: none;
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 2px rgba(140, 109, 70, 0.1);
+        }
+
+        .form-hint {
+            font-size: 0.7rem;
+            color: #9b8a78;
+            margin-top: 6px;
+            margin-left: 8px;
+        }
+
+        /* 头像上传区域 */
+        .avatar-upload {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #c4a77d;
+            background: #e7dfd3;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            background: #f0e8dd;
+            border: 1px solid #d6ccc2;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 密码修改区域 */
+        .password-group {
+            margin-bottom: 16px;
+        }
+
+        /* 绑定信息展示 */
+        .bind-info {
+            background: rgba(248, 244, 233, 0.5);
+            padding: 12px 16px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .bind-info span {
+            color: #8c6d46;
+        }
+
+        .bind-btn {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #8c6d46;
+        }
+
+        .bind-btn:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 开关样式 */
+        .switch-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0e8dd;
+        }
+
+        .switch-group:last-child {
+            border-bottom: none;
+        }
+
+        .switch-label {
+            font-size: 0.9rem;
+        }
+
+        .switch-desc {
+            font-size: 0.7rem;
+            color: #9b8a78;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d6ccc2;
+            transition: 0.3s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: #8c6d46;
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* 保存按钮 */
+        .save-btn {
+            background: #8c6d46;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            background: #5c4c3e;
+            transform: translateY(-2px);
+        }
+
+        /* Toast 提示 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .settings-form {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                flex-direction: column;
+            }
+
+            .form-label {
+                width: 100%;
+                padding-top: 0;
+            }
+
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">设</div>
+    <div class="decoration-big decoration-right">置</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="setSearchInput">
+                    <button class="icon-btn" id="setSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="setCartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtnRef">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="profile-container">
+                <!-- 侧边栏 -->
+                <div class="sidebar">
+                    <div class="profile-card">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
+                                alt="用户头像">
+                        </div>
+                        <h2 class="user-name">文心居士</h2>
+                        <p class="user-title">传统文化传承者</p>
+                        <p class="user-bio">以文会友，以友辅仁。传承中华文化，分享生活智慧。</p>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-number">42</div>
+                                <div class="stat-label">文章</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">128</div>
+                                <div class="stat-label">粉丝</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">86</div>
+                                <div class="stat-label">收藏</div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <a href="后台登录.html" class="profile-btn primary" id="editProfileBtn">守艺掌柜</a>
+                            <a href="../登录and注册/登录页面.html" class="profile-btn outline" id="logoutBtn">退出登录</a>
+                        </div>
+                    </div>
+                    <div class="quick-links">
+                        <h3 class="links-title">快捷入口</h3>
+                        <a href="个人中心.html" class="link-item"><i class="fas fa-plus-circle"></i><span>创作中心</span></a>
+                        <a href="我的收藏.html" class="link-item"><i class="fas fa-heart"></i><span>我的收藏</span></a>
+                        <a href="文章管理.html" class="link-item"><i class="fas fa-file-alt"></i><span>文章管理</span></a>
+                        <a href="消息通知.html" class="link-item"><i class="fas fa-comments"></i><span>消息通知</span></a>
+                        <a href="我的订单.html" class="link-item"><i class="fas fa-shopping-bag"></i><span>我的订单</span></a>
+                        <a href="账号设置.html" class="link-item active"><i class="fas fa-cog"></i><span>账号设置</span></a>
+                    </div>
+                </div>
+
+                <!-- 主内容区域 - 账号设置 -->
+                <div class="main-content">
+                    <div class="content-section">
+                        <div class="section-title">
+                            <span><i class="fas fa-cog" style="margin-right: 8px; color: #8c6d46;"></i> 账号设置</span>
+                        </div>
+
+                        <div class="settings-form">
+                            <!-- 个人资料 -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-user"></i> 个人资料</h3>
+                                <div class="form-group">
+                                    <div class="form-label">头像</div>
+                                    <div class="form-control">
+                                        <div class="avatar-upload">
+                                            <div class="avatar-preview" id="avatarPreview">
+                                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
+                                                    alt="头像">
+                                            </div>
+                                            <button type="button" class="upload-btn" id="uploadAvatarBtn"><i
+                                                    class="fas fa-camera"></i> 更换头像</button>
+                                            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                                        </div>
+                                        <div class="form-hint">支持 JPG、PNG，建议 1:1 比例</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">昵称</div>
+                                    <div class="form-control">
+                                        <input type="text" id="nickname" value="文心居士" placeholder="请输入昵称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">个性签名</div>
+                                    <div class="form-control">
+                                        <textarea id="bio" placeholder="一句话介绍自己">以文会友，以友辅仁。传承中华文化，分享生活智慧。</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">联系方式</div>
+                                    <div class="form-control">
+                                        <input type="email" id="email" value="wenxin@yunjian.com" placeholder="电子邮箱">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 安全设置 -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-shield-alt"></i> 安全设置</h3>
+                                <div class="form-group">
+                                    <div class="form-label">修改密码</div>
+                                    <div class="form-control">
+                                        <div class="password-group">
+                                            <input type="password" id="oldPassword" placeholder="当前密码"
+                                                style="margin-bottom: 12px;">
+                                            <input type="password" id="newPassword" placeholder="新密码"
+                                                style="margin-bottom: 12px;">
+                                            <input type="password" id="confirmPassword" placeholder="确认新密码">
+                                        </div>
+                                        <div class="form-hint">密码长度 6-20 位，建议包含字母和数字</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">绑定手机</div>
+                                    <div class="form-control">
+                                        <div class="bind-info">
+                                            <span><i class="fas fa-mobile-alt"></i> 138****5678</span>
+                                            <button class="bind-btn" id="bindPhoneBtn">更换手机</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label">绑定邮箱</div>
+                                    <div class="form-control">
+                                        <div class="bind-info">
+                                            <span><i class="fas fa-envelope"></i> wenxin@yunjian.com</span>
+                                            <button class="bind-btn" id="bindEmailBtn">更换邮箱</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 通知偏好 -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-bell"></i> 通知偏好</h3>
+                                <div class="switch-group">
+                                    <div>
+                                        <div class="switch-label">文章点赞通知</div>
+                                        <div class="switch-desc">当有人点赞您的文章时发送通知</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notifyLike" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="switch-group">
+                                    <div>
+                                        <div class="switch-label">评论回复通知</div>
+                                        <div class="switch-desc">当有人回复您的评论时发送通知</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notifyComment" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="switch-group">
+                                    <div>
+                                        <div class="switch-label">系统通知</div>
+                                        <div class="switch-desc">平台公告、活动提醒等</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="notifySystem" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 隐私设置 -->
+                            <div class="form-section">
+                                <h3><i class="fas fa-lock"></i> 隐私设置</h3>
+                                <div class="switch-group">
+                                    <div>
+                                        <div class="switch-label">允许他人关注</div>
+                                        <div class="switch-desc">允许其他用户关注您的账号</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="privacyFollow" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="switch-group">
+                                    <div>
+                                        <div class="switch-label">收藏列表可见</div>
+                                        <div class="switch-desc">他人可查看您的收藏内容</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="privacyCollect" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button class="save-btn" id="saveSettingsBtn"><i class="fas fa-save"></i> 保存设置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+    </div><!-- /.site-wrapper -->
+
+    <div id="toast" class="toast-msg"></div>
+
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('loginBtnRef', '个人中心.html', '../登录and注册/登录页面.html');
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 头像上传模拟
+        const avatarInput = document.getElementById('avatarInput');
+        const avatarPreview = document.querySelector('#avatarPreview img');
+        const uploadBtn = document.getElementById('uploadAvatarBtn');
+
+        uploadBtn.addEventListener('click', () => {
+            avatarInput.click();
+        });
+
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    avatarPreview.src = event.target.result;
+                    showToast('头像已更换，保存后生效');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showToast('请选择图片文件');
+            }
+        });
+
+        // 保存设置
+        const saveBtn = document.getElementById('saveSettingsBtn');
+        saveBtn.addEventListener('click', () => {
+            // 获取表单值
+            const nickname = document.getElementById('nickname').value.trim();
+            const bio = document.getElementById('bio').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const oldPwd = document.getElementById('oldPassword').value;
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmPassword').value;
+
+            // 昵称校验
+            if (!nickname) {
+                showToast('请填写昵称');
+                return;
+            }
+
+            // 密码修改逻辑（如果填写了旧密码）
+            if (oldPwd || newPwd || confirmPwd) {
+                if (!oldPwd) {
+                    showToast('请填写当前密码');
+                    return;
+                }
+                if (!newPwd) {
+                    showToast('请填写新密码');
+                    return;
+                }
+                if (newPwd.length < 6) {
+                    showToast('新密码长度不能少于6位');
+                    return;
+                }
+                if (newPwd !== confirmPwd) {
+                    showToast('两次输入的新密码不一致');
+                    return;
+                }
+                // 模拟旧密码验证
+                if (oldPwd !== '123456') {
+                    showToast('当前密码错误');
+                    return;
+                }
+                showToast('密码修改成功，请重新登录');
+                // 清空密码框
+                document.getElementById('oldPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            }
+
+            // 获取开关状态
+            const notifyLike = document.getElementById('notifyLike').checked;
+            const notifyComment = document.getElementById('notifyComment').checked;
+            const notifySystem = document.getElementById('notifySystem').checked;
+            const privacyFollow = document.getElementById('privacyFollow').checked;
+            const privacyCollect = document.getElementById('privacyCollect').checked;
+
+            // 模拟保存
+            console.log({
+                nickname, bio, email,
+                notifyLike, notifyComment, notifySystem,
+                privacyFollow, privacyCollect
+            });
+
+            showToast('设置已保存');
+        });
+
+        // 绑定手机/邮箱演示
+        document.getElementById('bindPhoneBtn').addEventListener('click', () => {
+            showToast('更换手机功能即将开放');
+        });
+        document.getElementById('bindEmailBtn').addEventListener('click', () => {
+            showToast('更换邮箱功能即将开放');
+        });
+
+        // 侧边栏快捷链接演示
+        function initSidebar() {
+            document.querySelectorAll('.quick-links .link-item').forEach(link => {
+                if (link.getAttribute('href') === '#') {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showToast(`✨ 「${link.innerText}」页面即将开放`);
+                    });
+                }
+            });
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    if (!confirm('确定要退出登录吗？')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        }
+
+        initSidebar();
+
+        // ---------- 导航栏功能 ----------
+        // 获取购物车数量
+        let cartItems = [];
+
+        function loadCartBadge() {
+            const stored = localStorage.getItem('yunji_cart');
+            if (stored) {
+                cartItems = JSON.parse(stored);
+            }
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                badge.innerText = totalQty;
+                badge.style.display = totalQty > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function initNavSearch() {
+            const searchBtn = document.getElementById('setSearchBtn');
+            const searchInput = document.getElementById('setSearchInput');
+            if (searchBtn) searchBtn.addEventListener('click', () => { });
+            if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { } });
+        }
+
+        function initNavLinks() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const pageName = link.getAttribute('data-page');
+                if (pageName) {
+                    link.addEventListener('click', (e) => {
+                        if (link.getAttribute('href') === '#') {
+                            e.preventDefault();
+                        }
+                    });
+                }
+            });
+        }
+
+        function initCartIcon() {
+            const cartIcon = document.getElementById('setCartIcon');
+            if (cartIcon) {
+                cartIcon.addEventListener('click', () => {
+                    window.location.href = '../购物车.html';
+                });
+            }
+        }
+
+        function initNavbar() {
+            loadCartBadge();
+            initNavSearch();
+            initNavLinks();
+            initCartIcon();
+        }
+
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    </script>
+</body>
+
+</html>

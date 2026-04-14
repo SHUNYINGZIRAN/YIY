@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>注册 · 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 0.8px, transparent 0.8px);
+            background-size: 32px 32px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 极淡的背景纹路 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.6);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 水墨装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========= 导航栏 ========= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-input::placeholder {
+            color: #9b8a78;
+        }
+
+        .search-input:focus {
+            border-color: #c4a77d;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 面包屑 */
+        .breadcrumb {
+            font-size: 0.75rem;
+            margin-bottom: 28px;
+            color: #b8a994;
+            letter-spacing: 1px;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+        }
+
+        /* 页面头部 */
+        .page-header {
+            text-align: center;
+            margin: 40px 0 48px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.8rem;
+            color: #5c4c3e;
+            font-weight: 400;
+            letter-spacing: 8px;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            color: #b8a994;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
+
+        /* ===== 注册卡片 — 与登录卡片完全一致 ===== */
+        .register-container {
+            max-width: 520px;
+            margin: 20px auto 70px;
+            padding: 0 16px;
+        }
+
+        .register-card {
+            background: rgba(255, 253, 245, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 48px 40px;
+            border: 1px solid rgba(214, 204, 194, 0.6);
+            box-shadow: 0 12px 28px -12px rgba(92, 76, 62, 0.08);
+            transition: all 0.2s;
+        }
+
+        .register-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.2rem;
+            text-align: center;
+            color: #5c4c3e;
+            font-weight: 400;
+            letter-spacing: 6px;
+            margin-bottom: 44px;
+        }
+
+        /* 表单组 — 底部细线 */
+        .input-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #d6ccc2;
+            padding: 12px 4px 8px 4px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            color: #4a3b2e;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .input-group input:focus {
+            border-bottom-color: #8c6d46;
+        }
+
+        .input-group input::placeholder {
+            color: #c4b49f;
+            font-weight: 300;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* 验证码行 */
+        .captcha-group {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            margin-bottom: 28px;
+        }
+
+        .captcha-group .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .captcha-btn {
+            background: transparent;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+            margin-bottom: 6px;
+        }
+
+        .captcha-btn:hover {
+            background: rgba(140, 109, 70, 0.1);
+            border-color: #8c6d46;
+        }
+
+        /* 协议勾选框 */
+        .terms-group {
+            margin: 32px 0 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: #7f6b5a;
+        }
+
+        .terms-group .radio-box {
+            width: 14px;
+            height: 14px;
+            border: 1px solid #7f6b5a;
+            border-radius: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .terms-group .radio-box i {
+            font-size: 0.7rem;
+            color: #7f6b5a;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .terms-group input {
+            display: none;
+        }
+
+        .terms-group input:checked+.radio-box {
+            border-color: #8c6d46;
+            background: rgba(140, 109, 70, 0.1);
+        }
+
+        .terms-group input:checked+.radio-box i {
+            opacity: 1;
+            color: #8c6d46;
+        }
+
+        .terms-group a {
+            color: #8c6d46;
+            border-bottom: 0.5px dotted #c4b49f;
+        }
+
+        /* 注册按钮 */
+        .register-btn {
+            width: 100%;
+            background: #8c6d46;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 48px;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 450;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 24px;
+            background: rgba(140, 109, 70, 0.85);
+            backdrop-filter: blur(2px);
+        }
+
+        .register-btn:hover {
+            background: #745b3a;
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #7f6b5a;
+        }
+
+        .login-link a {
+            color: #8c6d46;
+            margin-left: 6px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .login-link a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #8c6d46;
+            transition: width 0.3s ease;
+        }
+
+        .login-link a:hover::after {
+            width: 100%;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 36px 0 28px;
+            color: #d6ccc2;
+            font-size: 0.7rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 0.5px;
+            background: #d6ccc2;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 0.5px solid #d6ccc2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #8c6d46;
+            background: rgba(255, 250, 240, 0.5);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .social-icon:hover {
+            background: #8c6d46;
+            color: white;
+            border-color: #8c6d46;
+        }
+
+        /* 页脚 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        /* Toast 消息提示 - 统一风格 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .register-card {
+                padding: 40px 28px;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+                letter-spacing: 4px;
+            }
+
+            .captcha-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .captcha-btn {
+                margin-top: 8px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">云</div>
+    <div class="decoration-big decoration-right">栖</div>
+
+    <div class="site-wrapper">
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物...">
+                    <button class="icon-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIcon"><i class="fas fa-shopping-bag"></i><span
+                        class="cart-badge">0</span></button>
+                <button class="btn-outline" id="loginBtnNav">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="#" style="text-decoration: none;">#</a> <span>/</span> <a href="登录页面.html">登录</a> <span>/</span> <span>注册</span>
+        </div>
+
+        <div class="register-container">
+            <div class="register-card">
+                <div class="register-title">结 庐</div>
+                <form id="registerForm" onsubmit="event.preventDefault(); handleRegister();">
+                    <div class="input-group">
+                        <input type="text" id="username" placeholder="昵称 / 用户名" autocomplete="off" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="邮箱" autocomplete="off" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" id="mobile" placeholder="手机号" autocomplete="off">
+                    </div>
+                    <div class="captcha-group">
+                        <div class="input-group">
+                            <input type="text" id="captcha" placeholder="验证码" autocomplete="off" required>
+                        </div>
+                        <button type="button" class="captcha-btn" id="sendCaptchaBtn">发送验证码</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="密码" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirmPwd" placeholder="确认密码" required>
+                    </div>
+                    <div class="terms-group">
+                        <input type="checkbox" id="agreeTerms">
+                        <label for="agreeTerms" class="radio-box"><i class="fas fa-check"></i></label>
+                        <label for="agreeTerms">我已阅读并同意 <a href="云间阁约 · 隐私政策.html#covenant">《云间阁约》</a> 及 <a
+                                href="云间阁约 · 隐私政策.html#privacy">《隐私政策》</a></label>
+                    </div>
+                    <button type="submit" class="register-btn">入 阁</button>
+                </form>
+                <div class="login-link">
+                    已有雅号？<a href="登录页面.html">归阁</a>
+                </div>
+                <div class="divider">· 凭 信 物 ·</div>
+                <div class="social-login">
+                    <div class="social-icon" onclick="showMessage('微信注册，稍待')"><i class="fab fa-weixin"></i></div>
+                    <div class="social-icon" onclick="showMessage('微博注册，稍待')"><i class="fab fa-weibo"></i></div>
+                    <div class="social-icon" onclick="showMessage('手机号注册，稍待')"><i class="fas fa-mobile-alt"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <!-- 全局toast消息提示 -->
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // Toast 消息提示函数
+        function showMessage(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        // 模拟发送验证码
+        let captchaTimer = null;
+        let captchaCode = '';
+        const sendBtn = document.getElementById('sendCaptchaBtn');
+
+        function generateCaptcha() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function startCountdown(btn, seconds) {
+            let remaining = seconds;
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = `${remaining}秒后重试`;
+            const interval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                } else {
+                    btn.innerText = `${remaining}秒后重试`;
+                }
+            }, 1000);
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const mobile = document.getElementById('mobile').value.trim();
+            if (!mobile) {
+                showMessage('请先填写手机号');
+                return;
+            }
+            if (!/^1[3-9]\d{9}$/.test(mobile)) {
+                showMessage('请填写有效的手机号');
+                return;
+            }
+            // 模拟生成验证码
+            captchaCode = generateCaptcha();
+            showMessage(`演示：验证码为 ${captchaCode}（实际将发送至 ${mobile}）`);
+            startCountdown(sendBtn, 60);
+        });
+
+        function handleRegister() {
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const captcha = document.getElementById('captcha').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPwd = document.getElementById('confirmPwd').value;
+            const agree = document.getElementById('agreeTerms').checked;
+
+            if (!username) {
+                showMessage('请填写昵称');
+                return;
+            }
+            if (!email) {
+                showMessage('请填写邮箱');
+                return;
+            }
+            if (!/^\S+@\S+\.\S+$/.test(email)) {
+                showMessage('邮箱格式不正确');
+                return;
+            }
+            if (!mobile) {
+                showMessage('请填写手机号');
+                return;
+            }
+            if (!/^1[3-9]\d{9}$/.test(mobile)) {
+                showMessage('手机号格式不正确');
+                return;
+            }
+            if (!captcha) {
+                showMessage('请填写验证码');
+                return;
+            }
+            if (captchaCode && captcha !== captchaCode) {
+                showMessage('验证码错误');
+                return;
+            }
+            if (!captchaCode && captcha !== '123456') {
+                // 允许万能验证码 123456 用于演示
+                showMessage('验证码错误，可使用万能验证码 123456');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage('密码长度至少6位');
+                return;
+            }
+            if (password !== confirmPwd) {
+                showMessage('两次输入的密码不一致');
+                return;
+            }
+            if (!agree) {
+                showMessage('请阅读并同意《云间阁约》及《隐私政策》');
+                return;
+            }
+
+            // 模拟注册成功，存储用户信息
+            const userData = {
+                username: username,
+                email: email,
+                mobile: mobile
+            };
+            localStorage.setItem('yunji_user', username);
+            localStorage.setItem('yunji_userinfo', JSON.stringify(userData));
+            showMessage('注册成功！欢迎入阁～');
+            // 跳转到登录页
+            setTimeout(() => {
+                window.location.href = '登录页面.html';
+            }, 1200);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 购物车徽章
+            const badge = document.querySelector('.cart-badge');
+            if (badge) {
+                const cart = localStorage.getItem('yunji_cart');
+                if (cart) {
+                    const items = JSON.parse(cart);
+                    const total = items.reduce((s, i) => s + i.quantity, 0);
+                    if (total > 0) {
+                        badge.innerText = total;
+                        badge.style.display = 'flex';
+                    }
+                }
+            }
+            const cartIcon = document.getElementById('cartIcon');
+            if (cartIcon) cartIcon.addEventListener('click', () => window.location.href = '../购物车.html');
+            // 导航栏按钮跳转登录
+            const loginNavBtn = document.getElementById('loginBtnNav');
+            if (loginNavBtn) loginNavBtn.addEventListener('click', () => window.location.href = '登录页面.html');
+        });
+    </script>
+</body>
+
+</html>

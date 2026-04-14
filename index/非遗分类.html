@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>非遗技艺 · 全部分类 | 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 (与全部分类.html完全相同) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .site-wrapper {
+                padding: 16px 16px 32px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 页面标题区 (与全部分类.html完全相同) */
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        /* 以下为非遗分类.html原有内容样式（保留） */
+        /* 分类筛选 */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            background: rgba(255, 253, 245, 0.9);
+            border: 1px solid #d6ccc2;
+            border-radius: 30px;
+            color: #5c4c3e;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        /* 文章网格布局 */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* 文章卡片样式 */
+        .article-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #d6ccc2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(92, 76, 62, 0.15);
+        }
+
+        .card-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .category-traditional-craft {
+            background: rgba(140, 109, 70, 0.9);
+        }
+
+        .category-performing-arts {
+            background: rgba(175, 108, 80, 0.9);
+        }
+
+        .category-folk-literature {
+            background: rgba(108, 140, 80, 0.9);
+        }
+
+        .category-folk-customs {
+            background: rgba(80, 108, 140, 0.9);
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            color: #745b3a;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #e9e1d5;
+            font-size: 0.9rem;
+            color: #8c6d46;
+        }
+
+        .read-more {
+            padding: 10px 20px;
+            background: #8c6d46;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .read-more:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.25);
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 253, 245, 0.9);
+            border: 1px solid #d6ccc2;
+            color: #5c4c3e;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">藝</div>
+    <div class="decoration-big decoration-right">集</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 (与购物车.html样式一致) -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <!-- 面包屑导航 -->
+        <div class="breadcrumb">
+            <a href="../index.html">首页</a> <span>/</span>
+            <a href="全部分类.html" class="nav-demo">非遗技艺 · 全部分类</a> <span>/</span>
+            <span style="color:#8c6d46;">非遗技艺 · 百工集萃</span>
+        </div>
+
+        <!-- 页面头部 (调整标题与全部分类.html一致) -->
+        <div class="page-header">
+            <h1>非遗技艺 · 薪火相传</h1>
+            <p>指尖乾坤，匠心流传 | 探寻中华手艺之美</p>
+        </div>
+
+        <!-- 以下为非遗分类.html原有内容部分（保留不变） -->
+        <div class="category-filter">
+            <button class="filter-btn" data-category="traditional-craft">
+                <i class="fas fa-paint-brush"></i>
+                <span>传统技艺</span>
+            </button>
+            <button class="filter-btn" data-category="performing-arts">
+                <i class="fas fa-music"></i>
+                <span>表演艺术</span>
+            </button>
+            <button class="filter-btn" data-category="folk-literature">
+                <i class="fas fa-book"></i>
+                <span>民间文学</span>
+            </button>
+            <button class="filter-btn" data-category="folk-customs">
+                <i class="fas fa-utensils"></i>
+                <span>民俗活动</span>
+            </button>
+        </div>
+
+        <div class="articles-grid">
+            <!-- 传统技艺文章 -->
+            <div class="article-card" data-category="traditional-craft">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1547981609-4b6bfc67c272" alt="陶瓷制作">
+                    <div class="card-category category-traditional-craft">传统技艺</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">景德镇陶瓷制作技艺的传承与发展</h3>
+                    <p class="card-desc">景德镇陶瓷以其"白如玉、明如镜、薄如纸、声如磬"的独特风格享誉世界。这篇文章深入探讨了景德镇千年陶瓷制作技艺的历史演变和现代创新。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 1.2k</span>
+                        <span><i class="far fa-clock"></i> 3天前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 表演艺术文章 -->
+            <div class="article-card" data-category="performing-arts">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1542662565-7e4b66bae529" alt="京剧表演">
+                    <div class="card-category category-performing-arts">表演艺术</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">京剧脸谱艺术：色彩背后的文化符号</h3>
+                    <p class="card-desc">京剧脸谱是中国传统戏曲的独特艺术形式，每种颜色和图案都承载着特定的文化含义。本文解读脸谱艺术背后的符号系统和美学价值。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 2.4k</span>
+                        <span><i class="far fa-clock"></i> 1周前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 民间文学文章 -->
+            <div class="article-card" data-category="folk-literature">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1530645294466-245dbb4b1f1d" alt="民间故事">
+                    <div class="card-category category-folk-literature">民间文学</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">中国民间故事的叙事结构与文化内涵</h3>
+                    <p class="card-desc">从《牛郎织女》到《白蛇传》，中国民间故事蕴含着丰富的文化密码。本文分析这些故事的叙事模式及其反映的传统价值观和哲学思想。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 1.8k</span>
+                        <span><i class="far fa-clock"></i> 5天前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 民俗活动文章 -->
+            <div class="article-card" data-category="folk-customs">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef188d5431" alt="端午节">
+                    <div class="card-category category-folk-customs">民俗活动</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">端午节习俗的地域特色与文化意义</h3>
+                    <p class="card-desc">端午节不仅是为了纪念屈原，更蕴含着古人对健康和自然的理解。本文探讨各地端午习俗的差异及其背后的文化逻辑。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 3.1k</span>
+                        <span><i class="far fa-clock"></i> 2周前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 传统技艺文章2 -->
+            <div class="article-card" data-category="traditional-craft">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1584362910334-7e6b5c596e3c" alt="书法艺术">
+                    <div class="card-category category-traditional-craft">传统技艺</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">中国书法艺术的笔墨精神与美学追求</h3>
+                    <p class="card-desc">书法不仅是书写艺术，更是中国人精神世界的视觉表达。本文从笔法、结构和章法三个层面解析书法的美学原则和精神内涵。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 2.7k</span>
+                        <span><i class="far fa-clock"></i> 4天前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 表演艺术文章2 -->
+            <div class="article-card" data-category="performing-arts">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3" alt="皮影戏">
+                    <div class="card-category category-performing-arts">表演艺术</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">皮影戏：光与影中的千年叙事艺术</h3>
+                    <p class="card-desc">皮影戏是中国最古老的戏剧形式之一，融合了工艺美术、音乐和表演艺术。本文探讨皮影戏的制作工艺、表演技巧及其在现代的传承。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 1.5k</span>
+                        <span><i class="far fa-clock"></i> 6天前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 民间文学文章2 -->
+            <div class="article-card" data-category="folk-literature">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1532776471387-6d5a13c84f33" alt="神话传说">
+                    <div class="card-category category-folk-literature">民间文学</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">中国神话传说中的创世观念与宇宙观</h3>
+                    <p class="card-desc">从盘古开天到女娲造人，中国神话蕴含了古人对宇宙起源和人类诞生的想象。本文分析这些神话反映的哲学观念和文化价值。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 2.2k</span>
+                        <span><i class="far fa-clock"></i> 3天前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+
+            <!-- 民俗活动文章2 -->
+            <div class="article-card" data-category="folk-customs">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1585616780627-3a9c1062f6fe" alt="春节习俗">
+                    <div class="card-category category-folk-customs">民俗活动</div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">春节习俗的演变与文化意义</h3>
+                    <p class="card-desc">春节是中国最重要的传统节日，其习俗蕴含着丰富的文化内涵。本文探讨从腊月到正月各种习俗的起源、演变及其象征意义。</p>
+                    <div class="card-meta">
+                        <span><i class="far fa-eye"></i> 4.3k</span>
+                        <span><i class="far fa-clock"></i> 1月前</span>
+                    </div>
+                    <a href="非遗文章.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // toast 通知
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化登录按钮
+            initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+            
+            // 分类筛选功能
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articleCards = document.querySelectorAll('.article-card');
+
+            // 筛选文章的函数
+            function filterArticles(category) {
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                const targetBtn = document.querySelector(`.filter-btn[data-category="${category}"]`);
+                if (targetBtn) {
+                    targetBtn.classList.add('active');
+                }
+                articleCards.forEach(card => {
+                    if (card.dataset.category === category) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const category = this.dataset.category;
+                    filterArticles(category);
+                });
+            });
+
+            // 获取URL参数
+            function getUrlParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            function checkReferrerAndCategory() {
+                const category = getUrlParam('category');
+                if (category) {
+                    filterArticles(category);
+                } else {
+                    const firstCategory = filterBtns[0].dataset.category;
+                    filterArticles(firstCategory);
+                }
+            }
+
+            checkReferrerAndCategory();
+
+            // 分页功能
+            const pageBtns = document.querySelectorAll('.page-btn');
+            pageBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    if (this.classList.contains('active')) return;
+                    document.querySelector('.page-btn.active').classList.remove('active');
+                    if (!this.querySelector('i')) {
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // 更新购物车角标
+            function updateCartBadge() {
+                const badge = document.getElementById('cartBadge');
+                if (badge) {
+                    const cartData = localStorage.getItem('yunji_cart');
+                    if (cartData) {
+                        const cartItems = JSON.parse(cartData);
+                        const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                        badge.innerText = totalQty;
+                        badge.style.display = totalQty > 0 ? 'flex' : 'none';
+                    } else {
+                        badge.innerText = '0';
+                        badge.style.display = 'none';
+                    }
+                }
+            }
+            updateCartBadge();
+
+            // 导航栏购物车图标点击
+            const cartIconPage = document.getElementById('cartIconPage');
+            if (cartIconPage) {
+                cartIconPage.addEventListener('click', () => {
+                    window.location.href = '../购物车.html';
+                });
+            }
+
+            // 搜索框逻辑
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            function handleSearch() {
+                const query = searchInput?.value?.trim();
+                if (query) {
+                    showMessage(`正在搜索"${query}"相关非遗技艺...`);
+                    searchInput.value = '';
+                } else {
+                    showMessage('输入关键词，探寻更多非遗之美');
+                }
+            }
+            if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleSearch();
+                });
+            }
+
+            // 登录/注册按钮
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const currentUser = sessionStorage.getItem('currentUser');
+                    if (currentUser) {
+                        showMessage('即将进入个人中心');
+                    } else {
+                        showMessage('即将跳转登录页面');
+                    }
+                });
+            }
+            const storedUser = sessionStorage.getItem('currentUser');
+            if (storedUser && loginBtn) {
+                loginBtn.textContent = storedUser;
+                loginBtn.style.background = '#8c6d46';
+                loginBtn.style.color = '#fff';
+                loginBtn.title = '点击进入个人中心';
+            }
+
+            // 页面淡入效果
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+        });
+    </script>
+</body>
+
+</html>

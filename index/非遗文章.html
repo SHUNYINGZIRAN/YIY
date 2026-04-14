@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>景德镇瓷器 · 千年窑火 | 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(248, 244, 233, 0.82);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            color: #5c4c3e;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            color: #9b8a78;
+        }
+
+        .breadcrumb a {
+            color: #8c6d46;
+            text-decoration: none;
+        }
+
+        .page-header {
+            text-align: center;
+            margin: 30px 0 40px;
+        }
+
+        .page-header h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: #5c4c3e;
+            letter-spacing: 4px;
+        }
+
+        .page-header p {
+            color: #8c6d46;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .article-grid {
+            margin-bottom: 40px;
+        }
+
+        /* 正文区域 */
+        .article-main {
+            background: rgba(255, 253, 245, 0.92);
+            border-radius: 28px;
+            padding: 32px 36px;
+            border: 1px solid #e7dfd3;
+            box-shadow: 0 8px 20px rgba(92, 76, 62, 0.06);
+        }
+
+        /* 媒体模块区域 */
+        .media-section {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .article-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2rem;
+            color: #4a3729;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid #e9e1d5;
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+            color: #8c6d46;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .article-content p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #5a4535;
+        }
+
+        .article-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.8rem 0 1rem;
+            color: #6f4e2e;
+            border-left: 5px solid #8c6d46;
+            padding-left: 18px;
+        }
+
+        .article-content img {
+            width: 100%;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 媒体模块卡片 */
+        .media-card {
+            background: rgba(255, 253, 245, 0.94);
+            border-radius: 28px;
+            border: 1px solid #e7dfd3;
+            overflow: hidden;
+            padding: 20px;
+            transition: 0.2s;
+        }
+
+        .media-card h3 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6f4e2e;
+            border-bottom: 2px dotted #d6ccc2;
+            padding-bottom: 8px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.15);
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: #2c241a;
+        }
+
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            padding: 25px 20px;
+            background: linear-gradient(135deg, rgba(140, 109, 70, 0.08) 0%, rgba(140, 109, 70, 0.02) 100%);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(92, 76, 62, 0.1);
+            border: 1px solid rgba(140, 109, 70, 0.15);
+        }
+
+        .audio-title {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            color: #5c4c3e;
+            font-weight: 500;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .audio-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #8c6d46;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        .audio-btn:hover {
+            background: #745b3a;
+            transform: scale(1.05);
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 6px;
+            background: #d6ccc2;
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #8c6d46;
+            border-radius: 3px;
+            transition: width 0.1s ease;
+        }
+
+        #timeDisplay {
+            font-size: 0.85rem;
+            color: #8c6d46;
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .media-note {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* 评论互动区 */
+        .comments-section {
+            background: rgba(255, 253, 245, 0.94);
+            border-radius: 32px;
+            border: 1px solid #e7dfd3;
+            padding: 32px 36px;
+            margin-top: 20px;
+        }
+
+        .comments-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .comment-form {
+            background: #fefaf3;
+            border-radius: 28px;
+            padding: 24px;
+            margin-bottom: 36px;
+            border: 1px solid #e3d9ce;
+        }
+
+        .form-row {
+            margin-bottom: 18px;
+        }
+
+        .form-row input,
+        .form-row textarea {
+            width: 100%;
+            padding: 12px 18px;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            background: white;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-row textarea {
+            border-radius: 24px;
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-row input:focus,
+        .form-row textarea:focus {
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 2px rgba(140, 109, 70, 0.2);
+        }
+
+        .submit-comment {
+            background: #8c6d46;
+            color: white;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-comment:hover {
+            background: #6f4e2e;
+            transform: translateY(-2px);
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .comment-item {
+            background: #fefaf5;
+            border-radius: 24px;
+            padding: 18px 22px;
+            border-left: 4px solid #c6b294;
+            transition: 0.1s;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #5c3e2a;
+        }
+
+        .comment-author i {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .comment-time {
+            font-size: 0.7rem;
+            color: #aa9a88;
+            margin-left: auto;
+        }
+
+        .comment-text {
+            line-height: 1.55;
+            color: #4f3e30;
+            margin-top: 6px;
+            word-break: break-word;
+        }
+
+        .empty-comments {
+            text-align: center;
+            padding: 40px;
+            color: #aa9a88;
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+
+            .article-main,
+            .comments-section {
+                padding: 20px;
+            }
+
+            .article-title {
+                font-size: 1.6rem;
+            }
+
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            color: #8c6d46;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .back-link i {
+            font-size: 0.8rem;
+        }
+
+        /* 互动按钮样式 */
+        .interaction-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .interaction-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(140, 109, 70, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            min-width: 100px;
+        }
+
+        .interaction-btn:hover {
+            background: rgba(140, 109, 70, 0.2);
+            transform: translateY(-5px);
+            border-color: #8c6d46;
+        }
+
+        .interaction-btn i {
+            font-size: 1.8rem;
+            color: #8c6d46;
+            margin-bottom: 10px;
+        }
+
+        .interaction-btn span {
+            font-size: 1rem;
+            color: #5c4c3e;
+        }
+
+        .interaction-btn.active i {
+            color: #e74c3c;
+        }
+
+        /* AI 总结卡片样式 */
+        .ai-summary-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
+            border: 1px solid #d6ccc2;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .ai-summary-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .ai-summary-card h3 {
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #5c4c3e;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d6ccc2;
+        }
+
+        .summary-content {
+            line-height: 1.8;
+            color: #5c4c3e;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 768px) {
+            .interaction-buttons {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .interaction-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">瓷</div>
+    <div class="decoration-big decoration-right">韵</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="#" class="logo" id="logoHome">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页" class="nav-demo">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市" class="nav-demo">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承" class="nav-demo">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂" class="nav-demo">非遗学堂</a>
+                <a href="../社区.html" data-page="社区" class="nav-demo">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtn">登录 / 注册</button>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="../index.html" class="nav-demo">首页</a> <span>/</span>
+            <a href="全部分类.html" class="nav-demo">非遗技艺 · 全部分类</a> <span>/</span>
+            <a href="非遗分类.html" class="nav-demo">非遗技艺 · 百工集萃</a> <span>/</span>
+            <span style="color:#8c6d46;">非遗技艺 · 薪火相传</span>
+        </div>
+
+        <div class="page-header">
+            <h1>指尖乾坤 · 瓷韵风华</h1>
+            <p>景德镇手工制瓷技艺 | 泥土与火焰的诗篇</p>
+        </div>
+
+        <div class="article-grid">
+            <!-- 文章主内容 -->
+            <div class="article-main">
+                <h1 class="article-title">景德镇陶瓷：七十二道工序里的文明密码</h1>
+                <div class="article-meta">
+                    <span><i class="far fa-user"></i> 非遗传承人·王锡良工作室</span>
+                    <span><i class="far fa-calendar-alt"></i> 甲辰年 · 暮春</span>
+                    <span><i class="far fa-eye"></i> 阅读 1.2w</span>
+                </div>
+                <div class="article-content">
+                    <img src="https://images.unsplash.com/photo-1565193565278-9b10c0c6e1b4?w=800&auto=format"
+                        alt="景德镇手工制瓷">
+                    <p>"白釉青花一火成，花从釉里透分明。"
+                        景德镇，这座昌江之畔的千年古镇，因瓷而生，因瓷而名。2006年，景德镇手工制瓷技艺被列入第一批国家级非物质文化遗产名录。从揉泥到拉坯，从利坯到施釉，再到窑火淬炼，每一道工序都凝聚着匠人数十载的专注与智慧。
+                    </p>
+                    <h3>一、泥与火的开端：原料的奥秘</h3>
+                    <p>高岭土，是景德镇瓷器"白如玉"的根基。匠人将瓷石粉碎、淘洗、沉淀，制成不添加任何化学原料的天然泥料。历经"千揉百和"，泥料中气泡被排出，变得细腻柔韧，方能在匠人手中旋转出万千形态。</p>
+                    <h3>二、指尖舞蹈：拉坯与利坯</h3>
+                    <p>拉坯是成型的关键，一块泥巴在转盘上被双手提拉、按压，瞬间化为碗、盘、瓶、罐。而利坯更显精微，利刀轻轻刮削，使胎体薄厚均匀，光影下近乎脱胎。古语云"一夕利坯，十日画瓷"，可见功夫之深。</p>
+                    <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&auto=format"
+                        alt="拉坯工艺">
+                    <h3>三、青花与釉里红：笔墨入瓷</h3>
+                    <p>青花料以氧化钴为着色剂，画师用毛笔在干燥的坯体上挥洒，山水、人物、花鸟跃然瓷上，再罩一层透明釉，经1300℃高温还原焰烧成，青翠欲滴，永不褪色。釉里红则以铜红料描绘，窑变之后红如宝石，为瓷中神品。
+                    </p>
+                    <h3>四、窑火凝魂：最后的涅槃</h3>
+                    <p>柴窑烧制是景德镇传统核心绝技。松柴为燃料，火焰流速与气氛全凭把桩师傅经验。三日炉火，一日冷却，开窑刹那，或万件全美，或满窑崩裂——成败皆在一念之间。如今镇窑复烧，让千年不熄的窑火继续照亮非遗未来。
+                    </p>
+                    <p>从唐宋青瓷到元青花，从明清五彩到当代艺术瓷，景德镇陶瓷不仅是器物，更是中华文明交流世界的语言。今天，年轻一代传承人正融合现代设计，让古老手艺重返日常，成为东方生活美学的灵魂。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 媒体模块：视频 & 音频 -->
+        <div class="media-section">
+            <div class="media-card">
+                <h3><i class="fas fa-video" style="color:#8c6d46;"></i> 匠人纪录片·片段</h3>
+                <div class="video-wrapper">
+                    <video controls
+                        poster="https://images.unsplash.com/photo-1584612186896-b436d5b7d6ed?w=400&auto=format">
+                        <source
+                            src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                            type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+            </div>
+            <div class="media-card">
+                <h3><i class="fas fa-headphones-alt"></i> 瓷乐·青花音韵</h3>
+                <div class="audio-player">
+                    <div class="audio-title">景德镇女子瓷乐团演奏《青花瓷》</div>
+                    <div class="audio-controls">
+                        <button class="audio-btn" id="playBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="progress-container" id="progressContainer">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <span id="timeDisplay">00:00</span>
+                    </div>
+                </div>
+                <audio id="mainAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+            </div>
+        </div>
+
+        <!-- 互动按钮区 -->
+        <div class="interaction-buttons">
+            <div class="interaction-btn" id="likeBtn">
+                <i class="fas fa-heart"></i>
+                <span>喜欢</span>
+            </div>
+            <div class="interaction-btn" id="favoriteBtn">
+                <i class="fas fa-star"></i>
+                <span>收藏</span>
+            </div>
+            <div class="interaction-btn" id="shareBtn">
+                <i class="fas fa-share-alt"></i>
+                <span>分享</span>
+            </div>
+            <div class="interaction-btn" id="aiBtn">
+                <i class="fas fa-robot"></i>
+                <span>AI总结</span>
+            </div>
+        </div>
+
+        <!-- AI 总结卡片 -->
+        <div class="ai-summary-card" id="aiSummaryCard" style="display: none;">
+            <h3><i class="fas fa-microchip"></i> AI 智能总结</h3>
+            <div id="summaryContent" class="summary-content"></div>
+        </div>
+
+        <!-- 评论互动区 -->
+        <div class="comments-section" id="commentsSection">
+            <div class="comments-title">
+                <i class="fas fa-comments"></i> 雅集留声 · 匠心共鸣
+            </div>
+            <div class="comment-form">
+                <div class="form-row">
+                    <input type="text" id="commentName" placeholder="您的雅号 / 昵称" value="江南客">
+                </div>
+                <div class="form-row">
+                    <textarea id="commentContent" placeholder="分享您的感悟，或与匠人对话……"></textarea>
+                </div>
+                <button class="submit-comment" id="submitCommentBtn"><i class="fas fa-feather-alt"></i> 留下墨宝</button>
+            </div>
+            <div id="commentListContainer" class="comment-list">
+                <!-- 动态评论列表 -->
+                <div class="empty-comments">✨ 暂无评论，做第一位留言的知音人 ✨</div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div>
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <script>
+        // 音频播放器控制
+        const audio = document.getElementById('mainAudio');
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        if (playBtn && audio) {
+            playBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+
+            audio.addEventListener('timeupdate', () => {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = percent + '%';
+                timeDisplay.textContent = formatTime(audio.currentTime);
+            });
+
+            audio.addEventListener('ended', () => {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                progressBar.style.width = '0%';
+                timeDisplay.textContent = '00:00';
+            });
+
+            progressContainer.addEventListener('click', (e) => {
+                const width = progressContainer.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audio.duration;
+                audio.currentTime = (clickX / width) * duration;
+            });
+        }
+
+        // 互动按钮逻辑
+        const likeBtn = document.getElementById('likeBtn');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const aiBtn = document.getElementById('aiBtn');
+        const aiSummaryCard = document.getElementById('aiSummaryCard');
+        const summaryContent = document.getElementById('summaryContent');
+
+        if (likeBtn) {
+            likeBtn.addEventListener('click', () => {
+                likeBtn.classList.toggle('active');
+            });
+        }
+        if (favoriteBtn) {
+            favoriteBtn.addEventListener('click', () => {
+                favoriteBtn.classList.toggle('active');
+            });
+        }
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => {
+                // 分享功能已移除提示
+            });
+        }
+        if (aiBtn) {
+            aiBtn.addEventListener('click', () => {
+                aiBtn.classList.toggle('active');
+                if (aiSummaryCard.style.display === 'none' || !aiSummaryCard.style.display) {
+                    updateAISummary();
+                    aiSummaryCard.style.display = 'block';
+                } else {
+                    aiSummaryCard.style.display = 'none';
+                }
+            });
+        }
+        function updateAISummary() {
+            const paragraphs = document.querySelectorAll('.text-content p');
+            let text = '';
+            paragraphs.forEach(p => text += p.textContent + ' ');
+            const summary = text.trim().substring(0, 300) + '…';
+            summaryContent.innerHTML = `<p>📖 <strong>文章概要</strong>：${summary}</p>`;
+        }
+
+        // 共用工具函数
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // 购物车角标（复用localStorage逻辑）
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const cartData = localStorage.getItem('yunji_cart');
+                let total = 0;
+                if (cartData) {
+                    try {
+                        const items = JSON.parse(cartData);
+                        total = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
+                    } catch (e) { }
+                }
+                badge.innerText = total;
+                badge.style.display = total > 0 ? 'flex' : 'none';
+            }
+        }
+        updateCartBadge();
+
+        // 购物车图标点击
+        const cartBtn = document.getElementById('cartIconPage');
+        if (cartBtn) cartBtn.addEventListener('click', () => { window.location.href = '../购物车.html'; });
+
+        // 登录演示
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                // 登录按钮已移除提示
+            });
+            const storedUser = sessionStorage.getItem('currentUser');
+            if (storedUser) {
+                loginBtn.textContent = storedUser;
+                loginBtn.style.background = '#8c6d46';
+                loginBtn.style.color = '#fff';
+            }
+        }
+
+        // 搜索模拟
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        function handleSearch() {
+            const q = searchInput?.value?.trim();
+            if (searchInput) searchInput.value = '';
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
+
+        // ========== 评论互动区核心逻辑（基于localStorage，文章ID固定为 'article_ceramic'）==========
+        const STORAGE_KEY = 'yunjian_article_comments';
+        const ARTICLE_ID = 'ceramic_masterpiece';
+
+        function loadComments() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            let allComments = [];
+            if (stored) {
+                try {
+                    allComments = JSON.parse(stored);
+                } catch (e) { }
+            }
+            const articleComments = allComments.filter(c => c.articleId === ARTICLE_ID);
+            return articleComments;
+        }
+
+        function saveComments(comments) {
+            let all = [];
+            const storedAll = localStorage.getItem(STORAGE_KEY);
+            if (storedAll) {
+                try { all = JSON.parse(storedAll); } catch (e) { }
+            }
+            const others = all.filter(c => c.articleId !== ARTICLE_ID);
+            const newAll = [...others, ...comments];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(newAll));
+        }
+
+        // 渲染评论列表
+        function renderComments() {
+            const container = document.getElementById('commentListContainer');
+            const comments = loadComments();
+            if (!container) return;
+            if (comments.length === 0) {
+                container.innerHTML = `<div class="empty-comments">📖 虚位以待 · 期待您的真知灼见 📖</div>`;
+                return;
+            }
+            // 按时间倒序
+            const sorted = [...comments].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            container.innerHTML = sorted.map(c => `
+            <div class="comment-item">
+                <div class="comment-author">
+                    <i class="fas fa-user-circle"></i> <strong>${escapeHtml(c.author)}</strong>
+                    <span class="comment-time"><i class="far fa-clock"></i> ${formatDate(c.timestamp)}</span>
+                </div>
+                <div class="comment-text">${escapeHtml(c.content)}</div>
+            </div>
+        `).join('');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+                return c;
+            });
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            if (diff < 3600000) return '刚刚';
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
+            return `${date.getMonth() + 1}/${date.getDate()} · ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function addComment(author, content) {
+            if (!author.trim() || !content.trim()) {
+                return false;
+            }
+            if (content.length > 500) {
+                return false;
+            }
+            const newComment = {
+                id: Date.now() + Math.random(),
+                articleId: ARTICLE_ID,
+                author: author.trim().substring(0, 30),
+                content: content.trim().substring(0, 500),
+                timestamp: new Date().toISOString()
+            };
+            const current = loadComments();
+            current.push(newComment);
+            saveComments(current);
+            renderComments();
+            return true;
+        }
+
+        // 提交评论
+        const submitBtn = document.getElementById('submitCommentBtn');
+        const nameInput = document.getElementById('commentName');
+        const contentTextarea = document.getElementById('commentContent');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                const author = nameInput ? nameInput.value : '无名客';
+                const content = contentTextarea ? contentTextarea.value : '';
+                if (addComment(author, content)) {
+                    if (contentTextarea) contentTextarea.value = '';
+                    // 不清空昵称，保留便于连续评论
+                }
+            });
+        }
+
+        // 预置两条示例评论（仅首次加载时若无评论则插入演示数据，让界面生动）
+        function initDemoComments() {
+            const comments = loadComments();
+            if (comments.length === 0) {
+                const demos = [
+                    { author: "陶然居士", content: "景德镇的每一道工序都是天人合一的修行，青花之美在于静，窑火之魂在于诚。致敬非遗匠人！", timestamp: new Date(Date.now() - 86400000).toISOString() },
+                    { author: "雨过天青", content: "之前去景德镇亲手体验了拉坯，方知「手随泥走，泥随手变」的功力。希望这样的文章能让更多人爱上传统手艺。", timestamp: new Date(Date.now() - 172800000).toISOString() }
+                ];
+                const initial = demos.map(d => ({ ...d, id: Date.now() + Math.random(), articleId: ARTICLE_ID }));
+                saveComments(initial);
+                renderComments();
+            } else {
+                renderComments();
+            }
+        }
+
+        initDemoComments();
+
+        // 页面淡入效果
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease';
+        setTimeout(() => { document.body.style.opacity = '1'; }, 30);
+
+        // 初始化登录按钮
+        initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+
+        // 可选的，点击阅读全文保持优雅
+        const backLinks = document.querySelectorAll('.back-link');
+        if (backLinks.length) backLinks.forEach(link => link.addEventListener('click', () => { }));
+    </script>
+</body>
+
+</html>

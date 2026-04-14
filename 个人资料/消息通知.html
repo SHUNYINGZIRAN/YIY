@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息通知 - 云间小阁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a,
+        a * {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 244, 233, 0.85);
+            z-index: -1;
+        }
+
+        /* 古风浮云大字装饰 */
+        .decoration-big {
+            position: fixed;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 12rem;
+            color: #d6ccc2;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .decoration-left {
+            bottom: 5%;
+            left: -3%;
+            transform: rotate(-8deg);
+        }
+
+        .decoration-right {
+            top: 10%;
+            right: -2%;
+            transform: rotate(12deg);
+        }
+
+        @media (max-width: 768px) {
+            .decoration-big {
+                font-size: 6rem;
+                opacity: 0.15;
+            }
+
+            .decoration-left {
+                bottom: 2%;
+                left: -8%;
+            }
+
+            .decoration-right {
+                top: 5%;
+                right: -5%;
+            }
+        }
+
+        .site-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background: rgba(255, 253, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .logo {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.9rem;
+            color: #5c4c3e;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .logo span {
+            font-size: 1.3rem;
+            color: #8c6d46;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5c4c3e;
+            font-weight: 500;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #8c6d46;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover:after,
+        .nav-links a.active:after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #8c6d46;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            color: #8c6d46;
+            transform: translateY(-2px);
+        }
+
+        /* 购物车角标 */
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #8c6d46;
+            color: white;
+            font-size: 0.65rem;
+            border-radius: 30px;
+            padding: 0px 6px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .btn-outline {
+            border: 1px solid #8c6d46;
+            background: transparent;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #8c6d46;
+            color: #fff;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            border: 1px solid #8c6d46;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            background: rgba(255, 253, 245, 0.95);
+            outline: none;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 100%;
+            margin-right: 10px;
+        }
+
+        .search-container:hover .search-input {
+            width: 160px;
+            opacity: 1;
+        }
+
+        @media (max-width: 860px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                border-radius: 32px;
+                padding: 18px 20px;
+            }
+
+            .nav-links {
+                gap: 18px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-wrapper {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .nav-icons {
+                margin-top: 6px;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.12);
+            border: 1px solid #e7dfd3;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #c4a77d;
+            background: #e7dfd3;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 5px;
+        }
+
+        .user-title {
+            color: #8c6d46;
+            margin-bottom: 15px;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .user-bio {
+            color: #7f6b5a;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-size: 0.85rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #8c6d46;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #9b8a78;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .profile-btn {
+            padding: 10px;
+            border-radius: 40px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #8c6d46;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .profile-btn.primary {
+            background: #8c6d46;
+            color: white;
+        }
+
+        .profile-btn.outline {
+            background: transparent;
+            color: #8c6d46;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(92, 76, 62, 0.15);
+        }
+
+        .quick-links {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+        }
+
+        .links-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.3rem;
+            color: #5c4c3e;
+            margin-bottom: 18px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: #5c4c3e;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .link-item:hover {
+            background: rgba(140, 109, 70, 0.08);
+            transform: translateX(5px);
+        }
+
+        .link-item i {
+            margin-right: 12px;
+            width: 24px;
+            color: #8c6d46;
+            font-size: 1.1rem;
+        }
+
+        .link-item.active {
+            background: rgba(140, 109, 70, 0.12);
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+        }
+
+        .content-section {
+            background: rgba(255, 253, 245, 0.95);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(92, 76, 62, 0.08);
+            border: 1px solid #e7dfd3;
+            position: relative;
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8c6d46, #c4a77d, #8c6d46);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .section-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e7dfd3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 通知头部工具栏 */
+        .notification-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active {
+            background: #8c6d46;
+            border-color: #8c6d46;
+            color: white;
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: #f0e8dd;
+            border-color: #c4a77d;
+        }
+
+        .batch-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .batch-btn {
+            background: none;
+            border: 1px solid #d6ccc2;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #8c6d46;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .batch-btn:hover {
+            background: #f0e8dd;
+            color: #5c4c3e;
+        }
+
+        /* 通知列表 */
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-item {
+            background: rgba(255, 255, 245, 0.9);
+            border-radius: 16px;
+            padding: 16px 20px;
+            border: 1px solid #e7dfd3;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            position: relative;
+        }
+
+        .notification-item.unread {
+            background: rgba(248, 244, 233, 0.95);
+            border-left: 3px solid #8c6d46;
+        }
+
+        .notification-item:hover {
+            box-shadow: 0 4px 12px rgba(92, 76, 62, 0.08);
+            border-color: #c4a77d;
+        }
+
+        .notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #f0e8dd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #8c6d46;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            margin-bottom: 4px;
+        }
+
+        .notification-desc {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .notification-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.7rem;
+            color: #9b8a78;
+        }
+
+        .notification-meta i {
+            margin-right: 4px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .noti-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: #9b8a78;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 20px;
+            transition: 0.2s;
+        }
+
+        .noti-btn:hover {
+            background: #f0e8dd;
+            color: #8c6d46;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9b8a78;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Toast 提示 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .notification-item {
+                flex-direction: column;
+            }
+
+            .notification-actions {
+                align-self: flex-end;
+            }
+
+            .toast-msg {
+                white-space: normal;
+                width: 80%;
+                text-align: center;
+            }
+        }
+
+        /* 页脚 — 延续留白简约 */
+        .footer {
+            margin-top: 80px;
+            border-top: 0.5px solid #e2d8cc;
+            padding: 36px 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .footer-col p {
+            font-size: 0.75rem;
+            color: #9b8a78;
+            margin: 8px 0;
+        }
+
+        .footer-col .logo-mini {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.5rem;
+            color: #5c4c3e;
+        }
+
+        .social-icons i {
+            font-size: 1.2rem;
+            margin-right: 16px;
+            color: #9b8a78;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            width: 100%;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #b8a994;
+        }
+
+        .footer-col h4 {
+            font-size: 0.85rem;
+            color: #5c4c3e;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #9b8a78;
+            font-size: 0.75rem;
+            margin: 6px 0;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+    <!-- 公共登录状态管理 -->
+    <script src="../assets/js/common.js"></script>
+</head>
+
+<body>
+    <div class="decoration-big decoration-left">消</div>
+    <div class="decoration-big decoration-right">息</div>
+
+    <div class="site-wrapper">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <a href="index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" data-page="首页">首页</a>
+                <a href="../非遗集市.html" data-page="非遗集市">非遗集市</a>
+                <a href="../匠心传承.html" data-page="匠心传承">匠心传承</a>
+                <a href="../非遗学堂.html" data-page="非遗学堂">非遗学堂</a>
+                <a href="../社区.html" data-page="社区">社区</a>
+            </div>
+            <div class="nav-icons">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜非遗好物..." id="notiSearchInput">
+                    <button class="icon-btn" id="notiSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="notiCartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-outline" id="loginBtnRef">登录 /
+                        注册</button></a>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="profile-container">
+                <!-- 侧边栏 -->
+                <div class="sidebar">
+                    <div class="profile-card">
+                        <div class="avatar">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop"
+                                alt="用户头像">
+                        </div>
+                        <h2 class="user-name">文心居士</h2>
+                        <p class="user-title">传统文化传承者</p>
+                        <p class="user-bio">以文会友，以友辅仁。传承中华文化，分享生活智慧。</p>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-number">42</div>
+                                <div class="stat-label">文章</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">128</div>
+                                <div class="stat-label">粉丝</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">86</div>
+                                <div class="stat-label">收藏</div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <a href="后台登录.html" class="profile-btn primary" id="editProfileBtn">守艺掌柜</a>
+                            <a href="../登录and注册/登录页面.html" class="profile-btn outline" id="logoutBtn">退出登录</a>
+                        </div>
+                    </div>
+                    <div class="quick-links">
+                        <h3 class="links-title">快捷入口</h3>
+                        <a href="个人中心.html" class="link-item"><i class="fas fa-plus-circle"></i><span>创作中心</span></a>
+                        <a href="我的收藏.html" class="link-item"><i class="fas fa-heart"></i><span>我的收藏</span></a>
+                        <a href="文章管理.html" class="link-item"><i class="fas fa-file-alt"></i><span>文章管理</span></a>
+                        <a href="消息通知.html" class="link-item active"><i
+                                class="fas fa-comments"></i><span>消息通知</span></a>
+                        <a href="我的订单.html" class="link-item"><i class="fas fa-shopping-bag"></i><span>我的订单</span></a>
+                        <a href="账号设置.html" class="link-item"><i class="fas fa-cog"></i><span>账号设置</span></a>
+                    </div>
+                </div>
+
+                <!-- 主内容区域 - 消息通知 -->
+                <div class="main-content">
+                    <div class="content-section">
+                        <div class="section-title">
+                            <span><i class="fas fa-bell" style="margin-right: 8px; color: #8c6d46;"></i> 消息通知</span>
+                        </div>
+
+                        <!-- 工具栏 -->
+                        <div class="notification-toolbar">
+                            <div class="filter-tabs" id="filterTabs">
+                                <button class="filter-tab active" data-filter="all">全部</button>
+                                <button class="filter-tab" data-filter="unread">未读</button>
+                                <button class="filter-tab" data-filter="system">系统通知</button>
+                                <button class="filter-tab" data-filter="interaction">互动通知</button>
+                            </div>
+                            <div class="batch-actions">
+                                <button class="batch-btn" id="markAllReadBtn"><i class="fas fa-check-double"></i>
+                                    全部已读</button>
+                                <button class="batch-btn" id="clearAllBtn"><i class="fas fa-trash-alt"></i> 清空</button>
+                            </div>
+                        </div>
+
+                        <!-- 通知列表容器 -->
+                        <div id="notificationsContainer" class="notifications-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-col">
+                <div class="logo-mini">云间小阁</div>
+                <p>非遗垂直电商平台 | 让传统手艺走进当代生活</p>
+                <div class="social-icons"><i class="fab fa-weixin"></i><i class="fab fa-weibo"></i><i
+                        class="fab fa-xiaohongshu"></i></div>
+            </div>
+            <div class="footer-col">
+                <h4>助 阁</h4>
+                <a href="../页尾/购买指南.html">购买指南</a>
+                <a href="../页尾/非遗鉴定.html">非遗鉴定</a>
+                <a href="../页尾/售后服务.html">售后服务</a>
+            </div>
+            <div class="footer-col">
+                <h4>阁 中</h4>
+                <a href="../页尾/传承人合作.html">传承人合作</a>
+                <a href="../页尾/非遗保护基金.html">非遗保护基金</a>
+                <a href="../页尾/加入我们.html">加入我们</a>
+            </div>
+            <div class="footer-col">
+                <h4>联 系</h4>
+                <p><i class="fas fa-phone-alt"></i> 400 889 0662</p>
+                <p><i class="fas fa-envelope"></i> yunjian@ich.com</p>
+            </div>
+            <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
+        </footer>
+    </div><!-- /.site-wrapper -->
+
+    <div id="toast" class="toast-msg"></div>
+
+    <script>
+        // 初始化登录按钮
+        document.addEventListener('DOMContentLoaded', () => {
+            initLoginBtn('loginBtnRef', '个人中心.html', '../登录and注册/登录页面.html');
+        });
+
+        // 模拟通知数据
+        let notificationsData = [
+            {
+                id: 1,
+                type: "interaction",
+                title: "绣里江南 点赞了你的文章",
+                content: "《苏绣千年：针尖上的江南》",
+                icon: "fas fa-thumbs-up",
+                time: "2024-03-18 14:32",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 2,
+                type: "interaction",
+                title: "青瓷故里 评论了你的文章",
+                content: "《龙泉青瓷·梅子青釉的秘密》：写得真好，学到了很多！",
+                icon: "fas fa-comment",
+                time: "2024-03-17 09:15",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 3,
+                type: "system",
+                title: "系统通知",
+                content: "恭喜！你的文章《苏绣千年》入选本周非遗精选推荐。",
+                icon: "fas fa-crown",
+                time: "2024-03-16 20:00",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 4,
+                type: "interaction",
+                title: "剪纸阿婆 收藏了你的手作",
+                content: "《徽州剪纸·瑞鹤图》",
+                icon: "fas fa-bookmark",
+                time: "2024-03-15 11:22",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 5,
+                type: "system",
+                title: "活动通知",
+                content: "非遗创作大赛即将开启，快来报名参与吧！",
+                icon: "fas fa-gift",
+                time: "2024-03-14 10:00",
+                read: false,
+                link: "#"
+            },
+            {
+                id: 6,
+                type: "interaction",
+                title: "木雕小生 关注了你",
+                content: "成为了你的新粉丝",
+                icon: "fas fa-user-plus",
+                time: "2024-03-13 18:45",
+                read: true,
+                link: "#"
+            },
+            {
+                id: 7,
+                type: "system",
+                title: "审核通知",
+                content: "你的文章《苗绣纹样解读》已通过审核，正式发布。",
+                icon: "fas fa-check-circle",
+                time: "2024-03-12 14:20",
+                read: true,
+                link: "#"
+            }
+        ];
+
+        let currentFilter = "all";
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 格式化时间显示
+        function formatTime(timeStr) {
+            const date = new Date(timeStr);
+            const now = new Date();
+            const diff = now - date;
+            if (diff < 24 * 3600 * 1000) {
+                return timeStr.slice(11, 16);
+            } else if (diff < 7 * 24 * 3600 * 1000) {
+                const days = Math.floor(diff / (24 * 3600 * 1000));
+                return `${days}天前`;
+            } else {
+                return timeStr.slice(5, 16);
+            }
+        }
+
+        // 渲染通知列表
+        function renderNotifications() {
+            const container = document.getElementById('notificationsContainer');
+            let filtered = [...notificationsData];
+
+            if (currentFilter === 'unread') {
+                filtered = filtered.filter(n => !n.read);
+            } else if (currentFilter === 'system') {
+                filtered = filtered.filter(n => n.type === 'system');
+            } else if (currentFilter === 'interaction') {
+                filtered = filtered.filter(n => n.type === 'interaction');
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="far fa-bell-slash"></i><p>暂无通知，清净自在</p></div>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(noti => {
+                const unreadClass = noti.read ? '' : 'unread';
+                html += `
+                    <div class="notification-item ${unreadClass}" data-id="${noti.id}">
+                        <div class="notification-icon">
+                            <i class="${noti.icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${escapeHtml(noti.title)}</div>
+                            <div class="notification-desc">${escapeHtml(noti.content)}</div>
+                            <div class="notification-meta">
+                                <span><i class="far fa-clock"></i> ${formatTime(noti.time)}</span>
+                            </div>
+                        </div>
+                        <div class="notification-actions">
+                            ${!noti.read ? `<button class="noti-btn mark-read" data-id="${noti.id}"><i class="fas fa-check"></i> 标为已读</button>` : ''}
+                            <button class="noti-btn delete-noti" data-id="${noti.id}"><i class="fas fa-trash-alt"></i> 删除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            // 绑定操作事件
+            document.querySelectorAll('.mark-read').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti && !noti.read) {
+                        noti.read = true;
+                        renderNotifications();
+                        showToast('已标记为已读');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.delete-noti').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti && confirm(`确定要删除这条通知吗？`)) {
+                        notificationsData = notificationsData.filter(n => n.id !== id);
+                        renderNotifications();
+                        showToast('通知已删除');
+                    }
+                });
+            });
+
+            // 点击通知跳转（演示）
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('noti-btn')) return;
+                    const id = parseInt(item.getAttribute('data-id'));
+                    const noti = notificationsData.find(n => n.id === id);
+                    if (noti) {
+                        if (!noti.read) {
+                            noti.read = true;
+                            renderNotifications();
+                        }
+                        showToast(`即将查看: ${noti.title}`);
+                    }
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // 全部已读
+        function markAllRead() {
+            const unreadCount = notificationsData.filter(n => !n.read).length;
+            if (unreadCount === 0) {
+                showToast('暂无未读通知');
+                return;
+            }
+            notificationsData.forEach(n => n.read = true);
+            renderNotifications();
+            showToast('已将所有通知标记为已读');
+        }
+
+        // 清空所有通知
+        function clearAll() {
+            if (notificationsData.length === 0) {
+                showToast('暂无通知可清空');
+                return;
+            }
+            if (confirm('确定要清空所有通知吗？此操作不可恢复。')) {
+                notificationsData = [];
+                renderNotifications();
+                showToast('已清空所有通知');
+            }
+        }
+
+        // 筛选切换
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-tab');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderNotifications();
+                });
+            });
+        }
+
+        // 侧边栏链接演示
+        function initSidebar() {
+            document.querySelectorAll('.quick-links .link-item').forEach(link => {
+                if (link.getAttribute('href') === '#') {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showToast(`✨ 「${link.innerText}」页面即将开放`);
+                    });
+                }
+            });
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    if (!confirm('确定要退出登录吗？')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+        }
+
+        // 初始化
+        function init() {
+            renderNotifications();
+            initFilters();
+            initSidebar();
+            document.getElementById('markAllReadBtn').addEventListener('click', markAllRead);
+            document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+        }
+
+        init();
+
+        // ---------- 导航栏功能 ----------
+        // 获取购物车数量
+        let cartItems = [];
+
+        function loadCartBadge() {
+            const stored = localStorage.getItem('yunji_cart');
+            if (stored) {
+                cartItems = JSON.parse(stored);
+            }
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                badge.innerText = totalQty;
+                badge.style.display = totalQty > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function initNavSearch() {
+            const searchBtn = document.getElementById('notiSearchBtn');
+            const searchInput = document.getElementById('notiSearchInput');
+            if (searchBtn) searchBtn.addEventListener('click', () => { });
+            if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { } });
+        }
+
+        function initNavLinks() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const pageName = link.getAttribute('data-page');
+                if (pageName) {
+                    link.addEventListener('click', (e) => {
+                        if (link.getAttribute('href') === '#') {
+                            e.preventDefault();
+                        }
+                    });
+                }
+            });
+        }
+
+        function initCartIcon() {
+            const cartIcon = document.getElementById('notiCartIcon');
+            if (cartIcon) {
+                cartIcon.addEventListener('click', () => {
+                    window.location.href = '../购物车.html';
+                });
+            }
+        }
+
+        function initNavbar() {
+            loadCartBadge();
+            initNavSearch();
+            initNavLinks();
+            initCartIcon();
+        }
+
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    </script>
+</body>
+
+</html>
