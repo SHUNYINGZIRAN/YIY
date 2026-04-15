@@ -973,24 +973,13 @@
                 searchBtn.addEventListener('click', handleSearch);
                 searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSearch(); });
             }
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', () => {
-                    const currentUser = sessionStorage.getItem('currentUser');
-                    if (currentUser) window.location.href = '个人中心.html';
-                    else {
-                        sessionStorage.setItem('previousPage', '传视频记手作');
-                        window.location.href = '登录页面.html';
-                    }
-                });
-            }
         }
 
         // 页面入场
         document.addEventListener('DOMContentLoaded', () => {
             // 初始化登录按钮
             initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
-            
+
             // 检查是否有来自匠心传承页面的筛选状态
             const savedFilter = sessionStorage.getItem('artisanFilter');
             if (savedFilter === 'craft' || savedFilter === 'video') {

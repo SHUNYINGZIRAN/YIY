@@ -862,7 +862,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化登录按钮
             initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
-            
+
             // 分类筛选功能
             const filterBtns = document.querySelectorAll('.filter-btn');
             const articleCards = document.querySelectorAll('.article-card');
@@ -946,16 +946,13 @@
                 });
             }
 
-            // 搜索框逻辑
+            // 搜索框逻辑（已移除提示）
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
             function handleSearch() {
                 const query = searchInput?.value?.trim();
                 if (query) {
-                    showMessage(`正在搜索"${query}"相关非遗技艺...`);
                     searchInput.value = '';
-                } else {
-                    showMessage('输入关键词，探寻更多非遗之美');
                 }
             }
             if (searchBtn) searchBtn.addEventListener('click', handleSearch);
@@ -965,25 +962,7 @@
                 });
             }
 
-            // 登录/注册按钮
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', () => {
-                    const currentUser = sessionStorage.getItem('currentUser');
-                    if (currentUser) {
-                        showMessage('即将进入个人中心');
-                    } else {
-                        showMessage('即将跳转登录页面');
-                    }
-                });
-            }
-            const storedUser = sessionStorage.getItem('currentUser');
-            if (storedUser && loginBtn) {
-                loginBtn.textContent = storedUser;
-                loginBtn.style.background = '#8c6d46';
-                loginBtn.style.color = '#fff';
-                loginBtn.title = '点击进入个人中心';
-            }
+            // 登录状态显示（initLoginBtn已处理跳转逻辑）
 
             // 页面淡入效果
             document.body.style.opacity = '0';
