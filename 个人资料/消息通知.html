@@ -686,6 +686,105 @@
             opacity: 1;
         }
 
+        /* 通知详情弹窗 */
+        .notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(92, 76, 62, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .notification-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(255, 253, 245, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(92, 76, 62, 0.2);
+            border: 1px solid #e7dfd3;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .modal-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8c6d46, #c4a77d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .modal-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.4rem;
+            color: #5c4c3e;
+        }
+
+        .modal-time {
+            font-size: 0.8rem;
+            color: #9b8a78;
+            margin-top: 4px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #9b8a78;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 5px;
+        }
+
+        .modal-close:hover {
+            color: #5c4c3e;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            color: #5c4c3e;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
         /* 响应式 */
         @media (max-width: 992px) {
             .profile-container {
@@ -908,6 +1007,25 @@
 
     <div id="toast" class="toast-msg"></div>
 
+    <!-- 通知详情弹窗 -->
+    <div id="notificationModal" class="notification-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div>
+                    <div class="modal-title" id="modalTitle">通知标题</div>
+                    <div class="modal-time" id="modalTime"><i class="far fa-clock"></i> 时间</div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p id="modalContent">通知详细内容...</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 初始化登录按钮
         document.addEventListener('DOMContentLoaded', () => {
@@ -1083,21 +1201,46 @@
                 });
             });
 
-            // 点击通知跳转（演示）
+            // 点击通知查看详情
             document.querySelectorAll('.notification-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     if (e.target.classList.contains('noti-btn')) return;
                     const id = parseInt(item.getAttribute('data-id'));
                     const noti = notificationsData.find(n => n.id === id);
                     if (noti) {
-                        if (!noti.read) {
-                            noti.read = true;
-                            renderNotifications();
-                        }
-                        showToast(`即将查看: ${noti.title}`);
+                        openNotificationModal(noti);
                     }
                 });
             });
+        }
+
+        // 打开通知详情弹窗
+        function openNotificationModal(noti) {
+            const modal = document.getElementById('notificationModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const modalTime = document.getElementById('modalTime');
+            const modalIcon = document.getElementById('modalIcon');
+
+            modalTitle.textContent = noti.title;
+            modalContent.textContent = noti.content;
+            modalTime.innerHTML = `<i class="far fa-clock"></i> ${noti.time}`;
+            modalIcon.innerHTML = `<i class="${noti.icon}"></i>`;
+
+            // 标记为已读
+            if (!noti.read) {
+                noti.read = true;
+                renderNotifications();
+            }
+
+            // 显示弹窗
+            modal.classList.add('show');
+        }
+
+        // 关闭弹窗
+        function closeNotificationModal() {
+            const modal = document.getElementById('notificationModal');
+            modal.classList.remove('show');
         }
 
         function escapeHtml(str) {
@@ -1175,6 +1318,14 @@
             initSidebar();
             document.getElementById('markAllReadBtn').addEventListener('click', markAllRead);
             document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+            // 弹窗关闭事件
+            document.getElementById('modalClose').addEventListener('click', closeNotificationModal);
+            document.getElementById('notificationModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('notificationModal')) {
+                    closeNotificationModal();
+                }
+            });
         }
 
         init();

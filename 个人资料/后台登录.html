@@ -613,9 +613,9 @@
             // 模拟匠人登录（演示账号）
             if (username === '123456' && password === '123456') {
                 showMessage('登录成功，欢迎回到工坊');
-                // 跳转至匠人工作台（示例路径）
+                // 在新窗口中打开匠人工作台
                 setTimeout(() => {
-                    window.location.href = '../后台/经营总览.html';
+                    window.open('../后台/经营总览.html', '_blank');
                 }, 1200);
             } else {
                 showMessage('账号或密码错误，请联系阁中侍者');
