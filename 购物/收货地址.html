@@ -186,23 +186,6 @@
             transform: translateY(-2px);
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -824,23 +807,6 @@
             initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
 
             // 导航栏功能
-            function loadCartBadge() {
-                const stored = localStorage.getItem('yunji_cart');
-                if (stored) {
-                    const cartItems = JSON.parse(stored);
-                    updateCartBadge(cartItems);
-                }
-            }
-
-            function updateCartBadge(cartItems) {
-                const badge = document.getElementById('addressCartBadge');
-                if (badge) {
-                    const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                    badge.innerText = totalQty;
-                    badge.style.display = totalQty > 0 ? 'flex' : 'none';
-                }
-            }
-
             function initNavSearch() {
                 const searchBtn = document.getElementById('addressSearchBtn');
                 const searchInput = document.getElementById('addressSearchInput');
@@ -872,7 +838,6 @@
             }
 
             function initNavbar() {
-                loadCartBadge();
                 initNavSearch();
                 initNavLinks();
                 initCartIcon();

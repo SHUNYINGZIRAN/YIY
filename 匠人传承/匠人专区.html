@@ -185,23 +185,6 @@
             transform: translateY(-2px);
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -798,23 +781,6 @@
             setTimeout(() => toast.classList.remove('show'), 1800);
         }
 
-        // 购物车功能
-        function loadCartBadge() {
-            const badge = document.getElementById('artisanCartBadge');
-            if (badge) {
-                const cartData = localStorage.getItem('yunji_cart');
-                if (cartData) {
-                    const cartItems = JSON.parse(cartData);
-                    const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                    badge.innerText = totalQty;
-                    badge.style.display = totalQty > 0 ? 'flex' : 'none';
-                } else {
-                    badge.innerText = '0';
-                    badge.style.display = 'none';
-                }
-            }
-        }
-
         function initCartIcon() {
             const cartIcon = document.getElementById('artisanCartIcon');
             if (cartIcon) {
@@ -989,7 +955,6 @@
             renderCards();
             initFilters();
             initFeatureBtns();
-            loadCartBadge();
             initCartIcon();
             // 保留其他导航功能
             initNav();

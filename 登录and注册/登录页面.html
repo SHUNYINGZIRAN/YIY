@@ -187,23 +187,6 @@
             transform: translateY(-2px);
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -795,19 +778,6 @@
             if (saved) {
                 document.getElementById('username').value = saved;
                 document.getElementById('remember').checked = true;
-            }
-            // 购物车轻提示（无则不显示）
-            const badge = document.querySelector('.cart-badge');
-            if (badge) {
-                const cart = localStorage.getItem('yunji_cart');
-                if (cart) {
-                    const items = JSON.parse(cart);
-                    const total = items.reduce((s, i) => s + i.quantity, 0);
-                    if (total > 0) {
-                        badge.innerText = total;
-                        badge.style.display = 'flex';
-                    }
-                }
             }
             const cartIcon = document.getElementById('cartIcon');
             if (cartIcon) cartIcon.addEventListener('click', () => window.location.href = '../购物车.html');

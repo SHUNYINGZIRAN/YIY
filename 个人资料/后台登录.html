@@ -187,24 +187,6 @@
             transform: translateY(-2px);
         }
 
-        /* 购物车角标 */
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         /* 登录/注册按钮风格 */
         .btn-outline {
             border: 1px solid #8c6d46;
@@ -620,20 +602,7 @@
                 showMessage('账号或密码错误，请联系阁中侍者');
             }
         }
-        // 购物车徽章（简单演示）
         document.addEventListener('DOMContentLoaded', () => {
-            const badge = document.querySelector('.cart-badge');
-            if (badge) {
-                const cart = localStorage.getItem('yunji_cart');
-                if (cart) {
-                    const items = JSON.parse(cart);
-                    const total = items.reduce((s, i) => s + i.quantity, 0);
-                    if (total > 0) {
-                        badge.innerText = total;
-                        badge.style.display = 'flex';
-                    }
-                }
-            }
             document.querySelectorAll('.icon-btn').forEach(btn => {
                 if (btn.querySelector('.fa-shopping-bag')) {
                     btn.addEventListener('click', () => window.location.href = '../购物车.html');

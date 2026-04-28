@@ -183,23 +183,6 @@
             transform: translateY(-2px);
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -827,7 +810,6 @@
                 </div>
                 <button class="icon-btn" id="cartIconPage">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-badge" id="cartBadge">0</span>
                 </button>
                 <button class="btn-outline" id="loginBtn">登录 / 注册</button>
             </div>
@@ -1078,24 +1060,6 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
-
-        // 购物车角标（复用localStorage逻辑）
-        function updateCartBadge() {
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                const cartData = localStorage.getItem('yunji_cart');
-                let total = 0;
-                if (cartData) {
-                    try {
-                        const items = JSON.parse(cartData);
-                        total = items.reduce((sum, i) => sum + (i.quantity || 0), 0);
-                    } catch (e) { }
-                }
-                badge.innerText = total;
-                badge.style.display = total > 0 ? 'flex' : 'none';
-            }
-        }
-        updateCartBadge();
 
         // 购物车图标点击
         const cartBtn = document.getElementById('cartIconPage');

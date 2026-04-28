@@ -186,24 +186,6 @@
             transform: translateY(-2px);
         }
 
-        /* 购物车角标 */
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -909,21 +891,6 @@
     <div id="toastMsg" class="toast-msg"></div>
 
     <script>
-        // 购物车角标更新函数
-        function updateCartBadge() {
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                const stored = localStorage.getItem('yunji_cart');
-                let cartItems = stored ? JSON.parse(stored) : [];
-                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                badge.innerText = totalQty;
-                badge.style.display = totalQty > 0 ? 'flex' : 'none';
-            }
-        }
-
-        // 页面加载时更新角标
-        document.addEventListener('DOMContentLoaded', updateCartBadge);
-
         // 初始化登录按钮
         document.addEventListener('DOMContentLoaded', () => {
             initLoginBtn('loginBtn', '个人资料/个人中心.html', '登录and注册/登录页面.html');

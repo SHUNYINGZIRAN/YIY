@@ -169,23 +169,6 @@
             position: relative;
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
         .btn-outline {
             border: 1px solid #8c6d46;
             background: transparent;
@@ -1164,24 +1147,13 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // 导航栏基本交互 (购物车角标、搜索等)
-        function updateCartBadge() {
-            const badge = document.getElementById('navCartBadge');
-            if (badge) {
-                const stored = localStorage.getItem('yunji_cart');
-                let cartItems = stored ? JSON.parse(stored) : [];
-                const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-                badge.innerText = totalQty;
-                badge.style.display = totalQty > 0 ? 'flex' : 'none';
-            }
-        }
+        // 导航栏基本交互
         document.getElementById('navCartIcon')?.addEventListener('click', () => window.location.href = '../购物车.html');
         document.getElementById('navSearchBtn')?.addEventListener('click', () => showMessage('搜索非遗内容'));
 
         // 初始化
         document.addEventListener('DOMContentLoaded', () => {
             initLoginBtn('navLoginBtn', '个人中心.html', '../登录and注册/登录页面.html');
-            updateCartBadge();
             loadArticleData();
         });
 

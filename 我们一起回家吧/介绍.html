@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
     <style>
         /* ========== 全局样式 + 订单详情/选择博物馆核心视觉 ========== */
         * {
@@ -189,23 +198,6 @@
         .icon-btn:hover {
             color: #8c6d46;
             transform: translateY(-2px);
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -12px;
-            background: #8c6d46;
-            color: white;
-            font-size: 0.65rem;
-            border-radius: 30px;
-            padding: 0px 6px;
-            min-width: 18px;
-            height: 18px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
         }
 
         .btn-outline {
@@ -486,6 +478,34 @@
             height: 210px;
             object-fit: cover;
             border-bottom: 1px solid #e7dfd3;
+        }
+
+        /* 3D预览容器 */
+        .artifact-3d-container {
+            width: 100%;
+            height: 210px;
+            position: relative;
+            border-bottom: 1px solid #e7dfd3;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f0e8 0%, #ebe4d8 100%);
+        }
+
+        .artifact-3d-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+
+        .artifact-3d-hint {
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: rgba(140, 109, 70, 0.7);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .artifact-info {
@@ -866,11 +886,15 @@
                 return;
             }
             artifactsContainer.innerHTML = '';
-            artifacts.forEach(art => {
+            // 清除旧的3D场景
+            clearAll3DScenes();
+            artifacts.forEach((art, index) => {
                 const card = document.createElement('div');
                 card.className = 'artifact-card';
                 card.innerHTML = `
-                    <img src="${art.image}" alt="${art.name}" class="artifact-img" loading="lazy">
+                    <div class="artifact-3d-container" id="artifact-3d-${art.id}" data-category="${art.category}">
+                        <div class="artifact-3d-hint"><i class="fas fa-sync-alt"></i> 拖动旋转</div>
+                    </div>
                     <div class="artifact-info">
                         <h3 class="artifact-name">${art.name}</h3>
                         <div class="artifact-dynasty">${art.dynasty}</div>
@@ -880,6 +904,8 @@
                 `;
                 card.addEventListener('click', () => showDetail(art));
                 artifactsContainer.appendChild(card);
+                // 延迟初始化3D场景
+                setTimeout(() => initArtifact3D(art), index * 100);
             });
         }
 
@@ -981,6 +1007,295 @@
                     }
                 });
             }
+        }
+
+        // ========== 3D文物展示模块 ==========
+        const threeScenes = {};
+        const threeRenderers = {};
+
+        function clearAll3DScenes() {
+            Object.keys(threeScenes).forEach(id => {
+                if (threeRenderers[id]) {
+                    threeRenderers[id].dispose();
+                    delete threeRenderers[id];
+                }
+                delete threeScenes[id];
+            });
+        }
+
+        async function initArtifact3D(artifact) {
+            const container = document.getElementById(`artifact-3d-${artifact.id}`);
+            if (!container || threeScenes[artifact.id]) return;
+
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // 场景
+            const scene = new THREE.Scene();
+
+            // 相机
+            const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.set(0, 0, 5);
+
+            // 渲染器
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+
+            // 光照
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+            directionalLight2.position.set(-5, 3, -5);
+            scene.add(directionalLight2);
+
+            // 根据类型创建模型
+            let model;
+            switch (artifact.category) {
+                case 'painting':
+                    model = createPaintingModel();
+                    break;
+                case 'bronze':
+                    model = createBronzeModel();
+                    break;
+                case 'ceramic':
+                    model = createCeramicModel();
+                    break;
+                case 'jade':
+                    model = createJadeModel();
+                    break;
+                case 'sculpture':
+                    model = createSculptureModel();
+                    break;
+                default:
+                    model = createDefaultModel();
+            }
+            scene.add(model);
+
+            // 保存场景
+            threeScenes[artifact.id] = { scene, camera, renderer, model, autoRotate: true };
+            threeRenderers[artifact.id] = renderer;
+
+            // 悬停控制
+            container.addEventListener('mouseenter', () => {
+                if (threeScenes[artifact.id]) threeScenes[artifact.id].autoRotate = false;
+            });
+            container.addEventListener('mouseleave', () => {
+                if (threeScenes[artifact.id]) threeScenes[artifact.id].autoRotate = true;
+            });
+
+            // 自动旋转动画
+            function animate() {
+                if (!threeScenes[artifact.id]) return;
+                requestAnimationFrame(animate);
+                if (threeScenes[artifact.id].autoRotate) {
+                    model.rotation.y += 0.008;
+                }
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // 创建书画模型（卷轴）
+        function createPaintingModel() {
+            const group = new THREE.Group();
+            // 左侧卷轴
+            const leftRollerGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.08, 32);
+            const leftRollerMat = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+            const leftRoller = new THREE.Mesh(leftRollerGeo, leftRollerMat);
+            leftRoller.rotation.z = Math.PI / 2;
+            leftRoller.position.x = -1.3;
+            group.add(leftRoller);
+            // 左侧装饰
+            const leftEndGeo = new THREE.SphereGeometry(0.28, 16, 16);
+            const leftEnd = new THREE.Mesh(leftEndGeo, leftRollerMat);
+            leftEnd.position.x = -1.3;
+            group.add(leftEnd);
+            // 右侧卷轴
+            const rightRoller = new THREE.Mesh(leftRollerGeo, leftRollerMat);
+            rightRoller.rotation.z = Math.PI / 2;
+            rightRoller.position.x = 1.3;
+            group.add(rightRoller);
+            // 右侧装饰
+            const rightEnd = new THREE.Mesh(leftEndGeo, leftRollerMat);
+            rightEnd.position.x = 1.3;
+            group.add(rightEnd);
+            // 卷轴纸张
+            const paperGeo = new THREE.PlaneGeometry(2.2, 1.8);
+            const paperMat = new THREE.MeshPhongMaterial({ color: 0xf5e6c8, side: THREE.DoubleSide });
+            const paper = new THREE.Mesh(paperGeo, paperMat);
+            paper.position.z = 0.01;
+            group.add(paper);
+            // 画框装饰线
+            const frameGeo = new THREE.EdgesGeometry(new THREE.PlaneGeometry(2.0, 1.6));
+            const frameMat = new THREE.LineBasicMaterial({ color: 0x8c6d46 });
+            const frame = new THREE.LineSegments(frameGeo, frameMat);
+            frame.position.z = 0.02;
+            group.add(frame);
+            // 山水纹理装饰
+            for (let i = 0; i < 3; i++) {
+                const mountainGeo = new THREE.ConeGeometry(0.3 - i * 0.05, 0.5 - i * 0.1, 4);
+                const mountainMat = new THREE.MeshPhongMaterial({ color: 0x6b8e6b });
+                const mountain = new THREE.Mesh(mountainGeo, mountainMat);
+                mountain.position.set(-0.4 + i * 0.4, -0.2, 0.03);
+                mountain.rotation.x = Math.PI;
+                group.add(mountain);
+            }
+            return group;
+        }
+
+        // 创建青铜器模型（鼎）
+        function createBronzeModel() {
+            const group = new THREE.Group();
+            // 鼎身
+            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.6, 1.2, 32);
+            const bronzeMat = new THREE.MeshPhongMaterial({ color: 0x7a5c3a, specular: 0x3a2a1a, shininess: 30 });
+            const body = new THREE.Mesh(bodyGeo, bronzeMat);
+            group.add(body);
+            // 鼎口
+            const rimGeo = new THREE.TorusGeometry(0.8, 0.08, 16, 32);
+            const rim = new THREE.Mesh(rimGeo, bronzeMat);
+            rim.rotation.x = Math.PI / 2;
+            rim.position.y = 0.6;
+            group.add(rim);
+            // 鼎底
+            const bottomGeo = new THREE.CylinderGeometry(0.6, 0.5, 0.1, 32);
+            const bottom = new THREE.Mesh(bottomGeo, bronzeMat);
+            bottom.position.y = -0.65;
+            group.add(bottom);
+            // 足（三只）
+            for (let i = 0; i < 3; i++) {
+                const legGeo = new THREE.CylinderGeometry(0.1, 0.12, 0.4, 16);
+                const leg = new THREE.Mesh(legGeo, bronzeMat);
+                const angle = (i / 3) * Math.PI * 2 + Math.PI / 6;
+                leg.position.set(Math.cos(angle) * 0.5, -0.85, Math.sin(angle) * 0.5);
+                group.add(leg);
+            }
+            // 耳（两只）
+            for (let i = 0; i < 2; i++) {
+                const earGeo = new THREE.TorusGeometry(0.15, 0.05, 8, 16, Math.PI);
+                const ear = new THREE.Mesh(earGeo, bronzeMat);
+                const angle = i === 0 ? 0 : Math.PI;
+                ear.position.set(Math.cos(angle) * 0.85, 0.4, Math.sin(angle) * 0.85);
+                ear.rotation.y = angle;
+                group.add(ear);
+            }
+            // 纹饰（简化饕餮纹）
+            const decorGeo = new THREE.TorusGeometry(0.5, 0.03, 8, 32);
+            const decorMat = new THREE.MeshPhongMaterial({ color: 0x5a4a2a });
+            const decor = new THREE.Mesh(decorGeo, decorMat);
+            decor.rotation.x = Math.PI / 2;
+            decor.position.y = 0.2;
+            group.add(decor);
+            return group;
+        }
+
+        // 创建陶瓷模型（花瓶/罐子）
+        function createCeramicModel() {
+            const group = new THREE.Group();
+            // 使用LatheGeometry创建花瓶轮廓
+            const points = [];
+            for (let i = 0; i < 10; i++) {
+                const t = i / 9;
+                const y = t * 2 - 1;
+                let r;
+                if (t < 0.1) r = 0.3 + t * 2;
+                else if (t < 0.3) r = 0.5 + Math.sin((t - 0.1) * Math.PI * 2.5) * 0.3;
+                else if (t < 0.7) r = 0.7 - (t - 0.3) * 0.5;
+                else if (t < 0.9) r = 0.5 + Math.sin((t - 0.7) * Math.PI * 2.5) * 0.2;
+                else r = 0.3 + (1 - t) * 1;
+                points.push(new THREE.Vector2(r * 0.7, y * 0.8));
+            }
+            const latheGeo = new THREE.LatheGeometry(points, 32);
+            const ceramicMat = new THREE.MeshPhongMaterial({
+                color: 0xe8e0d0,
+                specular: 0xffffff,
+                shininess: 60
+            });
+            const vase = new THREE.Mesh(latheGeo, ceramicMat);
+            group.add(vase);
+            // 青花纹饰（简化）
+            const decorGeo = new THREE.TorusGeometry(0.35, 0.015, 8, 32);
+            const blueMat = new THREE.MeshPhongMaterial({ color: 0x2c4a6e });
+            for (let y of [-0.3, 0.2]) {
+                const decor = new THREE.Mesh(decorGeo, blueMat);
+                decor.rotation.x = Math.PI / 2;
+                decor.position.y = y;
+                group.add(decor);
+            }
+            return group;
+        }
+
+        // 创建玉器模型（玉璧）
+        function createJadeModel() {
+            const group = new THREE.Group();
+            // 玉璧主体
+            const torusGeo = new THREE.TorusGeometry(0.7, 0.2, 32, 64);
+            const jadeMat = new THREE.MeshPhongMaterial({
+                color: 0x7ab87a,
+                specular: 0xaaffaa,
+                shininess: 80,
+                transparent: true,
+                opacity: 0.9
+            });
+            const disc = new THREE.Mesh(torusGeo, jadeMat);
+            disc.rotation.x = Math.PI / 2;
+            group.add(disc);
+            // 装饰纹
+            const innerGeo = new THREE.TorusGeometry(0.4, 0.02, 16, 32);
+            const innerLine = new THREE.Mesh(innerGeo, jadeMat);
+            innerLine.rotation.x = Math.PI / 2;
+            group.add(innerLine);
+            const outerGeo = new THREE.TorusGeometry(0.85, 0.02, 16, 32);
+            const outerLine = new THREE.Mesh(outerGeo, jadeMat);
+            outerLine.rotation.x = Math.PI / 2;
+            group.add(outerLine);
+            return group;
+        }
+
+        // 创建雕塑模型（佛像底座）
+        function createSculptureModel() {
+            const group = new THREE.Group();
+            // 莲花座
+            for (let i = 0; i < 8; i++) {
+                const petalGeo = new THREE.SphereGeometry(0.25, 16, 16);
+                const lotusMat = new THREE.MeshPhongMaterial({ color: 0xf5e6d3, shininess: 40 });
+                const petal = new THREE.Mesh(petalGeo, lotusMat);
+                const angle = (i / 8) * Math.PI * 2;
+                petal.scale.set(1, 0.5, 0.6);
+                petal.position.set(Math.cos(angle) * 0.4, -0.6, Math.sin(angle) * 0.4);
+                petal.rotation.y = angle;
+                group.add(petal);
+            }
+            // 底座
+            const baseGeo = new THREE.CylinderGeometry(0.6, 0.7, 0.3, 32);
+            const stoneMat = new THREE.MeshPhongMaterial({ color: 0xd4c4b0, shininess: 20 });
+            const base = new THREE.Mesh(baseGeo, stoneMat);
+            base.position.y = -0.75;
+            group.add(base);
+            // 佛像轮廓
+            const bodyGeo = new THREE.CylinderGeometry(0.3, 0.4, 1.2, 32);
+            const body = new THREE.Mesh(bodyGeo, stoneMat);
+            body.position.y = 0;
+            group.add(body);
+            // 头部
+            const headGeo = new THREE.SphereGeometry(0.35, 32, 32);
+            const head = new THREE.Mesh(headGeo, stoneMat);
+            head.position.y = 0.9;
+            group.add(head);
+            return group;
+        }
+
+        // 默认模型
+        function createDefaultModel() {
+            const geo = new THREE.BoxGeometry(1, 1.2, 0.5);
+            const mat = new THREE.MeshPhongMaterial({ color: 0xc4a77d });
+            return new THREE.Mesh(geo, mat);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
