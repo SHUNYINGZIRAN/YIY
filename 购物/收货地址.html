@@ -546,6 +546,30 @@
             background: #f1e9dd;
         }
 
+        /* Toast 消息提示 */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
         /* 页脚 — 延续留白简约 */
         .footer {
             margin-top: 80px;
@@ -661,7 +685,6 @@
                 </div>
                 <button class="icon-btn" id="addressCartIcon">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-badge" id="addressCartBadge">0</span>
                 </button>
                 <button class="btn-outline" id="loginBtnRef">登录 /
                         注册</button>
@@ -726,7 +749,7 @@
 
             <!-- 新增地址卡片（表单） -->
             <div class="new-address-card">
-                <h3 class="form-title">新增收货地址</h3>
+                <h3 class="form-title" id="formTitle">新增收货地址</h3>
                 <form id="newAddressForm">
                     <div class="form-group">
                         <label class="form-label" for="receiverName">收货人姓名</label>
@@ -747,7 +770,7 @@
                     </div>
                     <div class="form-actions">
                         <button type="button" class="action-btn outline" id="cancelBtn">取消</button>
-                        <button type="submit" class="action-btn primary">保存地址</button>
+                        <button type="submit" class="action-btn primary" id="saveBtn">保存地址</button>
                     </div>
                 </form>
             </div>
@@ -782,7 +805,20 @@
         </footer>
     </div>
 
+    <!-- 全局toast消息提示 -->
+    <div id="toastMsg" class="toast-msg"></div>
+
     <script>
+        // Toast 消息提示函数
+        function showMessage(msg) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化登录按钮
             initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
@@ -846,14 +882,47 @@
 
             // 获取地址卡片容器
             const addressList = document.getElementById('addressList');
+            const formTitle = document.getElementById('formTitle');
+            const newForm = document.getElementById('newAddressForm');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const saveBtn = document.getElementById('saveBtn');
 
-            // 编辑按钮事件
+            // 当前编辑状态
+            let editingCard = null;
+            let originalData = null;
+
+            // 编辑按钮事件 - 填充表单到新增收货地址模块
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    const card = this.closest('.address-card');
-                    const name = card.querySelector('.receiver-name').textContent;
-                    alert(`编辑地址：${name} (演示功能，实际将打开编辑表单)`);
+                    editingCard = this.closest('.address-card');
+                    
+                    // 获取当前地址信息
+                    const name = editingCard.querySelector('.receiver-name').textContent;
+                    const phone = editingCard.querySelector('.receiver-phone').textContent;
+                    const address = editingCard.querySelector('.address-detail').textContent.trim();
+                    const isDefault = editingCard.querySelector('.default-badge') !== null;
+
+                    // 保存原始数据（用于取消时恢复）
+                    originalData = {
+                        name: name,
+                        phone: phone,
+                        address: address,
+                        isDefault: isDefault
+                    };
+
+                    // 填充表单
+                    document.getElementById('receiverName').value = name;
+                    document.getElementById('receiverPhone').value = phone.replace(/\*+/g, ''); // 去掉星号
+                    document.getElementById('addressDetail').value = address;
+                    document.getElementById('setDefault').checked = isDefault;
+
+                    // 修改表单标题和按钮文字
+                    formTitle.textContent = '编辑收货地址';
+                    saveBtn.textContent = '保存更改';
+
+                    // 滚动到表单位置
+                    document.querySelector('.new-address-card').scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
@@ -911,8 +980,7 @@
                 });
             });
 
-            // 新增地址表单提交
-            const newForm = document.getElementById('newAddressForm');
+            // 新增/编辑地址表单提交
             newForm.addEventListener('submit', function (e) {
                 e.preventDefault();
 
@@ -932,63 +1000,139 @@
                     return;
                 }
 
-                // 创建新地址卡片
-                const newCard = document.createElement('div');
-                newCard.className = 'address-card';
-                // 随机生成一个id
-                const id = Date.now();
-                newCard.setAttribute('data-id', id);
-
-                // 构建卡片内容
-                let defaultBadgeHtml = isDefault ? '<span class="default-badge"><i class="fas fa-check-circle"></i> 默认地址</span>' : '';
-                // 如果是默认地址，需要移除其他地址的默认标识
-                if (isDefault) {
+                if (editingCard) {
+                    // 编辑模式：更新现有卡片
+                    const receiverInfo = editingCard.querySelector('.receiver-info');
+                    
+                    // 更新姓名和手机
+                    receiverInfo.querySelector('.receiver-name').textContent = name;
+                    receiverInfo.querySelector('.receiver-phone').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+                    
+                    // 更新详细地址
+                    editingCard.querySelector('.address-detail').textContent = address;
+                    
+                    // 处理默认地址
                     document.querySelectorAll('.address-card').forEach(c => {
                         const badge = c.querySelector('.default-badge');
                         const setDefaultBtn = c.querySelector('.set-default-btn');
-                        if (badge) badge.remove();
-                        if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
+                        if (c !== editingCard) {
+                            if (badge) badge.remove();
+                            if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
+                        }
                     });
+                    
+                    // 更新当前卡片的默认标识
+                    let defaultBadge = editingCard.querySelector('.default-badge');
+                    if (isDefault && !defaultBadge) {
+                        defaultBadge = document.createElement('span');
+                        defaultBadge.className = 'default-badge';
+                        defaultBadge.innerHTML = '<i class="fas fa-check-circle"></i> 默认地址';
+                        receiverInfo.appendChild(defaultBadge);
+                    } else if (!isDefault && defaultBadge) {
+                        defaultBadge.remove();
+                        const setDefaultBtn = editingCard.querySelector('.set-default-btn');
+                        if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
+                    }
+
+                    editingCard = null;
+                    showMessage('地址已更新');
+                } else {
+                    // 新增模式：创建新地址卡片
+                    const newCard = document.createElement('div');
+                    newCard.className = 'address-card';
+                    const id = Date.now();
+                    newCard.setAttribute('data-id', id);
+
+                    let defaultBadgeHtml = isDefault ? '<span class="default-badge"><i class="fas fa-check-circle"></i> 默认地址</span>' : '';
+                    // 如果是默认地址，需要移除其他地址的默认标识
+                    if (isDefault) {
+                        document.querySelectorAll('.address-card').forEach(c => {
+                            const badge = c.querySelector('.default-badge');
+                            const setDefaultBtn = c.querySelector('.set-default-btn');
+                            if (badge) badge.remove();
+                            if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
+                        });
+                    }
+
+                    newCard.innerHTML = `
+                        <div class="address-header">
+                            <div class="receiver-info">
+                                <span class="receiver-name">${name}</span>
+                                <span class="receiver-phone">${phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}</span>
+                                ${defaultBadgeHtml}
+                            </div>
+                        </div>
+                        <div class="address-detail">${address}</div>
+                        <div class="address-actions">
+                            <button class="address-btn edit-btn"><i class="fas fa-edit"></i> 编辑</button>
+                            <button class="address-btn delete-btn"><i class="fas fa-trash-alt"></i> 删除</button>
+                            <button class="address-btn set-default-btn" style="${isDefault ? 'display: none;' : ''}"><i class="fas fa-star"></i> 设为默认</button>
+                        </div>
+                    `;
+
+                    // 添加到列表最前面
+                    addressList.insertBefore(newCard, addressList.firstChild);
+
+                    // 为新卡片绑定事件
+                    bindCardEvents(newCard);
+
+                    showMessage('地址已添加');
                 }
 
-                newCard.innerHTML = `
-                    <div class="address-header">
-                        <div class="receiver-info">
-                            <span class="receiver-name">${name}</span>
-                            <span class="receiver-phone">${phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}</span>
-                            ${defaultBadgeHtml}
-                        </div>
-                    </div>
-                    <div class="address-detail">${address}</div>
-                    <div class="address-actions">
-                        <button class="address-btn edit-btn"><i class="fas fa-edit"></i> 编辑</button>
-                        <button class="address-btn delete-btn"><i class="fas fa-trash-alt"></i> 删除</button>
-                        <button class="address-btn set-default-btn" style="${isDefault ? 'display: none;' : ''}"><i class="fas fa-star"></i> 设为默认</button>
-                    </div>
-                `;
-
-                // 添加到列表最前面
-                addressList.insertBefore(newCard, addressList.firstChild);
-
-                // 为新卡片绑定事件
-                bindCardEvents(newCard);
-
-                // 清空表单
-                newForm.reset();
+                // 恢复表单状态
+                resetForm();
             });
 
-            // 取消按钮
-            document.getElementById('cancelBtn').addEventListener('click', function () {
-                newForm.reset();
+            // 取消按钮 - 返回新增收货地址状态
+            cancelBtn.addEventListener('click', function () {
+                if (!confirm('确定要取消操作吗？当前输入的内容将不会保存。')) {
+                    return;
+                }
+                resetForm();
             });
+
+            // 重置表单函数
+            function resetForm() {
+                newForm.reset();
+                formTitle.textContent = '新增收货地址';
+                saveBtn.textContent = '保存地址';
+                editingCard = null;
+                originalData = null;
+            }
 
             // 为卡片绑定事件的函数
             function bindCardEvents(card) {
-                // 编辑
+                // 编辑 - 填充表单
                 card.querySelector('.edit-btn').addEventListener('click', function (e) {
                     e.stopPropagation();
-                    const name = card.querySelector('.receiver-name').textContent;
-                    alert(`编辑地址：${name} (演示功能，实际将打开编辑表单)`);
+                    editingCard = this.closest('.address-card');
+                    
+                    // 获取当前地址信息
+                    const name = editingCard.querySelector('.receiver-name').textContent;
+                    const phone = editingCard.querySelector('.receiver-phone').textContent;
+                    const address = editingCard.querySelector('.address-detail').textContent.trim();
+                    const isDefault = editingCard.querySelector('.default-badge') !== null;
+
+                    // 保存原始数据（用于取消时恢复）
+                    originalData = {
+                        name: name,
+                        phone: phone,
+                        address: address,
+                        isDefault: isDefault
+                    };
+
+                    // 填充表单
+                    document.getElementById('receiverName').value = name;
+                    document.getElementById('receiverPhone').value = phone.replace(/\*+/g, '');
+                    document.getElementById('addressDetail').value = address;
+                    document.getElementById('setDefault').checked = isDefault;
+
+                    // 修改表单标题和按钮文字
+                    formTitle.textContent = '编辑收货地址';
+                    saveBtn.textContent = '保存更改';
+
+                    // 滚动到表单位置
+                    document.querySelector('.new-address-card').scrollIntoView({ behavior: 'smooth' });
                 });
 
                 // 删除

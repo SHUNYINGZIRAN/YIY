@@ -509,7 +509,6 @@
                 </div>
                 <button class="icon-btn" id="cartIcon">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-badge" id="cartBadge">0</span>
                 </button>
                 <a href="登录页面.html"><button class="btn-outline">登录 / 注册</button></a>
             </div>
@@ -697,6 +696,18 @@
                     content.classList.remove('active');
                 }
             });
+            // 初始化面包屑导航
+            updateBreadcrumb(activeTab);
+
+            // 更新面包屑导航函数
+            function updateBreadcrumb(tabId) {
+                const breadcrumb = document.querySelector('.breadcrumb');
+                if (tabId === 'privacy') {
+                    breadcrumb.innerHTML = '<a href="#" style="text-decoration: none;">#</a> <span>/</span> <a href="登录页面.html">登录</a> <span>/</span> <a href="注册页面.html" style="text-decoration: none;">注册</a> <span>/</span> <span>云间阁约 · 隐私政策</span>';
+                } else {
+                    breadcrumb.innerHTML = '<a href="#" style="text-decoration: none;">#</a> <span>/</span> <a href="登录页面.html">登录</a> <span>/</span> <a href="注册页面.html" style="text-decoration: none;">注册</a> <span>/</span> <span>云间阁约 · 服务条款</span>';
+                }
+            }
 
             // 动态切换标签
             tabs.forEach(tab => {
@@ -719,6 +730,8 @@
                     } else {
                         headerP.innerText = '信息保护 · 注册承诺';
                     }
+                    // 更新面包屑导航
+                    updateBreadcrumb(targetId);
                 });
             });
 
