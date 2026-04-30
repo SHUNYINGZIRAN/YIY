@@ -732,26 +732,6 @@
                 window.scrollTo({ top: 0, behavior: 'instant' });
             }, 0);
 
-            // 购物车徽章
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                const cart = localStorage.getItem('yunji_cart');
-                if (cart) {
-                    const items = JSON.parse(cart);
-                    const total = items.reduce((s, i) => s + i.quantity, 0);
-                    if (total > 0) {
-                        badge.innerText = total;
-                        badge.style.display = 'flex';
-                    }
-                }
-            }
-            const cartIcon = document.getElementById('cartIcon');
-            if (cartIcon) {
-                cartIcon.addEventListener('click', () => {
-                    window.location.href = '../购物车.html';
-                });
-            }
-
             // 搜索框演示
             const searchBtn = document.querySelector('.search-container .icon-btn');
             const searchInput = document.querySelector('.search-input');
