@@ -477,6 +477,9 @@
         /* 产品信息区域 */
         .product-info {
             flex: 1;
+            /* 关键：设为 Flex 垂直容器，让内部卡片可以拉伸 */
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card {
@@ -500,14 +503,24 @@
             border-radius: 12px 12px 0 0;
         }
 
-        /* 咨询模块 */
+        /* 咨询模块：自动填充高度，背景与左侧底部对齐，但内部元素位置不变 */
+        .product-info .card {
+            flex: 1;
+            /* 自动伸展填充剩余垂直空间 */
+            min-height: 0;
+            /* 防止溢出 */
+            margin-bottom: 0;
+            /* 移除原有下边距 */
+        }
+
+        /* 通用卡片样式保持不变 */
         .card {
             background: rgba(255, 253, 245, 0.92);
             border-radius: 28px;
             padding: 24px;
-            margin-bottom: 28px;
             border: 1px solid #e7dfd3;
             box-shadow: 0 4px 12px rgba(92, 76, 62, 0.04);
+            /* 注意：外边距已被.product-info .card覆盖 */
         }
 
         .card-title {
@@ -536,6 +549,7 @@
         .consult-input-group {
             display: flex;
             gap: 12px;
+            /* 位置保持原样，紧跟消息区域，不使用 margin-top: auto */
         }
 
         .consult-input-group input {
@@ -950,10 +964,18 @@
                 margin: 10px 0;
             }
 
+            /* 移动端取消高度拉伸，恢复自然高度 */
+            .product-info {
+                display: block;
+            }
+            .product-info .card {
+                flex: none;
+                margin-bottom: 28px;
+            }
+
             .reviews-summary {
                 flex-direction: column;
             }
-
         }
 
         @media (max-width: 768px) {
@@ -1006,7 +1028,7 @@
                     <i class="fas fa-shopping-bag"></i>
                 </button>
                 <button class="btn-outline" id="loginBtnRef">登录 /
-                        注册</button>
+                    注册</button>
             </div>
         </nav>
 
@@ -1357,26 +1379,11 @@
             <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
         </footer>
     </div>
-    </div><!-- /.site-wrapper -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化登录按钮
             initLoginBtn('loginBtnRef', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
-
-            // 返回按钮 - 检查元素是否存在
-            const backBtn = document.getElementById('backBtn');
-            if (backBtn) {
-                backBtn.addEventListener('click', function () {
-                    // 检查是否有历史记录可以返回
-                    if (window.history.length > 1) {
-                        window.history.back();
-                    } else {
-                        // 如果没有历史记录,默认返回首页
-                        window.location.href = '../index.html';
-                    }
-                });
-            }
 
             // 图片轮播功能
             const mainImage = document.getElementById('mainImage');
@@ -1391,79 +1398,55 @@
             let currentIndex = 0;
             let autoPlayInterval;
 
-            // 切换图片
             function switchImage(index) {
                 currentIndex = index;
                 mainImage.style.opacity = 0;
-
                 setTimeout(() => {
                     mainImage.src = images[currentIndex];
                     mainImage.style.opacity = 1;
                 }, 200);
-
-                // 更新指示器状态
                 indicators.forEach((ind, i) => {
-                    if (i === currentIndex) {
-                        ind.classList.add('active');
-                    } else {
-                        ind.classList.remove('active');
-                    }
+                    ind.classList.toggle('active', i === currentIndex);
                 });
             }
 
-            // 启动自动轮播
             function startAutoPlay() {
                 autoPlayInterval = setInterval(() => {
-                    let nextIndex = (currentIndex + 1) % images.length;
-                    switchImage(nextIndex);
-                }, 3000); // 每3秒切换一次
+                    switchImage((currentIndex + 1) % images.length);
+                }, 3000);
             }
 
-            // 停止自动轮播
             function stopAutoPlay() {
                 clearInterval(autoPlayInterval);
             }
 
-            // 指示器点击事件
             indicators.forEach(indicator => {
                 indicator.addEventListener('click', function () {
                     stopAutoPlay();
-                    const index = parseInt(this.getAttribute('data-index'));
-                    switchImage(index);
+                    switchImage(parseInt(this.getAttribute('data-index')));
                     startAutoPlay();
                 });
             });
 
-            // 鼠标悬停时停止轮播
             mainImage.addEventListener('mouseenter', stopAutoPlay);
             mainImage.addEventListener('mouseleave', startAutoPlay);
-
-            // 启动轮播
+            mainImage.style.transition = 'opacity 0.3s ease';
             startAutoPlay();
 
-            // 添加图片切换动画样式
-            mainImage.style.transition = 'opacity 0.3s ease';
-
-            // 数量选择器
+            // 数量选择
             const decreaseBtn = document.getElementById('decreaseQty');
             const increaseBtn = document.getElementById('increaseQty');
             const quantityInput = document.getElementById('quantity');
-
-            decreaseBtn.addEventListener('click', function () {
-                let currentQty = parseInt(quantityInput.value);
-                if (currentQty > 1) {
-                    quantityInput.value = currentQty - 1;
-                }
+            decreaseBtn.addEventListener('click', () => {
+                let val = parseInt(quantityInput.value);
+                if (val > 1) quantityInput.value = val - 1;
+            });
+            increaseBtn.addEventListener('click', () => {
+                quantityInput.value = parseInt(quantityInput.value) + 1;
             });
 
-            increaseBtn.addEventListener('click', function () {
-                let currentQty = parseInt(quantityInput.value);
-                quantityInput.value = currentQty + 1;
-            });
-
-            // 选项按钮
-            const optionBtns = document.querySelectorAll('.option-btn');
-            optionBtns.forEach(btn => {
+            // 选项切换
+            document.querySelectorAll('.option-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const parent = this.parentElement;
                     parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
@@ -1471,165 +1454,51 @@
                 });
             });
 
-            // 标签页切换
-            const tabs = document.querySelectorAll('.tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabs.forEach(tab => {
+            // 标签页
+            document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', function () {
                     const tabId = this.getAttribute('data-tab');
-
-                    // 更新标签状态
-                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-
-                    // 更新内容显示
-                    tabContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === `${tabId}Content`) {
-                            content.classList.add('active');
-                        }
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.toggle('active', c.id === `${tabId}Content`);
                     });
                 });
             });
 
-            // 立即购买按钮
-            const buyNowBtn = document.getElementById('buyNowBtn');
-            buyNowBtn.addEventListener('click', function () {
-                const quantity = parseInt(quantityInput.value);
-                alert(`立即购买 ${quantity} 件商品`);
-                // 实际应用中这里会跳转到结算页面
+            // 购买按钮
+            document.getElementById('buyNowBtn').addEventListener('click', function () {
+                alert(`立即购买 ${quantityInput.value} 件商品`);
             });
 
-            // ===== 新增：动态高度填充卡片，实现左右底部对齐 =====
-            function adjustFillerHeight() {
-                const gallery = document.getElementById('productGallery');
-                const info = document.getElementById('productInfo');
-                const filler = document.getElementById('fillerCard');
-                if (!gallery || !info || !filler) return;
-
-                // 在移动端（flex-direction: column）时不调整高度
-                if (window.innerWidth <= 992) {
-                    filler.style.height = 'auto';
-                    return;
-                }
-
-                // 获取左侧总高度
-                const leftHeight = gallery.offsetHeight;
-
-                // 获取右侧除填充卡片外所有内容的高度（即第一个卡片的高度）
-                const mainCard = document.getElementById('mainProductCard');
-                // 注意：右侧可能有 margin-bottom，需要计算实际占用的总高度（包括 margin）
-                // 但因为我们只关心 offsetHeight，它包含 padding 和 border，不包含 margin
-                // 右侧 product-info 内所有卡片上下 margin 会影响整体高度，我们需要考虑 margin
-                // 简单方法：计算 product-info 内所有子元素（除了 filler）的 offsetHeight + margin-bottom 之和
-                const children = info.children;
-                let otherHeight = 0;
-                for (let i = 0; i < children.length; i++) {
-                    const child = children[i];
-                    if (child === filler) continue;
-                    const style = window.getComputedStyle(child);
-                    const marginBottom = parseInt(style.marginBottom) || 0;
-                    otherHeight += child.offsetHeight + marginBottom;
-                }
-
-                // 计算填充卡片需要的高度
-                let fillerHeight = leftHeight - otherHeight;
-
-                // 如果计算出的高度小于最小内容高度，则设为最小内容高度（或隐藏）
-                if (fillerHeight < 50) {
-                    filler.style.display = 'none';
-                } else {
-                    filler.style.display = 'block';
-                    filler.style.height = fillerHeight + 'px';
-                }
-            }
-
-            // 初次调整
-            adjustFillerHeight();
-
-            // 窗口大小变化时重新调整
-            window.addEventListener('resize', function () {
-                adjustFillerHeight();
+            // 导航栏交互占位
+            document.getElementById('prodSearchBtn')?.addEventListener('click', () => {});
+            document.getElementById('prodCartIcon')?.addEventListener('click', () => {
+                window.location.href = '../购物车.html';
             });
-
-            // 图片和3D加载完成后重新调整
-            window.addEventListener('load', function () {
-                // 给3D渲染一点时间
-                setTimeout(adjustFillerHeight, 200);
-            });
-
-            // 如果3D内容异步渲染完成，可以通过 MutationObserver 监听 canvas-container 的子节点变化？暂时用 load 事件
-            // 简单起见，延迟后再执行一次
-            setTimeout(adjustFillerHeight, 500);
-
-            // ---------- 导航栏功能 ----------
-            function initNavSearch() {
-                const searchBtn = document.getElementById('prodSearchBtn');
-                const searchInput = document.getElementById('prodSearchInput');
-                if (searchBtn) searchBtn.addEventListener('click', () => { });
-                if (searchInput) searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { } });
-            }
-
-            function initNavLinks() {
-                const navLinks = document.querySelectorAll('.nav-links a');
-                navLinks.forEach(link => {
-                    const pageName = link.getAttribute('data-page');
-                    if (pageName) {
-                        link.addEventListener('click', (e) => {
-                            if (link.getAttribute('href') === '#') {
-                                e.preventDefault();
-                            }
-                        });
-                    }
-                });
-            }
-
-            function initCartIcon() {
-                const cartIcon = document.getElementById('prodCartIcon');
-                if (cartIcon) {
-                    cartIcon.addEventListener('click', () => {
-                        window.location.href = '../购物车.html';
-                    });
-                }
-            }
-
-            function initNavbar() {
-                initNavSearch();
-                initNavLinks();
-                initCartIcon();
-            }
-
-            initNavbar();
         });
     </script>
 
-    <!-- 3D 预览脚本（使用模块方式） -->
+    <!-- 3D 预览脚本 -->
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // 初始化 3D 场景
         function init3D() {
             const container = document.getElementById('canvas-container');
             if (!container) return;
 
-            // 场景
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xf1e9dd); // 与容器背景色一致
-
-            // 相机
+            scene.background = new THREE.Color(0xf1e9dd);
             const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.set(5, 5, 5);
             camera.lookAt(0, 0, 0);
 
-            // 渲染器
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // 轨道控制器（支持拖动旋转）
             const controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
@@ -1638,100 +1507,67 @@
             controls.enableZoom = true;
             controls.enablePan = false;
 
-            // 灯光
-            const ambientLight = new THREE.AmbientLight(0x404060);
-            scene.add(ambientLight);
-
+            scene.add(new THREE.AmbientLight(0x404060));
             const dirLight = new THREE.DirectionalLight(0xffffff, 1);
             dirLight.position.set(1, 2, 1);
             scene.add(dirLight);
-
             const backLight = new THREE.DirectionalLight(0xffffff, 0.5);
             backLight.position.set(-1, 0, -1);
             scene.add(backLight);
 
-            // 创建茶壶模型组合（模拟青花瓷茶壶）
             const teapotGroup = new THREE.Group();
+            const matBody = new THREE.MeshPhongMaterial({ color: 0x3e6b8f, shininess: 30 });
+            const matAccent = new THREE.MeshPhongMaterial({ color: 0x1e3a5f, shininess: 40 });
+            const matLid = new THREE.MeshPhongMaterial({ color: 0x5a7a9a });
 
-            // 材质：青花瓷风格
-            const materialBody = new THREE.MeshPhongMaterial({ color: 0x3e6b8f, shininess: 30, emissive: 0x000000, specular: 0x444444 });
-            const materialAccent = new THREE.MeshPhongMaterial({ color: 0x1e3a5f, shininess: 40 });
-            const materialLid = new THREE.MeshPhongMaterial({ color: 0x5a7a9a });
-
-            // 壶身：球体压扁
-            const bodyGeo = new THREE.SphereGeometry(1.2, 32, 16);
-            const body = new THREE.Mesh(bodyGeo, materialBody);
+            const body = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 16), matBody);
             body.scale.set(1.2, 1, 1.2);
             body.position.y = 0.5;
             teapotGroup.add(body);
 
-            // 壶盖：扁圆柱 + 顶珠
-            const lidBaseGeo = new THREE.CylinderGeometry(0.9, 0.9, 0.3, 32);
-            const lidBase = new THREE.Mesh(lidBaseGeo, materialLid);
+            const lidBase = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.3, 32), matLid);
             lidBase.position.y = 1.6;
             teapotGroup.add(lidBase);
-
-            const lidKnobGeo = new THREE.SphereGeometry(0.2, 16);
-            const lidKnob = new THREE.Mesh(lidKnobGeo, materialAccent);
+            const lidKnob = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16), matAccent);
             lidKnob.position.y = 1.85;
             teapotGroup.add(lidKnob);
 
-            // 壶嘴：圆锥
-            const spoutGeo = new THREE.ConeGeometry(0.4, 1.2, 16);
-            const spout = new THREE.Mesh(spoutGeo, materialBody);
+            const spout = new THREE.Mesh(new THREE.ConeGeometry(0.4, 1.2, 16), matBody);
             spout.rotation.z = -0.3;
             spout.position.set(1.5, 0.8, 0.2);
             teapotGroup.add(spout);
 
-            // 壶把：半圆环
-            const handleGeo = new THREE.TorusGeometry(0.8, 0.15, 16, 32, Math.PI);
-            const handle = new THREE.Mesh(handleGeo, materialBody);
+            const handle = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.15, 16, 32, Math.PI), matBody);
             handle.rotation.y = 0.2;
             handle.rotation.x = 0.5;
             handle.rotation.z = 0.3;
             handle.position.set(-1.2, 0.9, 0);
             teapotGroup.add(handle);
 
-            // 添加一些蓝色装饰点（模拟青花图案）
-            const decalGeo = new THREE.SphereGeometry(0.1, 8);
-            const decalMat = new THREE.MeshPhongMaterial({ color: 0x1a2f4a });
-            const decal1 = new THREE.Mesh(decalGeo, decalMat);
-            decal1.position.set(0.5, 0.7, 1.0);
-            teapotGroup.add(decal1);
-            const decal2 = new THREE.Mesh(decalGeo, decalMat);
-            decal2.position.set(-0.3, 0.9, -1.1);
-            teapotGroup.add(decal2);
-
             scene.add(teapotGroup);
 
-            // 添加一个简单的平面作为桌面
-            const planeGeo = new THREE.CircleGeometry(4, 32);
-            const planeMat = new THREE.MeshPhongMaterial({ color: 0xd6ccc2, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
-            const plane = new THREE.Mesh(planeGeo, planeMat);
+            const plane = new THREE.Mesh(
+                new THREE.CircleGeometry(4, 32),
+                new THREE.MeshPhongMaterial({ color: 0xd6ccc2, side: THREE.DoubleSide, transparent: true, opacity: 0.3 })
+            );
             plane.rotation.x = -Math.PI / 2;
             plane.position.y = -0.2;
             scene.add(plane);
 
-            // 动画循环
             function animate() {
                 requestAnimationFrame(animate);
-                controls.update(); // 自动旋转由 controls 控制
+                controls.update();
                 renderer.render(scene, camera);
             }
             animate();
 
-            // 窗口大小自适应
-            window.addEventListener('resize', onWindowResize, false);
-            function onWindowResize() {
-                const width = container.clientWidth;
-                const height = container.clientHeight;
-                renderer.setSize(width, height);
-                camera.aspect = width / height;
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
                 camera.updateProjectionMatrix();
-            }
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
         }
 
-        // 等待 DOM 完全加载后初始化
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init3D);
         } else {
