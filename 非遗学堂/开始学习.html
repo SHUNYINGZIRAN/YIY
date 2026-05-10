@@ -445,15 +445,41 @@
 
 
         .comment-list {
-            max-height: 400px;
+            height: 400px;
             overflow-y: auto;
             margin-bottom: 24px;
             padding-right: 8px;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: none;
+        }
+
+        .comment-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .empty-comments {
+            text-align: center;
+            padding: 20px;
+            color: #9b8a78;
+            font-size: 0.9rem;
+            margin: auto;
+        }
+
+        .empty-comments i {
+            display: block;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: #c4a77d;
         }
 
         .comment-item {
             border-bottom: 1px solid #e9e1d5;
             padding: 16px 0;
+        }
+
+        .comment-item.last-comment {
+            border-bottom: none;
         }
 
         .comment-header {
@@ -778,8 +804,13 @@
         }
 
         .note-list {
-            max-height: 320px;
+            max-height: 380px;
             overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .note-list::-webkit-scrollbar {
+            display: none;
         }
 
         .note-item {
@@ -978,6 +1009,7 @@
                     <h3><i class="fas fa-comments"></i> 学友交流 · 习艺共话</h3>
                     <div class="comment-list" id="commentList">
                         <!-- 动态加载评论 -->
+                        <div class="empty-comments"><i class="fas fa-couch"></i><p>暂无学友留言，快来抢沙发吧～</p></div>
                     </div>
                     <div class="comment-form">
                         <div class="form-row">
@@ -1146,11 +1178,11 @@
             const commentList = document.getElementById('commentList');
             if (!commentList) return;
             if (comments.length === 0) {
-                commentList.innerHTML = '<div style="text-align:center; padding:24px; color:#9b8a78;">暂无评论，来做第一个分享的学友吧～</div>';
+                commentList.innerHTML = '<div class="empty-comments"><i class="fas fa-couch"></i><p>暂无学友留言，快来抢沙发吧～</p></div>';
                 return;
             }
-            commentList.innerHTML = comments.map(comment => `
-                <div class="comment-item" data-id="${comment.id}">
+            commentList.innerHTML = comments.map((comment, index) => `
+                <div class="comment-item${index === comments.length - 1 ? ' last-comment' : ''}" data-id="${comment.id}">
                     <div class="comment-header">
                         <span class="comment-author"><i class="fas fa-user-circle"></i> ${escapeHtml(comment.author)}</span>
                         <span class="comment-time">${comment.time}</span>
