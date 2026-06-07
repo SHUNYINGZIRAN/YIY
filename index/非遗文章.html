@@ -535,6 +535,11 @@
             max-height: 500px;
             overflow-y: auto;
             padding-right: 6px;
+            scrollbar-width: none;
+        }
+
+        .comment-list::-webkit-scrollbar {
+            display: none;
         }
 
         .comment-item {
@@ -1131,7 +1136,7 @@
             <div class="comment-item">
                 <div class="comment-author">
                     <i class="fas fa-user-circle"></i> <strong>${escapeHtml(c.author)}</strong>
-                    <span class="comment-time"><i class="far fa-clock"></i> ${formatDate(c.timestamp)}</span>
+                    <span class="comment-time">${formatDate(c.timestamp)}</span>
                 </div>
                 <div class="comment-text">${escapeHtml(c.content)}</div>
             </div>
