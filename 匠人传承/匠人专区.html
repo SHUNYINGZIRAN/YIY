@@ -640,6 +640,425 @@
                 text-align: center;
             }
         }
+
+        /* ===== 详情弹窗 (参考介绍.html & 消息通知.html 的分层弹窗) ===== */
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(92, 76, 62, 0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            padding: 30px;
+        }
+
+        .detail-modal.show {
+            display: flex;
+        }
+
+        .detail-modal-container {
+            background: rgba(255, 253, 245, 0.98);
+            border-radius: 28px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(92, 76, 62, 0.25);
+            border: 1px solid #e7dfd3;
+            position: relative;
+            animation: detailSlideUp 0.35s ease;
+        }
+
+        @keyframes detailSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .detail-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 240, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8c3c2c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .detail-modal-close:hover {
+            background: rgba(255, 255, 245, 0.9);
+            transform: rotate(90deg);
+        }
+
+        .detail-modal-media {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 28px 28px 0 0;
+            background: #e2d8cd;
+        }
+
+        .detail-modal-media img,
+        .detail-modal-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-modal-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(92, 76, 62, 0.75);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+
+        .detail-modal-info {
+            padding: 28px 32px 32px;
+        }
+
+        .detail-modal-type-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+            background: #f4ede2;
+            color: #8c6d46;
+            border: 1px solid #d6ccc2;
+        }
+
+        .detail-modal-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.8rem;
+            color: #4a382a;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .detail-modal-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .detail-modal-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #d6ccc2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8c6d46;
+            font-size: 0.9rem;
+        }
+
+        .detail-modal-author-name {
+            font-size: 0.9rem;
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        .detail-modal-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0e8dd;
+        }
+
+        .detail-modal-desc-extend {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #7f6b5a;
+            margin-bottom: 20px;
+            background: rgba(248, 244, 233, 0.6);
+            padding: 18px 20px;
+            border-radius: 16px;
+            border-left: 4px solid #8c6d46;
+        }
+
+        .detail-modal-desc-extend h4 {
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* 弹窗内的互动区域 */
+        .detail-modal-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .detail-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 40px;
+            border: 1px solid #d6ccc2;
+            background: #fefcf7;
+            color: #5c4c3e;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .detail-action-btn:hover {
+            background: #f4ede2;
+            border-color: #c4a77d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(92, 76, 62, 0.1);
+        }
+
+        .detail-action-btn.liked {
+            background: #fdf2f2;
+            border-color: #c97a7a;
+            color: #c0392b;
+        }
+
+        .detail-action-btn.liked i {
+            color: #c0392b;
+        }
+
+        /* 弹窗滚动条隐藏 */
+        .detail-modal-container::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .detail-modal-container {
+            scrollbar-width: none;
+        }
+
+        /* ===== 弹窗内评论区 ===== */
+        .detail-comments-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #f0e8dd;
+        }
+
+        .detail-comments-title {
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-comments-title i {
+            color: #8c6d46;
+        }
+
+        .detail-comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .detail-comments-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .detail-comments-list::-webkit-scrollbar-thumb {
+            background: #d6ccc2;
+            border-radius: 4px;
+        }
+
+        .detail-comment-item {
+            display: flex;
+            gap: 12px;
+            animation: commentFadeIn 0.3s ease;
+        }
+
+        @keyframes commentFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f4ede2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8c6d46;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .detail-comment-body {
+            flex: 1;
+            background: #fefcf7;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #f0e8dd;
+        }
+
+        .detail-comment-user {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #5c4c3e;
+            margin-bottom: 2px;
+        }
+
+        .detail-comment-time {
+            font-size: 0.7rem;
+            color: #b8a28a;
+            margin-bottom: 6px;
+        }
+
+        .detail-comment-text {
+            font-size: 0.88rem;
+            color: #4a382a;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .detail-comment-empty {
+            text-align: center;
+            padding: 28px 20px;
+            color: #b8a28a;
+            font-size: 0.88rem;
+        }
+
+        .detail-comment-empty i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #d6ccc2;
+        }
+
+        /* 发表评论区 */
+        .detail-comment-input-wrap {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .detail-comment-input {
+            flex: 1;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-size: 0.88rem;
+            font-family: 'Noto Serif SC', serif;
+            color: #5c4c3e;
+            background: #fefcf7;
+            outline: none;
+            transition: border-color 0.2s;
+            line-height: 1.4;
+            box-sizing: border-box;
+        }
+
+        .detail-comment-input:focus {
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        .detail-comment-input::placeholder {
+            color: #c4b8a2;
+        }
+
+        .detail-comment-submit {
+            padding: 12px 22px;
+            border-radius: 40px;
+            border: none;
+            background: #8c6d46;
+            color: #fefcf7;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .detail-comment-submit:hover {
+            background: #6b5030;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(92, 76, 62, 0.2);
+        }
+
+        .detail-comment-submit:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .detail-modal {
+                padding: 16px;
+            }
+
+            .detail-modal-media {
+                height: 220px;
+            }
+
+            .detail-modal-info {
+                padding: 20px 22px 24px;
+            }
+
+            .detail-modal-title {
+                font-size: 1.5rem;
+            }
+
+            .detail-modal-actions {
+                gap: 10px;
+            }
+
+            .detail-action-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            .detail-comments-list {
+                max-height: 240px;
+            }
+        }
     </style>
     <!-- 公共登录状态管理 -->
     <script src="../assets/js/common.js"></script>
@@ -753,6 +1172,51 @@
 
     <div id="toastMsg" class="toast-msg"></div>
 
+    <!-- 详情弹窗 (层次感分层设计，参考介绍.html & 消息通知.html) -->
+    <div id="detailModal" class="detail-modal">
+        <div class="detail-modal-container">
+            <button class="detail-modal-close" id="detailModalClose"><i class="fas fa-times"></i></button>
+            <div class="detail-modal-media" id="detailMedia">
+                <img src="" alt="" id="detailMediaImg">
+                <div class="detail-modal-play" id="detailPlayIcon" style="display:none;"><i class="fas fa-play"></i></div>
+            </div>
+            <div class="detail-modal-info">
+                <div class="detail-modal-type-badge" id="detailTypeBadge"></div>
+                <h2 class="detail-modal-title" id="detailTitle"></h2>
+                <div class="detail-modal-author">
+                    <div class="detail-modal-avatar" id="detailAvatar"><i class="fas fa-user"></i></div>
+                    <span class="detail-modal-author-name" id="detailAuthorName"></span>
+                </div>
+                <div class="detail-modal-desc" id="detailDesc"></div>
+                <div class="detail-modal-desc-extend" id="detailExtend"></div>
+                <div class="detail-modal-actions">
+                    <button class="detail-action-btn" id="detailLikeBtn">
+                        <i class="far fa-heart"></i> <span id="detailLikeCount">0</span> 喜欢
+                    </button>
+                    <button class="detail-action-btn" id="detailCommentBtn">
+                        <i class="far fa-comment"></i> 评论 (<span id="detailCommentCount">0</span>)
+                    </button>
+                    <button class="detail-action-btn" id="detailShareBtn">
+                        <i class="far fa-share-square"></i> 分享
+                    </button>
+                </div>
+                <!-- 评论区 -->
+                <div class="detail-comments-section" id="detailCommentsSection">
+                    <div class="detail-comments-title">
+                        <i class="fas fa-comments"></i> 评论区 (<span id="detailCommentTotal">0</span>)
+                    </div>
+                    <div class="detail-comments-list" id="detailCommentsList"></div>
+                    <div class="detail-comment-input-wrap">
+                        <input type="text" class="detail-comment-input" id="detailCommentInput" placeholder="写下你的看法，与其他匠友交流...">
+                        <button class="detail-comment-submit" id="detailCommentSubmit">
+                            <i class="fas fa-paper-plane"></i> 发表
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ---------- 模拟数据 ----------
         const allShares = [
@@ -779,6 +1243,218 @@
             toast.textContent = msg;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // ===== 评论数据存储 =====
+        const allComments = {};
+        // 为每个 share 初始化空评论数组
+        allShares.forEach(s => { allComments[s.id] = []; });
+
+        // ===== 详情弹窗逻辑 (层次感分层) =====
+        let currentDetailItem = null;
+
+        function openDetailModal(item) {
+            currentDetailItem = item;
+            const modal = document.getElementById('detailModal');
+
+            // 类型徽章
+            const typeBadge = document.getElementById('detailTypeBadge');
+            if (item.type === 'video') {
+                typeBadge.innerHTML = '<i class="fas fa-video"></i> 传视频';
+            } else {
+                typeBadge.innerHTML = '<i class="fas fa-hands"></i> 记手作 · ' + (item.craftMaterial || '传统工艺');
+            }
+
+            // 媒体区
+            const mediaImg = document.getElementById('detailMediaImg');
+            const playIcon = document.getElementById('detailPlayIcon');
+            if (item.type === 'video') {
+                mediaImg.src = getImageUrl(item.videoPoster || item.imgId);
+                mediaImg.alt = item.title;
+                playIcon.style.display = 'flex';
+            } else {
+                mediaImg.src = getImageUrl(item.imgId);
+                mediaImg.alt = item.title;
+                playIcon.style.display = 'none';
+            }
+
+            // 标题
+            document.getElementById('detailTitle').textContent = item.title;
+
+            // 作者
+            document.getElementById('detailAvatar').innerHTML = `<i class="fas ${item.userAvatar}"></i>`;
+            document.getElementById('detailAuthorName').textContent = item.userName;
+
+            // 描述
+            document.getElementById('detailDesc').textContent = item.desc;
+
+            // 扩展内容（根据类型不同）
+            const extendEl = document.getElementById('detailExtend');
+            if (item.type === 'video') {
+                extendEl.innerHTML = `
+                    <h4><i class="fas fa-play-circle"></i> 视频详情</h4>
+                    <p>${item.userName} 用镜头记录非遗技艺，${item.desc} 点击播放按钮即可观看完整视频，感受传统手艺的温度与魅力。本视频为创作者原创内容，未经许可请勿转载。</p>
+                `;
+            } else {
+                extendEl.innerHTML = `
+                    <h4><i class="fas fa-tools"></i> 手作详情</h4>
+                    <p>材料：${item.craftMaterial || '传统工艺材料'}</p>
+                    <p>${item.userName} 以匠心手作记录非遗之美：${item.desc} 每一道工序都是对传统手艺的致敬，每一个细节都蕴含着匠人的心血与温度。</p>
+                `;
+            }
+
+            // 互动数据
+            updateDetailActions(item);
+            renderDetailComments(item);
+
+            // 显示弹窗
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            // 清空输入框
+            document.getElementById('detailCommentInput').value = '';
+        }
+
+        function updateDetailActions(item) {
+            document.getElementById('detailLikeCount').textContent = item.likes;
+            const actualCommentCount = (allComments[item.id] || []).length;
+            document.getElementById('detailCommentCount').textContent = actualCommentCount;
+            document.getElementById('detailCommentTotal').textContent = actualCommentCount;
+
+            const likeBtn = document.getElementById('detailLikeBtn');
+            if (item._liked) {
+                likeBtn.classList.add('liked');
+                likeBtn.querySelector('i').className = 'fas fa-heart';
+            } else {
+                likeBtn.classList.remove('liked');
+                likeBtn.querySelector('i').className = 'far fa-heart';
+            }
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            document.getElementById('detailCommentInput').value = '';
+            currentDetailItem = null;
+        }
+
+        function initDetailModalEvents() {
+            const modal = document.getElementById('detailModal');
+
+            // 关闭按钮
+            document.getElementById('detailModalClose').addEventListener('click', closeDetailModal);
+
+            // 点击遮罩关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeDetailModal();
+            });
+
+            // 喜欢按钮
+            document.getElementById('detailLikeBtn').addEventListener('click', () => {
+                if (!currentDetailItem) return;
+                if (!currentDetailItem._liked) {
+                    currentDetailItem.likes += 1;
+                    currentDetailItem._liked = true;
+                } else {
+                    currentDetailItem.likes -= 1;
+                    currentDetailItem._liked = false;
+                }
+                updateDetailActions(currentDetailItem);
+                renderCards();
+            });
+
+            // 评论按钮 → 滚动到评论区
+            document.getElementById('detailCommentBtn').addEventListener('click', () => {
+                const section = document.getElementById('detailCommentsSection');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => document.getElementById('detailCommentInput').focus(), 400);
+                }
+            });
+
+            // 分享按钮
+            document.getElementById('detailShareBtn').addEventListener('click', () => {
+                if (!currentDetailItem) return;
+                updateDetailActions(currentDetailItem);
+            });
+
+            // 发表评论
+            document.getElementById('detailCommentSubmit').addEventListener('click', postDetailComment);
+            document.getElementById('detailCommentInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    postDetailComment();
+                }
+            });
+
+            // ESC 关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && document.getElementById('detailModal').classList.contains('show')) {
+                    closeDetailModal();
+                }
+            });
+        }
+
+        // 渲染评论区
+        function renderDetailComments(item) {
+            const list = document.getElementById('detailCommentsList');
+            const comments = allComments[item.id] || [];
+            if (!list) return;
+
+            if (comments.length === 0) {
+                list.innerHTML = `<div class="detail-comment-empty"><i class="far fa-comment-dots"></i>暂无评论，快来发表第一条看法吧~</div>`;
+                return;
+            }
+
+            list.innerHTML = comments.map(c => `
+                <div class="detail-comment-item">
+                    <div class="detail-comment-avatar"><i class="fas ${c.avatar}"></i></div>
+                    <div class="detail-comment-body">
+                        <div class="detail-comment-user">${c.userName}</div>
+                        <div class="detail-comment-time">${c.time}</div>
+                        <div class="detail-comment-text">${c.text}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // 滚动到最新评论
+            list.scrollTop = list.scrollHeight;
+        }
+
+        // 发表评论
+        function postDetailComment() {
+            if (!currentDetailItem) return;
+            const input = document.getElementById('detailCommentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            const avatars = ['fa-user', 'fa-user-circle', 'fa-smile', 'fa-leaf', 'fa-star'];
+            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+            const comment = {
+                userName: '云间访客',
+                avatar: randomAvatar,
+                text: text,
+                time: timeStr
+            };
+
+            if (!allComments[currentDetailItem.id]) {
+                allComments[currentDetailItem.id] = [];
+            }
+            allComments[currentDetailItem.id].push(comment);
+
+            // 更新计数与卡片
+            currentDetailItem.comments = allComments[currentDetailItem.id].length;
+            updateDetailActions(currentDetailItem);
+            renderDetailComments(currentDetailItem);
+            renderCards();
+
+            // 清空输入
+            input.value = '';
+            input.focus();
         }
 
         function initCartIcon() {
@@ -848,7 +1524,18 @@
             });
             container.innerHTML = html;
 
-            // 绑定点赞事件（模拟）
+            // 绑定卡片点击 → 打开详情弹窗
+            document.querySelectorAll('.share-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // 如果点击的是互动按钮则不触发
+                    if (e.target.closest('.like-btn') || e.target.closest('.comment-btn') || e.target.closest('.share-btn')) return;
+                    const id = parseInt(card.getAttribute('data-id'));
+                    const item = allShares.find(i => i.id === id);
+                    if (item) openDetailModal(item);
+                });
+            });
+
+            // 卡片上的点赞按钮
             document.querySelectorAll('.like-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -857,31 +1544,17 @@
                     if (item) {
                         item.likes += 1;
                         renderCards();
-                        showMessage(`❤️ 你为「${item.title}」点了一个赞`);
                     }
                 });
             });
-            // 评论/分享演示
-            document.querySelectorAll('.comment-btn').forEach(btn => {
-                btn.addEventListener('click', () => showMessage('💬 评论功能即将开放，敬请期待'));
-            });
-            document.querySelectorAll('.share-btn').forEach(btn => {
-                btn.addEventListener('click', () => showMessage('📤 分享非遗美好，让更多人看见'));
-            });
-            // 视频卡片点击播放提示
-            document.querySelectorAll('.share-card[data-type="video"]').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('like-btn') || e.target.classList.contains('comment-btn') || e.target.classList.contains('share-btn')) return;
-                    const title = card.querySelector('.card-title')?.innerText || '视频';
-                    showMessage(`🎬 即将播放《${title}》，完整视频请关注创作者主页`);
-                });
-            });
-            // 手作卡片点击详情
-            document.querySelectorAll('.share-card[data-type="craft"]').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('like-btn') || e.target.classList.contains('comment-btn') || e.target.classList.contains('share-btn')) return;
-                    const title = card.querySelector('.card-title')?.innerText || '手作';
-                    showMessage(`🖐️ 查看《${title}》详细制作教程，敬请期待`);
+            // 卡片上的评论/分享按钮 → 也打开弹窗
+            document.querySelectorAll('.comment-btn, .share-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const card = btn.closest('.share-card');
+                    const id = parseInt(card.getAttribute('data-id'));
+                    const item = allShares.find(i => i.id === id);
+                    if (item) openDetailModal(item);
                 });
             });
         }
@@ -956,6 +1629,7 @@
             initFilters();
             initFeatureBtns();
             initCartIcon();
+            initDetailModalEvents();
             // 保留其他导航功能
             initNav();
             document.body.style.opacity = '0';
