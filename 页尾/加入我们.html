@@ -7,7 +7,7 @@
     <title>加入我们 - 云间文苑</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
     <style>
         * {
             margin: 0;
@@ -378,24 +378,49 @@
             color: white;
         }
 
-        .culture-box {
+        /* 支持区域简约版 */
+        .support-box {
             background: #f4efe5;
-            border-radius: 24px;
-            padding: 30px;
-            margin-top: 30px;
+            border-radius: 28px;
+            padding: 32px 28px;
             text-align: center;
+            margin-top: 20px;
+        }
+
+        .support-box i {
+            font-size: 2.2rem;
+            color: #8c6d46;
+            margin-bottom: 12px;
+        }
+
+        .support-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: #5c4c3e;
+        }
+
+        .support-desc {
+            max-width: 500px;
+            margin: 0 auto 20px;
+            color: #6b5a4a;
         }
 
         .btn-primary {
             background: #8c6d46;
             color: white;
             border: none;
-            padding: 12px 32px;
+            padding: 10px 28px;
             border-radius: 40px;
             font-size: 1rem;
+            font-family: inherit;
             cursor: pointer;
+            transition: 0.2s;
             display: inline-block;
-            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
         }
 
         /* 页脚 — 延续留白简约 */
@@ -487,10 +512,10 @@
                 <button class="btn-outline" id="loginBtn">登录 / 注册</button>
             </div>
         </nav>
-        <div class="breadcrumb"><a href="#">关于我们</a> <span>/</span> <span style="color:#8c6d46;">加入我们</span></div>
+        <div class="breadcrumb"><a href="#">阁中</a> <span>/</span> <span style="color:#8c6d46;">加入我们</span></div>
         <div class="page-header">
             <h1>加入我们</h1>
-            <p>让热爱非遗的你，成为文化传承的一份子</p>
+            <p>— 让热爱非遗的你，成为文化传承的一份子 —</p>
         </div>
         <div class="order-card">
             <h2 class="section-title"><i class="fas fa-briefcase"></i> 开放岗位</h2>
@@ -498,12 +523,13 @@
                 <div class="job-item">
                     <div class="job-title">非遗内容运营 <span class="job-tag">全职/远程</span></div>
                     <div class="job-desc">负责非遗传承人专访、产品故事撰写、短视频策划，挖掘手艺背后的文化内涵。要求：文字功底扎实，对非遗有热情，有媒体经验优先。</div><button
-                        class="apply-btn" onclick="alert('请将简历及作品发送至 hr@yunjian.com，标题注明“非遗内容运营”')">申请职位</button>
+                        class="apply-btn"
+                        onclick="alert('请将简历及作品发送至 hr@yunjian.com，标题注明\u201C非遗内容运营\u201D')">申请职位</button>
                 </div>
                 <div class="job-item">
                     <div class="job-title">电商运营经理 <span class="job-tag">杭州/北京</span></div>
                     <div class="job-desc">负责非遗集市整体运营，包括商品上架、活动策划、流量推广。要求：3年以上电商运营经验，熟悉手工艺品或文创类目。</div><button
-                        class="apply-btn" onclick="alert('请将简历发送至 hr@yunjian.com，标题“电商运营经理”')">申请职位</button>
+                        class="apply-btn" onclick="alert('请将简历发送至 hr@yunjian.com，标题\u201C电商运营经理\u201D')">申请职位</button>
                 </div>
                 <div class="job-item">
                     <div class="job-title">非遗课程讲师（兼职）<span class="job-tag">全国</span></div>
@@ -516,12 +542,16 @@
                         class="apply-btn" onclick="alert('请将简历+GitHub链接发送至 tech@yunjian.com')">申请职位</button>
                 </div>
             </div>
-            <div class="culture-box">
-                <i class="fas fa-heart" style="font-size:2rem; color:#8c6d46;"></i>
-                <h3>我们提供的成长环境</h3>
-                <p>✨ 扁平化管理，尊重每一份创意<br>✨ 近距离接触非遗大师，深入手艺现场<br>✨ 弹性工作制，年度文化游学（探访古镇、窑口、绣坊）<br>✨ 有竞争力的薪酬 + 非遗产品内购福利</p>
-                <button class="btn-primary" onclick="alert('欢迎投递简历至 hr@yunjian.com，我们将在5个工作日内回复。')">投递简历</button>
-                <p style="margin-top: 15px;">也欢迎在校实习生、非遗志愿者加入，请注明“实习申请”。</p>
+            <div class="support-box">
+                <i class="fas fa-paper-plane"></i>
+                <h3>如何加入</h3>
+                <div class="support-desc">
+                    请将个人简历及作品集（如有）发送至：<br>
+                    <strong style="color:#8c6d46;">hr@yunjian-ich.com</strong><br>
+                    邮件标题请注明"应聘岗位+姓名"，我们将在5个工作日内回复。
+                </div>
+                <button class="btn-primary" onclick="window.location.href='mailto:hr@yunjian-ich.com'">立即投递</button>
+                <p style="margin-top: 18px; font-size: 0.8rem; color: #8c6d46;">长期开放，期待与你共创非遗未来</p>
             </div>
         </div>
         <footer class="footer">

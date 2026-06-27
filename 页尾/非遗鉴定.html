@@ -4,32 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>非遗鉴定 - 云间文苑</title>
+    <title>非遗鉴定 · 云间小阁</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
     <style>
+        /* ========== 全局重置 & 基础 ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Noto Serif SC', serif;
-            background-color: #f8f4e9;
-            color: #5c4c3e;
-            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            position: relative;
-            min-height: 100vh;
-        }
-
         a,
         a * {
             color: inherit;
             text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
         }
 
         body::before {
@@ -44,6 +47,7 @@
             pointer-events: none;
         }
 
+        /* ========== 装饰大字 ========== */
         .decoration-big {
             position: fixed;
             font-family: 'Ma Shan Zheng', cursive;
@@ -84,6 +88,7 @@
             }
         }
 
+        /* ========== 站点包裹 ========== */
         .site-wrapper {
             max-width: 1280px;
             margin: 0 auto;
@@ -92,7 +97,7 @@
             z-index: 2;
         }
 
-        /* 导航栏 */
+        /* ========== 导航栏 ========== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -119,6 +124,8 @@
             color: #5c4c3e;
             letter-spacing: 2px;
             font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
         .logo span {
@@ -258,7 +265,7 @@
             }
         }
 
-        /* 面包屑 */
+        /* ========== 面包屑 ========== */
         .breadcrumb {
             font-size: 0.85rem;
             margin-bottom: 20px;
@@ -267,9 +274,10 @@
 
         .breadcrumb a {
             color: #8c6d46;
+            text-decoration: none;
         }
 
-        /* 页面头部 */
+        /* ========== 页面头部 ========== */
         .page-header {
             text-align: center;
             margin: 30px 0 40px;
@@ -288,11 +296,11 @@
             font-size: 1rem;
         }
 
-        /* 主卡片 */
+        /* ========== 卡片样式（沿用加入我们页面的 .order-card 渐变顶部） ========== */
         .order-card {
             background: rgba(255, 253, 245, 0.95);
             border-radius: 12px;
-            padding: 40px 36px;
+            padding: 30px;
             box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
             border: 1px solid #d6ccc2;
             margin-bottom: 30px;
@@ -315,104 +323,304 @@
             font-size: 1.8rem;
             color: #5c4c3e;
             margin-bottom: 20px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e2d8cc;
-        }
-
-        .desc-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 32px;
-            color: #5c4c3e;
-        }
-
-        /* 简约卡片组 */
-        .simple-grid {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d6ccc2;
             display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            margin: 32px 0;
-            justify-content: center;
+            align-items: center;
+            gap: 12px;
         }
 
-        .simple-card {
-            flex: 1;
-            min-width: 220px;
-            background: rgba(255, 250, 240, 0.7);
-            border-radius: 28px;
-            padding: 28px 20px;
-            text-align: center;
-            transition: all 0.2s ease;
-            border: 1px solid #e7dfd3;
-        }
-
-        .simple-card i {
-            font-size: 2.2rem;
+        .section-title i {
             color: #8c6d46;
+        }
+
+        /* ========== 鉴定内容样式 ========== */
+        .guide-content {
+            color: #5c4c3e;
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .guide-content p {
+            margin-bottom: 14px;
+        }
+
+        .guide-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .guide-content ul,
+        .guide-content ol {
+            padding-left: 28px;
             margin-bottom: 16px;
-            display: inline-block;
         }
 
-        .simple-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+        .guide-content ul li,
+        .guide-content ol li {
+            margin-bottom: 8px;
+        }
+
+        .guide-content ul li::marker {
+            color: #8c6d46;
+        }
+
+        .guide-content strong {
             color: #8c3c2c;
+            font-weight: 700;
         }
 
-        .simple-card p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #6b5a4a;
+        /* 步骤网格 */
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            margin: 16px 0 8px;
         }
 
-        /* 查询方式简约条 */
-        .verify-methods {
+        .step-item {
+            background: rgba(248, 244, 233, 0.6);
+            border-radius: 20px;
+            padding: 24px 18px;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #8c6d46;
+            color: #fff;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+        }
+
+        .step-item h4 {
+            font-size: 1.1rem;
+            color: #4a382a;
+            margin-bottom: 6px;
+        }
+
+        .step-item p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 0;
+        }
+
+        /* 专家团队网格 */
+        .expert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 16px 0 8px;
+        }
+
+        .expert-item {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+        }
+
+        .expert-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .expert-item i {
+            font-size: 3rem;
+            color: #8c6d46;
+            margin-bottom: 10px;
+        }
+
+        .expert-item h4 {
+            font-size: 1.1rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .expert-item .expert-title {
+            font-size: 0.85rem;
+            color: #8c6d46;
+            font-weight: 500;
+        }
+
+        .expert-item p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin-top: 8px;
+        }
+
+        /* 证书展示 */
+        .certificate-show {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
             justify-content: center;
-            margin: 30px 0 20px;
+            margin: 20px 0 10px;
         }
 
-        .method-item {
-            background: rgba(255, 250, 240, 0.6);
-            border-radius: 48px;
-            padding: 12px 28px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1rem;
-            border: 1px solid #e2d8cc;
+        .cert-item {
+            background: #fffef8;
+            border: 1px solid #d6ccc2;
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-align: center;
+            min-width: 160px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
-        .method-item i {
-            font-size: 1.3rem;
+        .cert-item i {
+            font-size: 2.4rem;
             color: #8c6d46;
+            margin-bottom: 8px;
         }
 
-        /* 承诺区域 */
-        .promise-box {
+        .cert-item h4 {
+            font-size: 1rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .cert-item p {
+            font-size: 0.8rem;
+            color: #7f6b5a;
+            margin: 0;
+        }
+
+        .faq-item {
+            padding: 18px 0;
+            border-bottom: 1px solid #e7dfd3;
+        }
+
+        .faq-item:first-child {
+            padding-top: 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            color: #4a382a;
+            font-size: 1.05rem;
+        }
+
+        .faq-answer {
+            color: #7f6b5a;
+            margin-top: 6px;
+            padding-left: 0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .notice-box {
+            background: rgba(140, 109, 70, 0.08);
+            border-left: 4px solid #8c6d46;
+            padding: 18px 24px;
+            border-radius: 8px;
+            margin: 16px 0 4px;
+        }
+
+        .notice-box i {
+            color: #8c6d46;
+            margin-right: 10px;
+        }
+
+        .notice-box strong {
+            color: #8c3c2c;
+        }
+
+        .btn-primary {
+            background: #8c6d46;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+        }
+
+        .support-box {
             background: #f4efe5;
             border-radius: 28px;
-            padding: 28px 24px;
+            padding: 32px 28px;
             text-align: center;
-            margin-top: 28px;
+            margin-top: 20px;
         }
 
-        .promise-box i {
-            font-size: 2rem;
+        .support-box i {
+            font-size: 2.2rem;
             color: #8c6d46;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .promise-box h3 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
+        .support-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
             color: #5c4c3e;
         }
 
-        .promise-box p {
+        .support-desc {
+            max-width: 500px;
+            margin: 0 auto 20px;
             color: #6b5a4a;
+        }
+
+        @media (max-width: 768px) {
+            .order-card {
+                padding: 24px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .guide-steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .expert-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .faq-answer {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .guide-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .expert-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* 页脚 — 延续留白简约 */
@@ -475,82 +683,278 @@
                 flex-direction: column;
                 text-align: center;
             }
+        }
 
-            .order-card {
-                padding: 28px 20px;
-            }
+        /* ========== Toast ========== */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
 
-            .simple-card {
-                min-width: 100%;
-            }
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
 
-            .method-item {
-                width: 100%;
-                justify-content: center;
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
             }
         }
     </style>
-    <!-- 公共登录状态管理 -->
     <script src="../assets/js/common.js"></script>
 </head>
 
 <body>
-    <div class="decoration-big decoration-left">鉴</div>
+    <div class="decoration-big decoration-left">鑑</div>
     <div class="decoration-big decoration-right">真</div>
+
     <div class="site-wrapper">
+        <!-- ========== 导航栏 ========== -->
         <nav class="navbar">
-            <div class="logo-area"><a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a></div>
+            <div class="logo-area">
+                <a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
             <div class="nav-links">
-                <a href="../index.html">首页</a><a href="../非遗集市.html">非遗集市</a><a href="../匠心传承.html">匠心传承</a>
-                <a href="../非遗学堂.html">非遗学堂</a><a href="../社区.html">社区</a>
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
             </div>
             <div class="nav-icons">
-                <div class="search-container"><input type="text" class="search-input" placeholder="搜非遗..."><button
-                        class="icon-btn"><i class="fas fa-search"></i></button></div>
-                <button class="icon-btn"><i class="fas fa-shopping-bag"></i></button>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                </button>
                 <button class="btn-outline" id="loginBtn">登录 / 注册</button>
             </div>
         </nav>
-        <div class="breadcrumb"><a href="#">帮助中心</a> <span>/</span> <span style="color:#8c6d46;">非遗鉴定</span></div>
+
+        <!-- ========== 面包屑 ========== -->
+        <div class="breadcrumb">
+            <a href="#">助阁</a> <span>/</span>
+            <span style="color:#8c6d46;">非遗鉴定</span>
+        </div>
+
+        <!-- ========== 页面头部 ========== -->
         <div class="page-header">
             <h1>非遗鉴定</h1>
-            <p>每一件作品，都有源可溯，有据可依</p>
+            <p>— 为每一件器物正名，让传承有据可依 —</p>
         </div>
+
+        <!-- ========== 鉴定服务介绍 ========== -->
         <div class="order-card">
-            <h2 class="section-title"><i class="fas fa-certificate"></i> 鉴定体系</h2>
-            <div class="desc-text">
-                云间小阁与国家级非遗保护中心、传承人理事会共建真品认证标准。所有上架商品均经过传承人授权、专家鉴证、区块链存证三重核验，确保技艺、材料、传承谱系真实可溯。
-            </div>
-
-            <h2 class="section-title"><i class="fas fa-shield-alt"></i> 认证流程</h2>
-            <div class="simple-grid">
-                <div class="simple-card"><i class="fas fa-file-signature"></i>
-                    <h3>传承人授权</h3>
-                    <p>直接与各级非遗传承人签约，提供创作证明及授权书</p>
+            <h2 class="section-title"><i class="fas fa-certificate"></i> 鉴定服务</h2>
+            <div class="guide-content">
+                <p>云间小阁联合国家级非遗保护中心、文物鉴定机构，为您提供专业的非遗器物鉴定服务。无论是古玩收藏、传承人作品，还是民间手工艺品，我们都能给出权威、公正的鉴定意见，并出具专属鉴定证书。</p>
+                <div class="notice-box">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>权威保障：</strong> 所有鉴定结果均由国家认证的专家团队出具，具有法律效力，为您的收藏与交易保驾护航。
                 </div>
-                <div class="simple-card"><i class="fas fa-users"></i>
-                    <h3>专家鉴证</h3>
-                    <p>非遗专家委员会对作品工艺、时代特征进行专业鉴定</p>
-                </div>
-                <div class="simple-card"><i class="fas fa-link"></i>
-                    <h3>区块链存证</h3>
-                    <p>生成唯一数字证书，作品流转信息上链，不可篡改</p>
-                </div>
-            </div>
-
-            <h2 class="section-title"><i class="fas fa-search"></i> 真伪查询</h2>
-            <div class="verify-methods">
-                <div class="method-item"><i class="fas fa-qrcode"></i> 扫描商品二维码</div>
-                <div class="method-item"><i class="fas fa-file-pdf"></i> 订单详情下载电子证书</div>
-                <div class="method-item"><i class="fas fa-headset"></i> 联系客服人工复核</div>
-            </div>
-
-            <div class="promise-box">
-                <i class="fas fa-gavel"></i>
-                <h3>假一赔三 · 正品保障</h3>
-                <p>若发现平台商品存在伪造非遗工艺或冒用传承人名义，一经查实，退一赔三，并永久下架商家。</p>
             </div>
         </div>
+
+        <!-- ========== 鉴定流程 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-route"></i> 鉴定流程</h2>
+            <div class="guide-content">
+                <p>只需四步，即可完成专业鉴定：</p>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>提交申请</h4>
+                        <p>在线填写鉴定申请表，上传器物照片及基本信息</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>实物送检</h4>
+                        <p>将器物寄送至指定鉴定中心（或预约上门鉴定）</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>专家评审</h4>
+                        <p>由3位以上专家进行材质、工艺、年代等多维度分析</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>出具证书</h4>
+                        <p>颁发带防伪码的鉴定证书，同时提供电子版存档</p>
+                    </div>
+                </div>
+                <div style="margin-top:18px;">
+                    <button class="btn-primary" onclick="alert('即将跳转至鉴定申请表单（模拟）')">立即申请鉴定</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 鉴定标准 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i> 鉴定标准</h2>
+            <div class="guide-content">
+                <p>我们依据国家非物质文化遗产认定标准及文物鉴定规范，从以下维度综合评估：</p>
+                <ul>
+                    <li><strong style="color:#8c6d46">材质与原料：</strong> 是否采用传统天然材料，是否符合历史记载的产地特征。</li>
+                    <li><strong style="color:#8c6d46">工艺技法：</strong> 是否遵循传统工艺流程，是否体现手工技艺的独特性。</li>
+                    <li><strong style="color:#8c6d46">历史传承：</strong> 是否有清晰的传承谱系，是否具有历史延续性。</li>
+                    <li><strong style="color:#8c6d46">艺术价值：</strong> 造型、纹饰、色彩是否符合时代审美，是否具有文化象征意义。</li>
+                    <li><strong style="color:#8c6d46">保存状态：</strong> 器物的完整性、修复痕迹、包浆自然程度等。</li>
+                </ul>
+                <div class="notice-box">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>评级体系：</strong> 鉴定结果分为“珍品”、“精品”、“真品”、“仿品”四个等级，并附详细鉴定报告。
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 证书样式 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-scroll"></i> 鉴定证书</h2>
+            <div class="guide-content">
+                <p>每一份鉴定证书均包含以下核心信息：</p>
+                <div class="certificate-show">
+                    <div class="cert-item">
+                        <i class="fas fa-qrcode"></i>
+                        <h4>防伪二维码</h4>
+                        <p>扫描可查真伪</p>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-stamp"></i>
+                        <h4>专家签名</h4>
+                        <p>3位专家联合签署</p>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4>鉴定日期</h4>
+                        <p>精确到日</p>
+                    </div>
+                    <div class="cert-item">
+                        <i class="fas fa-image"></i>
+                        <h4>器物高清图</h4>
+                        <p>附多角度照片</p>
+                    </div>
+                </div>
+                <p style="margin-top:12px;">证书采用特种纸张，配有荧光防伪纤维，确保不可复制。同时提供电子证书，可在官网永久查询。</p>
+            </div>
+        </div>
+
+        <!-- ========== 专家团队 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-user-graduate"></i> 专家团队</h2>
+            <div class="guide-content">
+                <p>我们的鉴定团队由来自故宫博物院、国家非遗中心、中国艺术研究院的资深专家组成：</p>
+                <div class="expert-grid">
+                    <div class="expert-item">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>陈启明</h4>
+                        <div class="expert-title">文物鉴定专家</div>
+                        <p>40年陶瓷、玉器鉴定经验，原故宫博物院研究员</p>
+                    </div>
+                    <div class="expert-item">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>林雅兰</h4>
+                        <div class="expert-title">非遗保护专家</div>
+                        <p>国家级非遗评审委员，专注传统工艺研究</p>
+                    </div>
+                    <div class="expert-item">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>赵文博</h4>
+                        <div class="expert-title">古书画鉴定师</div>
+                        <p>中国美术学院客座教授，善本古籍鉴定权威</p>
+                    </div>
+                    <div class="expert-item">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>周明慧</h4>
+                        <div class="expert-title">金属器鉴定师</div>
+                        <p>青铜器、金银器鉴定专家，著有《古代金属工艺》</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 常见问题 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-question-circle"></i> 常见问题</h2>
+            <div class="guide-content">
+                <div class="faq-item">
+                    <div class="faq-question">鉴定需要多长时间？</div>
+                    <div class="faq-answer">
+                        一般自收到实物之日起，10-15个工作日出具鉴定证书。复杂器物或需要特殊检测的，可能延长至20个工作日，我们会提前与您沟通。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">鉴定费用如何计算？</div>
+                    <div class="faq-answer">
+                        费用根据器物类型、尺寸、鉴定难度而定，基础鉴定费为 ¥800/件。特殊检测（如碳14、X射线荧光）另计，具体可咨询客服。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">鉴定证书具有法律效力吗？</div>
+                    <div class="faq-answer">
+                        是的。我们的鉴定机构具备国家认证资质，出具的证书可作为司法鉴定依据，在交易、收藏、保险等领域均被认可。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">可以上门鉴定吗？</div>
+                    <div class="faq-answer">
+                        对于大型器物或珍贵藏品，我们提供上门鉴定服务（需提前预约）。专家团队会携带便携设备，现场进行评估并采样。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">如果对鉴定结果有异议怎么办？</div>
+                    <div class="faq-answer">
+                        您可以申请复检，由另外两位专家重新评估。复检费用由申请方承担，如结果与初检一致，则维持原结论；如有变更，将退还复检费用。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 联系与支持 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-address-book"></i> 联系我们</h2>
+            <div class="guide-content">
+                <p>如有鉴定需求或任何疑问，欢迎通过以下方式联系我们：</p>
+                <ul>
+                    <li><i class="fas fa-comment-dots" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">在线咨询：</strong> 点击页面右下角「在线咨询」图标，与客服实时沟通。</li>
+                    <li><i class="fas fa-phone-alt" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">鉴定专线：</strong> 400-889-0662 转 3（工作日 9:00-18:00）</li>
+                    <li><i class="fas fa-envelope" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">电子邮箱：</strong> appraisal@yunjian.com</li>
+                    <li><i class="fab fa-weixin" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">微信公众号：</strong> 云间小阁非遗鉴定</li>
+                </ul>
+                <div class="support-box" style="margin-top:24px;">
+                    <i class="fas fa-handshake" style="color:#8c6d46;"></i>
+                    <h3>专业 · 权威 · 可信</h3>
+                    <div class="support-desc">
+                        我们致力于为每一件非遗器物提供最严谨的鉴定服务，让文化传承更加清晰。
+                    </div>
+                    <button class="btn-primary"
+                        onclick="window.location.href='mailto:appraisal@yunjian.com'">预约鉴定</button>
+                </div>
+            </div>
+        </div>
+
         <footer class="footer">
             <div class="footer-col">
                 <div class="logo-mini">云间小阁</div>
@@ -578,11 +982,74 @@
             <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
         </footer>
     </div>
-    <script>document.querySelectorAll('.icon-btn').forEach(btn => btn.addEventListener('click', () => { if (btn.querySelector('.fa-shopping-bag')) window.location.href = '../购物车.html'; }));    </script>
+
+    <!-- ========== Toast ========== -->
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <!-- ========== 脚本 ========== -->
     <script>
-        // 初始化登录按钮
-        document.addEventListener('DOMContentLoaded', () => {
-            initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+        // Toast 通知
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // 导航栏搜索
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function handleSearch() {
+            const query = searchInput?.value?.trim();
+            if (query) {
+                showMessage('为您搜索：' + query);
+                searchInput.value = '';
+            }
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // 购物车图标跳转
+        const cartIcon = document.getElementById('cartIconPage');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', () => {
+                window.location.href = '../购物车.html';
+            });
+        }
+
+        // 登录/注册按钮
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const currentUser = sessionStorage.getItem('currentUser');
+                if (currentUser) {
+                    window.location.href = '../个人资料/个人中心.html';
+                } else {
+                    sessionStorage.setItem('previousPage', '非遗鉴定');
+                    window.location.href = '../登录and注册/登录页面.html';
+                }
+            });
+        }
+        const storedUser = sessionStorage.getItem('currentUser');
+        if (storedUser && loginBtn) {
+            loginBtn.textContent = storedUser;
+            loginBtn.style.background = '#8c6d46';
+            loginBtn.style.color = '#fff';
+            loginBtn.title = '点击进入个人中心';
+        }
+
+        // 页面淡入
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof initLoginBtn === 'function') {
+                initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+            }
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
         });
     </script>
 </body>

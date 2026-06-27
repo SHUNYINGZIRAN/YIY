@@ -4,32 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>非遗保护基金 - 云间文苑</title>
+    <title>非遗保护基金 · 云间小阁</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap">
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700;900&display=swap">
     <style>
+        /* ========== 全局重置 & 基础 ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Noto Serif SC', serif;
-            background-color: #f8f4e9;
-            color: #5c4c3e;
-            background-image: radial-gradient(#d6ccc2 1px, transparent 1px), radial-gradient(#d6ccc2 1px, transparent 1px);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            position: relative;
-            min-height: 100vh;
-        }
-
         a,
         a * {
             color: inherit;
             text-decoration: none;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #f8f4e9;
+            color: #5c4c3e;
+            background-image:
+                radial-gradient(#d6ccc2 1px, transparent 1px),
+                radial-gradient(#d6ccc2 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+            min-height: 100vh;
         }
 
         body::before {
@@ -44,6 +47,7 @@
             pointer-events: none;
         }
 
+        /* ========== 装饰大字 ========== */
         .decoration-big {
             position: fixed;
             font-family: 'Ma Shan Zheng', cursive;
@@ -84,6 +88,7 @@
             }
         }
 
+        /* ========== 站点包裹 ========== */
         .site-wrapper {
             max-width: 1280px;
             margin: 0 auto;
@@ -92,7 +97,7 @@
             z-index: 2;
         }
 
-        /* 导航栏 */
+        /* ========== 导航栏 ========== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -119,6 +124,8 @@
             color: #5c4c3e;
             letter-spacing: 2px;
             font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
         .logo span {
@@ -258,7 +265,7 @@
             }
         }
 
-        /* 面包屑 */
+        /* ========== 面包屑 ========== */
         .breadcrumb {
             font-size: 0.85rem;
             margin-bottom: 20px;
@@ -267,9 +274,10 @@
 
         .breadcrumb a {
             color: #8c6d46;
+            text-decoration: none;
         }
 
-        /* 页面头部 */
+        /* ========== 页面头部 ========== */
         .page-header {
             text-align: center;
             margin: 30px 0 40px;
@@ -288,11 +296,11 @@
             font-size: 1rem;
         }
 
-        /* 主卡片 */
+        /* ========== 卡片样式（沿用加入我们页面的 .order-card 渐变顶部） ========== */
         .order-card {
             background: rgba(255, 253, 245, 0.95);
             border-radius: 12px;
-            padding: 40px 36px;
+            padding: 30px;
             box-shadow: 0 4px 20px rgba(92, 76, 62, 0.15);
             border: 1px solid #d6ccc2;
             margin-bottom: 30px;
@@ -315,57 +323,254 @@
             font-size: 1.8rem;
             color: #5c4c3e;
             margin-bottom: 20px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #e2d8cc;
-        }
-
-        .fund-desc {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 32px;
-            color: #5c4c3e;
-        }
-
-        /* 简约三列卡片 */
-        .simple-grid {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d6ccc2;
             display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            margin: 32px 0;
-            justify-content: center;
+            align-items: center;
+            gap: 12px;
         }
 
-        .simple-card {
-            flex: 1;
-            min-width: 220px;
-            background: rgba(255, 250, 240, 0.7);
-            border-radius: 28px;
-            padding: 28px 20px;
+        .section-title i {
+            color: #8c6d46;
+        }
+
+        /* ========== 内容样式 ========== */
+        .guide-content {
+            color: #5c4c3e;
+            line-height: 1.9;
+            font-size: 1rem;
+        }
+
+        .guide-content p {
+            margin-bottom: 14px;
+        }
+
+        .guide-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .guide-content ul,
+        .guide-content ol {
+            padding-left: 28px;
+            margin-bottom: 16px;
+        }
+
+        .guide-content ul li,
+        .guide-content ol li {
+            margin-bottom: 8px;
+        }
+
+        .guide-content ul li::marker {
+            color: #8c6d46;
+        }
+
+        .guide-content strong {
+            color: #8c3c2c;
+            font-weight: 700;
+        }
+
+        /* 基金数据卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin: 16px 0 8px;
+        }
+
+        .stat-item {
+            background: rgba(248, 244, 233, 0.6);
+            border-radius: 20px;
+            padding: 24px 18px;
             text-align: center;
-            transition: all 0.2s ease;
             border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
         }
 
-        .simple-card i {
+        .stat-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .stat-item .stat-number {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.6rem;
+            color: #8c6d46;
+            line-height: 1.2;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.9rem;
+            color: #7f6b5a;
+            margin-top: 4px;
+        }
+
+        /* 用途网格 */
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 16px 0 8px;
+        }
+
+        .purpose-item {
+            background: rgba(255, 250, 240, 0.7);
+            border-radius: 16px;
+            padding: 22px 18px;
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .purpose-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .purpose-item i {
             font-size: 2.2rem;
             color: #8c6d46;
-            margin-bottom: 16px;
-            display: inline-block;
+            margin-bottom: 10px;
         }
 
-        .simple-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+        .purpose-item h4 {
+            font-size: 1.1rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .purpose-item p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 0;
+        }
+
+        /* 步骤网格 */
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 16px 0 8px;
+        }
+
+        .step-item {
+            background: rgba(248, 244, 233, 0.6);
+            border-radius: 20px;
+            padding: 24px 18px;
+            text-align: center;
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+        }
+
+        .step-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #8c6d46;
+            color: #fff;
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+        }
+
+        .step-item h4 {
+            font-size: 1.1rem;
+            color: #4a382a;
+            margin-bottom: 6px;
+        }
+
+        .step-item p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            margin: 0;
+        }
+
+        /* 案例卡片 */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin: 12px 0 4px;
+        }
+
+        .case-item {
+            background: rgba(255, 250, 240, 0.7);
+            border-radius: 16px;
+            padding: 20px 18px;
+            border: 1px solid #e7dfd3;
+            transition: all 0.3s ease;
+        }
+
+        .case-item:hover {
+            background: #fefcf7;
+            border-color: #c4a77d;
+            transform: translateY(-4px);
+        }
+
+        .case-item .case-icon {
+            font-size: 2.4rem;
+            color: #8c6d46;
+            margin-bottom: 8px;
+        }
+
+        .case-item h4 {
+            font-size: 1.05rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .case-item p {
+            font-size: 0.85rem;
+            color: #7f6b5a;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .notice-box {
+            background: rgba(140, 109, 70, 0.08);
+            border-left: 4px solid #8c6d46;
+            padding: 18px 24px;
+            border-radius: 8px;
+            margin: 16px 0 4px;
+        }
+
+        .notice-box i {
+            color: #8c6d46;
+            margin-right: 10px;
+        }
+
+        .notice-box strong {
             color: #8c3c2c;
         }
 
-        .simple-card p {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #6b5a4a;
+        .btn-primary {
+            background: #8c6d46;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
         }
 
-        /* 支持区域简约版 */
+        .btn-primary:hover {
+            background: #745b3a;
+            transform: translateY(-2px);
+        }
+
         .support-box {
             background: #f4efe5;
             border-radius: 28px;
@@ -392,22 +597,76 @@
             color: #6b5a4a;
         }
 
-        .btn-primary {
-            background: #8c6d46;
-            color: white;
-            border: none;
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
+        .faq-item {
+            padding: 18px 0;
+            border-bottom: 1px solid #e7dfd3;
         }
 
-        .btn-primary:hover {
-            background: #745b3a;
-            transform: translateY(-2px);
+        .faq-item:first-child {
+            padding-top: 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            color: #4a382a;
+            font-size: 1.05rem;
+        }
+
+        .faq-answer {
+            color: #7f6b5a;
+            margin-top: 6px;
+            padding-left: 0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .order-card {
+                padding: 24px 20px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .guide-steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .purpose-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-answer {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .guide-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .purpose-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* 页脚 — 延续留白简约 */
@@ -470,78 +729,331 @@
                 flex-direction: column;
                 text-align: center;
             }
+        }
 
-            .order-card {
-                padding: 28px 20px;
-            }
+        /* ========== Toast ========== */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: #5c4c3e;
+            color: #fef5e6;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
 
-            .simple-card {
-                min-width: 100%;
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        @media (max-width: 600px) {
+            .toast-msg {
+                white-space: normal;
+                width: max-content;
+                max-width: 85%;
+                text-align: center;
             }
         }
     </style>
-    <!-- 公共登录状态管理 -->
     <script src="../assets/js/common.js"></script>
 </head>
 
 <body>
-    <div class="decoration-big decoration-left">护</div>
-    <div class="decoration-big decoration-right">根</div>
+    <div class="decoration-big decoration-left">護</div>
+    <div class="decoration-big decoration-right">援</div>
+
     <div class="site-wrapper">
+        <!-- ========== 导航栏 ========== -->
         <nav class="navbar">
-            <div class="logo-area"><a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a></div>
+            <div class="logo-area">
+                <a href="../index.html" class="logo">云间小阁 <span>· 非遗雅集</span></a>
+            </div>
             <div class="nav-links">
-                <a href="../index.html">首页</a><a href="../非遗集市.html">非遗集市</a><a href="../匠心传承.html">匠心传承</a>
-                <a href="../非遗学堂.html">非遗学堂</a><a href="../社区.html">社区</a>
+                <a href="../index.html">首页</a>
+                <a href="../非遗集市.html">非遗集市</a>
+                <a href="../匠心传承.html">匠心传承</a>
+                <a href="../非遗学堂.html">非遗学堂</a>
+                <a href="../社区.html">社区</a>
             </div>
             <div class="nav-icons">
-                <div class="search-container"><input type="text" class="search-input" placeholder="搜非遗..."><button
-                        class="icon-btn"><i class="fas fa-search"></i></button></div>
-                <button class="icon-btn"><i class="fas fa-shopping-bag"></i></button>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="搜索非遗好物..." id="searchInput">
+                    <button class="icon-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <button class="icon-btn" id="cartIconPage">
+                    <i class="fas fa-shopping-bag"></i>
+                </button>
                 <button class="btn-outline" id="loginBtn">登录 / 注册</button>
             </div>
         </nav>
-        <div class="breadcrumb"><a href="#">关于我们</a> <span>/</span> <span style="color:#8c6d46;">非遗保护基金</span></div>
+
+        <!-- ========== 面包屑 ========== -->
+        <div class="breadcrumb">
+            <a href="#">阁中</a> <span>/</span>
+            <span style="color:#8c6d46;">非遗保护基金</span>
+        </div>
+
+        <!-- ========== 页面头部 ========== -->
         <div class="page-header">
             <h1>非遗保护基金</h1>
-            <p>守护千年技艺，点亮传承之光</p>
+            <p>— 汇聚点滴力量，守护千年文脉 —</p>
         </div>
+
+        <!-- ========== 基金简介 ========== -->
         <div class="order-card">
-            <h2 class="section-title"><i class="fas fa-leaf"></i> 基金概况</h2>
-            <div class="fund-desc">
-                “匠心守护”专项基金由云间小阁联合中国非物质文化遗产保护协会发起，平台每笔交易提取1%注入基金，用于濒危非遗项目抢救、青年传承人扶持及数字化保护。我们相信，每一份购买与关注，都是对传统文化的接力。
-            </div>
-
-            <h2 class="section-title"><i class="fas fa-seedling"></i> 资助方向</h2>
-            <div class="simple-grid">
-                <div class="simple-card"><i class="fas fa-mask"></i>
-                    <h3>濒危技艺抢救</h3>
-                    <p>对只剩极少数传承人的项目进行记录与资金支持</p>
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> 基金简介</h2>
+            <div class="guide-content">
+                <p>云间小阁非遗保护基金成立于2023年，是由平台发起、联合多家文化机构共同设立的公益专项基金。基金旨在为濒临失传的非遗技艺提供资金支持，为坚守初心的传承人提供生活保障，让古老的手艺在当代社会得以延续与活化。
+                </p>
+                <p>基金坚持<span
+                        style="color:#8c3c2c; font-weight:700;">「取之于民，用之于艺」</span>的公益理念，每笔销售订单中提取一定比例注入基金池，同时接受社会各界的定向捐赠，确保资金用于最需要保护的非遗项目。
+                </p>
+                <div class="notice-box">
+                    <i class="fas fa-heart" style="color:#b55a4a;"></i>
+                    <strong>我们的愿景：</strong> 让每一门手艺都有传承，让每一位匠人都被善待。
                 </div>
-                <div class="simple-card"><i class="fas fa-graduation-cap"></i>
-                    <h3>青年传承人培养</h3>
-                    <p>设立奖学金，资助年轻学徒拜师学艺</p>
-                </div>
-                <div class="simple-card"><i class="fas fa-database"></i>
-                    <h3>数字化保护</h3>
-                    <p>3D建模、影像记录，建立非遗数字博物馆</p>
-                </div>
-            </div>
-
-            <div class="support-box">
-                <i class="fas fa-hand-holding-heart"></i>
-                <h3>您的支持，至关重要</h3>
-                <div class="support-desc">
-                    您可以通过以下方式助力非遗传承：<br>
-                    ✔ 下单时勾选“捐赠1%助力非遗”<br>
-                    ✔ 直接捐款至基金专户<br>
-                    ✔ 参与平台公益拍卖
-                </div>
-                <button class="btn-primary"
-                    onclick="alert('感谢您的善意！捐款账户：中国工商银行 6222 0202 0012 3456 789（云间非遗保护基金专户），请备注“非遗捐赠”。')">立即支持</button>
-                <p style="margin-top: 18px; font-size: 0.8rem; color: #8c6d46;">收支明细每季度公示，接受社会监督</p>
             </div>
         </div>
+
+        <!-- ========== 基金数据 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-chart-simple"></i> 基金数据</h2>
+            <div class="guide-content">
+                <p>截至2025年6月，非遗保护基金已累计投入：</p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">¥186万</div>
+                        <div class="stat-label">累计募资总额</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">47项</div>
+                        <div class="stat-label">资助非遗项目</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">32位</div>
+                        <div class="stat-label">资助传承人</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">9场</div>
+                        <div class="stat-label">公益传习活动</div>
+                    </div>
+                </div>
+                <div style="margin-top:12px; font-size:0.9rem; color:#7f6b5a; text-align:center;">
+                    每一份数据背后，都是一个手艺延续的故事。
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 资助方向 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> 资助方向</h2>
+            <div class="guide-content">
+                <p>基金重点支持以下四类非遗保护工作：</p>
+                <div class="purpose-grid">
+                    <div class="purpose-item">
+                        <i class="fas fa-hands"></i>
+                        <h4>技艺传承</h4>
+                        <p>资助传承人收徒传艺，支持师徒传承计划的实施</p>
+                    </div>
+                    <div class="purpose-item">
+                        <i class="fas fa-book"></i>
+                        <h4>文献整理</h4>
+                        <p>支持非遗口述史记录、工艺图谱绘制、古籍修复</p>
+                    </div>
+                    <div class="purpose-item">
+                        <i class="fas fa-store"></i>
+                        <h4>生产性保护</h4>
+                        <p>扶持非遗工坊建设，帮助手艺实现市场化转化</p>
+                    </div>
+                    <div class="purpose-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>公众教育</h4>
+                        <p>资助非遗进校园、公益讲座、体验工坊等教育活动</p>
+                    </div>
+                </div>
+                <div class="notice-box">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>优先方向：</strong> 濒危非遗项目、高龄传承人扶持、偏远地区非遗保护。
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 申请条件 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> 申请条件</h2>
+            <div class="guide-content">
+                <p>符合以下条件的个人或单位可申请基金资助：</p>
+                <ul>
+                    <li><strong style="color:#8c6d46">传承人个体：</strong> 拥有县级以上非遗项目代表性传承人称号，或具备非遗技艺传承能力的手工艺人。</li>
+                    <li><strong style="color:#8c6d46">非遗工坊/工作室：</strong> 从事非遗生产、教学、研究的社会组织或企业，成立时间不少于1年。</li>
+                    <li><strong style="color:#8c6d46">文化机构：</strong> 从事非遗保护、研究、推广的文化馆、博物馆、高校等事业单位。</li>
+                    <li><strong style="color:#8c6d46">项目团队：</strong> 围绕非遗保护开展公益项目的团队，需提供详细的项目计划书。</li>
+                </ul>
+                <p style="margin-top:10px;"><strong>资助额度：</strong> 单项资助金额为 ¥5,000 至 ¥200,000，视项目规模及影响力而定。</p>
+            </div>
+        </div>
+
+        <!-- ========== 申请流程 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-route"></i> 申请流程</h2>
+            <div class="guide-content">
+                <p>基金申请分为以下四个阶段：</p>
+                <div class="guide-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>提交材料</h4>
+                        <p>填写申请表，提交项目计划书、资质证明及预算明细</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>初审评估</h4>
+                        <p>基金委员会在15个工作日内完成材料审核与初步评估</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>专家评审</h4>
+                        <p>非遗专家、公益顾问组成评审组，进行综合评议</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>签约拨款</h4>
+                        <p>通过评审后签署资助协议，按计划分期拨付资金</p>
+                    </div>
+                </div>
+                <div class="notice-box">
+                    <i class="fas fa-clock"></i>
+                    <strong>申请周期：</strong> 基金每季度开放一次申请（3月、6月、9月、12月），请关注平台公告。
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 资助案例 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-star"></i> 资助案例</h2>
+            <div class="guide-content">
+                <p>以下是基金已资助的部分项目：</p>
+                <div class="case-grid">
+                    <div class="case-item">
+                        <div class="case-icon"><i class="fas fa-palette"></i></div>
+                        <h4>徽州剪纸·传习计划</h4>
+                        <p>资助省级传承人吴老师开设公益传习班，已培养青年学员12人，举办社区展览3场。</p>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-icon"><i class="fas fa-fire"></i></div>
+                        <h4>景德镇传统窑口修复</h4>
+                        <p>支持景德镇徐家窑口修缮，恢复传统柴窑烧制工艺，重现古法青花韵味。</p>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-icon"><i class="fas fa-music"></i></div>
+                        <h4>侗族大歌·少年传承</h4>
+                        <p>资助贵州侗寨开办少儿歌班，聘请老歌师授课，已培养小歌手28名。</p>
+                    </div>
+                    <div class="case-item">
+                        <div class="case-icon"><i class="fas fa-scroll"></i></div>
+                        <h4>水书古籍抢救整理</h4>
+                        <p>支持水族水书传承人开展古籍抄录、翻译工作，已整理珍贵文献300余页。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 捐赠方式 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-hand-holding-heart"></i> 捐赠方式</h2>
+            <div class="guide-content">
+                <p>非遗保护基金的每一笔善款都来自社会各界的支持。欢迎您以以下方式参与：</p>
+                <ul>
+                    <li><strong style="color:#8c6d46">订单捐助：</strong> 在云间小阁每完成一笔订单，平台将自动提取1%注入基金池。</li>
+                    <li><strong style="color:#8c6d46">定向捐赠：</strong> 您可指定捐助某一非遗项目或传承人，平台不收取任何管理费。</li>
+                    <li><strong style="color:#8c6d46">月度捐：</strong> 开通每月自动捐赠，最低 ¥10/月起，让善意细水长流。</li>
+                    <li><strong style="color:#8c6d46">企业合作：</strong> 欢迎企业以冠名、配捐等形式参与非遗保护，共同履行社会责任。</li>
+                </ul>
+                <div class="support-box" style="margin-top:20px;">
+                    <i class="fas fa-gift"></i>
+                    <h3>涓滴成河 · 共护非遗</h3>
+                    <div class="support-desc">
+                        您的每一份捐赠，都将化作匠人手中的工具、传习课堂的书本、濒危技艺的希望。
+                    </div>
+                    <button class="btn-primary" onclick="window.location.href='mailto:fund@yunjian.com'">捐赠咨询</button>
+                    <p style="margin-top:14px; font-size:0.85rem; color:#8c6d46;">捐赠专线：400-889-0662 转 6</p>
+                </div>
+                <div class="notice-box" style="margin-top:16px;">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>透明公开：</strong> 基金每季度发布财务报告，所有收支明细在平台公示，接受社会监督。
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 常见问题 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-question-circle"></i> 常见问题</h2>
+            <div class="guide-content">
+                <div class="faq-item">
+                    <div class="faq-question">基金的资金来源有哪些？</div>
+                    <div class="faq-answer">
+                        基金主要来源于平台订单自动捐赠、社会爱心人士定向捐赠、企业冠名赞助以及公益机构合作资助。每一笔资金来源均可追溯。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">如何查询基金的财务使用情况？</div>
+                    <div class="faq-answer">
+                        我们每季度在平台「非遗保护基金」专栏发布财务报告，详细列明收支明细、资助项目及执行进度。您也可发送邮件至 fund@yunjian.com 索取详细资料。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">个人可以申请基金资助吗？</div>
+                    <div class="faq-answer">
+                        可以的。无论是传承人个人还是非遗工作室，只要符合申请条件，均可提交申请。我们鼓励面临传承困难的个人积极申报，基金委员会将给予优先关注。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">捐赠后可以获得捐赠票据吗？</div>
+                    <div class="faq-answer">
+                        是的。所有捐赠均可开具公益事业捐赠票据，可用于个人所得税税前扣除。捐赠后请联系客服并提供开票信息，我们将在7个工作日内寄送。
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-angle-right"></i> 基金申请被拒绝后可以再次申请吗？
+                    </div>
+                    <div class="faq-answer">
+                        可以。若第一次申请未通过，您可以根据评审意见补充材料或调整方案，在下一个申请季度重新提交。我们欢迎所有致力于非遗保护的有心人持续尝试。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 联系我们 ========== -->
+        <div class="order-card">
+            <h2 class="section-title"><i class="fas fa-address-book"></i> 联系我们</h2>
+            <div class="guide-content">
+                <p>如有任何关于基金的问题，欢迎通过以下方式联系我们：</p>
+                <ul>
+                    <li><i class="fas fa-comment-dots" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">在线咨询：</strong> 点击页面右下角「小阁助手」图标，即时沟通。</li>
+                    <li><i class="fas fa-phone-alt" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">基金专线：</strong> 400-889-0662 转 6（工作日 9:00-18:00）</li>
+                    <li><i class="fas fa-envelope" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">基金邮箱：</strong> fund@yunjian.com</li>
+                    <li><i class="fab fa-weixin" style="color:#8c6d46;width:24px;"></i> <strong
+                            style="color:#8c6d46">微信公众号：</strong> 云间小阁非遗雅集 → 保护基金</li>
+                </ul>
+                <div class="notice-box" style="margin-top:16px;">
+                    <i class="fas fa-heart" style="color:#b55a4a;"></i>
+                    <strong>感谢您关注非遗保护：</strong> 每一次关注、每一次捐赠、每一次传播，都是对传统文化最好的守护。让我们携手，为非遗延续一份希望。
+                </div>
+            </div>
+        </div>
+
         <footer class="footer">
             <div class="footer-col">
                 <div class="logo-mini">云间小阁</div>
@@ -569,11 +1081,74 @@
             <div class="footer-bottom">© 2025 云间小阁 | 非遗美学 · 传承华夏</div>
         </footer>
     </div>
-    <script>document.querySelectorAll('.icon-btn').forEach(btn => btn.addEventListener('click', () => { if (btn.querySelector('.fa-shopping-bag')) window.location.href = '../购物车.html'; }));    </script>
+
+    <!-- ========== Toast ========== -->
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <!-- ========== 脚本 ========== -->
     <script>
-        // 初始化登录按钮
-        document.addEventListener('DOMContentLoaded', () => {
-            initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+        // Toast 通知
+        const toast = document.getElementById('toastMsg');
+        function showMessage(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // 导航栏搜索
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        function handleSearch() {
+            const query = searchInput?.value?.trim();
+            if (query) {
+                showMessage('为您搜索：' + query);
+                searchInput.value = '';
+            }
+        }
+        if (searchBtn) searchBtn.addEventListener('click', handleSearch);
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        }
+
+        // 购物车图标跳转
+        const cartIcon = document.getElementById('cartIconPage');
+        if (cartIcon) {
+            cartIcon.addEventListener('click', () => {
+                window.location.href = '../购物车.html';
+            });
+        }
+
+        // 登录/注册按钮
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                const currentUser = sessionStorage.getItem('currentUser');
+                if (currentUser) {
+                    window.location.href = '../个人资料/个人中心.html';
+                } else {
+                    sessionStorage.setItem('previousPage', '非遗保护基金');
+                    window.location.href = '../登录and注册/登录页面.html';
+                }
+            });
+        }
+        const storedUser = sessionStorage.getItem('currentUser');
+        if (storedUser && loginBtn) {
+            loginBtn.textContent = storedUser;
+            loginBtn.style.background = '#8c6d46';
+            loginBtn.style.color = '#fff';
+            loginBtn.title = '点击进入个人中心';
+        }
+
+        // 页面淡入
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof initLoginBtn === 'function') {
+                initLoginBtn('loginBtn', '../个人资料/个人中心.html', '../登录and注册/登录页面.html');
+            }
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            setTimeout(() => { document.body.style.opacity = '1'; }, 30);
         });
     </script>
 </body>
