@@ -464,7 +464,7 @@
             padding: 12px;
             border: 1px solid #d6ccc2;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.8);
+            background: #fffef8;
             font-family: 'Noto Serif SC', serif;
             font-size: 1rem;
             color: #5c4c3e;
@@ -489,9 +489,46 @@
         }
 
         .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-group label {
+            position: relative;
+            padding-left: 28px;
+            cursor: pointer;
+            color: #5c4c3e;
+            user-select: none;
+        }
+
+        .checkbox-group label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
             width: 18px;
             height: 18px;
-            accent-color: #8c6d46;
+            border: 1px solid #d6ccc2;
+            border-radius: 4px;
+            background: #fffef8;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked+label::before {
+            background: #8c6d46;
+            border-color: #8c6d46;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked+label::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 5px;
+            height: 10px;
+            border: solid #fffef8;
+            border-width: 0 2px 2px 0;
         }
 
         .form-actions {
@@ -670,7 +707,7 @@
                     <i class="fas fa-shopping-bag"></i>
                 </button>
                 <button class="btn-outline" id="loginBtnRef">登录 /
-                        注册</button>
+                    注册</button>
             </div>
         </nav>
 
@@ -683,7 +720,7 @@
         <!-- 页面标题 -->
         <header class="page-header">
             <h1>收货地址</h1>
-            <p>管理您的配送地址</p>
+            <p>— 管理您的配送地址 —</p>
         </header>
 
         <!-- 地址列表区域 -->
@@ -732,7 +769,6 @@
 
             <!-- 新增地址卡片（表单） -->
             <div class="new-address-card">
-                <h3 class="form-title" id="formTitle">新增收货地址</h3>
                 <form id="newAddressForm">
                     <div class="form-group">
                         <label class="form-label" for="receiverName">收货人姓名</label>
@@ -847,7 +883,6 @@
 
             // 获取地址卡片容器
             const addressList = document.getElementById('addressList');
-            const formTitle = document.getElementById('formTitle');
             const newForm = document.getElementById('newAddressForm');
             const cancelBtn = document.getElementById('cancelBtn');
             const saveBtn = document.getElementById('saveBtn');
@@ -861,7 +896,7 @@
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     editingCard = this.closest('.address-card');
-                    
+
                     // 获取当前地址信息
                     const name = editingCard.querySelector('.receiver-name').textContent;
                     const phone = editingCard.querySelector('.receiver-phone').textContent;
@@ -882,8 +917,7 @@
                     document.getElementById('addressDetail').value = address;
                     document.getElementById('setDefault').checked = isDefault;
 
-                    // 修改表单标题和按钮文字
-                    formTitle.textContent = '编辑收货地址';
+                    // 修改按钮文字
                     saveBtn.textContent = '保存更改';
 
                     // 滚动到表单位置
@@ -968,14 +1002,14 @@
                 if (editingCard) {
                     // 编辑模式：更新现有卡片
                     const receiverInfo = editingCard.querySelector('.receiver-info');
-                    
+
                     // 更新姓名和手机
                     receiverInfo.querySelector('.receiver-name').textContent = name;
                     receiverInfo.querySelector('.receiver-phone').textContent = phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
-                    
+
                     // 更新详细地址
                     editingCard.querySelector('.address-detail').textContent = address;
-                    
+
                     // 处理默认地址
                     document.querySelectorAll('.address-card').forEach(c => {
                         const badge = c.querySelector('.default-badge');
@@ -985,7 +1019,7 @@
                             if (setDefaultBtn) setDefaultBtn.style.display = 'inline-flex';
                         }
                     });
-                    
+
                     // 更新当前卡片的默认标识
                     let defaultBadge = editingCard.querySelector('.default-badge');
                     if (isDefault && !defaultBadge) {
@@ -1059,7 +1093,6 @@
             // 重置表单函数
             function resetForm() {
                 newForm.reset();
-                formTitle.textContent = '新增收货地址';
                 saveBtn.textContent = '保存地址';
                 editingCard = null;
                 originalData = null;
@@ -1071,7 +1104,7 @@
                 card.querySelector('.edit-btn').addEventListener('click', function (e) {
                     e.stopPropagation();
                     editingCard = this.closest('.address-card');
-                    
+
                     // 获取当前地址信息
                     const name = editingCard.querySelector('.receiver-name').textContent;
                     const phone = editingCard.querySelector('.receiver-phone').textContent;
@@ -1092,8 +1125,7 @@
                     document.getElementById('addressDetail').value = address;
                     document.getElementById('setDefault').checked = isDefault;
 
-                    // 修改表单标题和按钮文字
-                    formTitle.textContent = '编辑收货地址';
+                    // 修改按钮文字
                     saveBtn.textContent = '保存更改';
 
                     // 滚动到表单位置

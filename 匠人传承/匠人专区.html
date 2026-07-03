@@ -679,6 +679,7 @@
                 opacity: 0;
                 transform: translateY(30px) scale(0.96);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -915,8 +916,15 @@
         }
 
         @keyframes commentFadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .detail-comment-avatar {
@@ -1099,7 +1107,7 @@
         </div>
         <div class="page-header">
             <h1>守艺光影 · 指尖传承</h1>
-            <p>非遗创作者们用镜头和双手记录匠心 | 视频 · 手作分享</p>
+            <p>— 非遗创作者们用镜头和双手记录匠心 | 视频 · 手作分享 —</p>
         </div>
 
         <!-- 分类筛选 -->
@@ -1178,7 +1186,8 @@
             <button class="detail-modal-close" id="detailModalClose"><i class="fas fa-times"></i></button>
             <div class="detail-modal-media" id="detailMedia">
                 <img src="" alt="" id="detailMediaImg">
-                <div class="detail-modal-play" id="detailPlayIcon" style="display:none;"><i class="fas fa-play"></i></div>
+                <div class="detail-modal-play" id="detailPlayIcon" style="display:none;"><i class="fas fa-play"></i>
+                </div>
             </div>
             <div class="detail-modal-info">
                 <div class="detail-modal-type-badge" id="detailTypeBadge"></div>
@@ -1207,7 +1216,8 @@
                     </div>
                     <div class="detail-comments-list" id="detailCommentsList"></div>
                     <div class="detail-comment-input-wrap">
-                        <input type="text" class="detail-comment-input" id="detailCommentInput" placeholder="写下你的看法，与其他匠友交流...">
+                        <input type="text" class="detail-comment-input" id="detailCommentInput"
+                            placeholder="写下你的看法，与其他匠友交流...">
                         <button class="detail-comment-submit" id="detailCommentSubmit">
                             <i class="fas fa-paper-plane"></i> 发表
                         </button>
@@ -1310,6 +1320,9 @@
             // 显示弹窗
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
+            // 重置滚动位置，确保从顶部开始预览
+            const container = modal.querySelector('.detail-modal-container');
+            if (container) container.scrollTop = 0;
             // 清空输入框
             document.getElementById('detailCommentInput').value = '';
         }
@@ -1332,10 +1345,13 @@
 
         function closeDetailModal() {
             const modal = document.getElementById('detailModal');
+            const container = modal.querySelector('.detail-modal-container');
             modal.classList.remove('show');
             document.body.style.overflow = 'auto';
             document.getElementById('detailCommentInput').value = '';
             currentDetailItem = null;
+            // 重置滚动位置，下次打开从顶部开始
+            if (container) container.scrollTop = 0;
         }
 
         function initDetailModalEvents() {
@@ -1417,8 +1433,8 @@
                 </div>
             `).join('');
 
-            // 滚动到最新评论
-            list.scrollTop = list.scrollHeight;
+            // 滚动到顶部（新评论在上）
+            list.scrollTop = 0;
         }
 
         // 发表评论
@@ -1444,7 +1460,7 @@
             if (!allComments[currentDetailItem.id]) {
                 allComments[currentDetailItem.id] = [];
             }
-            allComments[currentDetailItem.id].push(comment);
+            allComments[currentDetailItem.id].unshift(comment);
 
             // 更新计数与卡片
             currentDetailItem.comments = allComments[currentDetailItem.id].length;

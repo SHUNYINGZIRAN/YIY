@@ -759,6 +759,396 @@
                 text-align: center;
             }
         }
+
+        /* ===== 帖子详情弹窗 (复用匠人专区样式) ===== */
+        .post-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(92, 76, 62, 0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            padding: 30px;
+        }
+
+        .post-detail-modal.show {
+            display: flex;
+        }
+
+        .post-detail-container {
+            background: rgba(255, 253, 245, 0.98);
+            border-radius: 28px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(92, 76, 62, 0.25);
+            border: 1px solid #e7dfd3;
+            position: relative;
+            animation: postDetailSlideUp 0.35s ease;
+        }
+
+        @keyframes postDetailSlideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .post-detail-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 240, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8c3c2c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .post-detail-close:hover {
+            background: rgba(255, 255, 245, 0.9);
+            transform: rotate(90deg);
+        }
+
+        .post-detail-info {
+            padding: 32px 32px 28px;
+        }
+
+        .post-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .post-detail-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #c4a77d;
+        }
+
+        .post-detail-author {
+            flex: 1;
+        }
+
+        .post-detail-author h4 {
+            font-size: 1.05rem;
+            color: #4a382a;
+            margin-bottom: 4px;
+        }
+
+        .post-detail-author .author-tag {
+            font-size: 0.75rem;
+            color: #c4a77d;
+            padding: 2px 8px;
+            border: 1px solid #c4a77d;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .post-detail-time {
+            font-size: 0.8rem;
+            color: #9b8a78;
+        }
+
+        .post-detail-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #5c4c3e;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0e8dd;
+        }
+
+        .post-detail-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .post-detail-images.single { grid-template-columns: 1fr; max-width: 500px; }
+        .post-detail-images.double { grid-template-columns: repeat(2, 1fr); }
+
+        .post-detail-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .post-detail-img:hover { transform: scale(1.02); }
+
+        /* ========= 图片放大灯箱 ========= */
+        .image-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .image-lightbox.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .image-lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            cursor: default;
+        }
+        .image-lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 36px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .image-lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .post-detail-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .post-detail-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0e8dd;
+        }
+
+        .post-detail-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 40px;
+            border: 1px solid #d6ccc2;
+            background: #fefcf7;
+            color: #5c4c3e;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .post-detail-action-btn:hover {
+            background: #f4ede2;
+            border-color: #c4a77d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(92, 76, 62, 0.1);
+        }
+
+        .post-detail-action-btn.liked {
+            background: #fdf2f2;
+            border-color: #c97a7a;
+            color: #c0392b;
+        }
+
+        .post-detail-action-btn.liked i { color: #c0392b; }
+
+        /* 弹窗滚动条隐藏 */
+        .post-detail-container::-webkit-scrollbar { width: 0; height: 0; }
+        .post-detail-container { scrollbar-width: none; }
+
+        /* ===== 弹窗内评论区 (复用匠人专区) ===== */
+        .post-detail-comments {
+            padding: 0 32px 32px;
+        }
+
+        .post-detail-comments-title {
+            font-size: 0.95rem;
+            color: #5c4c3e;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-detail-comments-title i { color: #8c6d46; }
+
+        .post-detail-comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+            max-height: 320px;
+            overflow-y: hidden;
+            padding-right: 4px;
+        }
+
+        .post-detail-comments-list::-webkit-scrollbar { width: 4px; }
+        .post-detail-comments-list::-webkit-scrollbar-thumb {
+            background: #d6ccc2;
+            border-radius: 4px;
+        }
+
+        .post-detail-comment-item {
+            display: flex;
+            gap: 12px;
+            animation: postCommentFadeIn 0.3s ease;
+        }
+
+        @keyframes postCommentFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-detail-comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f4ede2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8c6d46;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .post-detail-comment-body {
+            flex: 1;
+            background: #fefcf7;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #f0e8dd;
+        }
+
+        .post-detail-comment-user {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #5c4c3e;
+            margin-bottom: 2px;
+        }
+
+        .post-detail-comment-time {
+            font-size: 0.7rem;
+            color: #b8a28a;
+            margin-bottom: 6px;
+        }
+
+        .post-detail-comment-text {
+            font-size: 0.88rem;
+            color: #4a382a;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .post-detail-comment-empty {
+            text-align: center;
+            padding: 28px 20px;
+            color: #b8a28a;
+            font-size: 0.88rem;
+        }
+
+        .post-detail-comment-empty i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #d6ccc2;
+        }
+
+        .post-detail-comment-input-wrap {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .post-detail-comment-input {
+            flex: 1;
+            border: 1px solid #d6ccc2;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-size: 0.88rem;
+            font-family: 'Noto Serif SC', serif;
+            color: #5c4c3e;
+            background: #fefcf7;
+            outline: none;
+            transition: border-color 0.2s;
+            line-height: 1.4;
+            box-sizing: border-box;
+        }
+
+        .post-detail-comment-input:focus {
+            border-color: #8c6d46;
+            box-shadow: 0 0 0 3px rgba(140, 109, 70, 0.1);
+        }
+
+        .post-detail-comment-input::placeholder { color: #c4b8a2; }
+
+        .post-detail-comment-submit {
+            padding: 12px 22px;
+            border-radius: 40px;
+            border: none;
+            background: #8c6d46;
+            color: #fefcf7;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .post-detail-comment-submit:hover {
+            background: #6b5030;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(92, 76, 62, 0.2);
+        }
+
+        .post-detail-comment-submit:active { transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .post-detail-modal { padding: 16px; }
+            .post-detail-info { padding: 24px 22px 22px; }
+            .post-detail-comments { padding: 0 22px 24px; }
+            .post-detail-comments-list { max-height: 240px; }
+        }
     </style>
     <!-- 公共登录状态管理 -->
     <script src="assets/js/common.js"></script>
@@ -873,6 +1263,35 @@
 
     <div id="toastMsg" class="toast-msg"></div>
 
+    <!-- 帖子详情弹窗 (复用匠人专区弹窗设计) -->
+    <div id="postDetailModal" class="post-detail-modal">
+        <div class="post-detail-container">
+            <button class="post-detail-close" id="postDetailClose"><i class="fas fa-times"></i></button>
+            <div class="post-detail-info" id="postDetailInfo"></div>
+            <div class="post-detail-comments" id="postDetailComments">
+                <div class="post-detail-comments-title">
+                    <i class="fas fa-comments"></i> 评论区 (<span id="postDetailCommentTotal">0</span>)
+                </div>
+                <div class="post-detail-comments-list" id="postDetailCommentsList"></div>
+                <div class="post-detail-comment-empty" id="postDetailCommentEmpty">
+                    <i class="far fa-comment-dots"></i>暂无评论，快来发表第一条看法吧~
+                </div>
+                <div class="post-detail-comment-input-wrap">
+                    <input type="text" class="post-detail-comment-input" id="postDetailCommentInput" placeholder="写下你的看法，与其他匠友交流...">
+                    <button class="post-detail-comment-submit" id="postDetailCommentSubmit">
+                        <i class="fas fa-paper-plane"></i> 发表
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片放大灯箱 -->
+    <div id="imageLightbox" class="image-lightbox">
+        <button class="image-lightbox-close" id="imageLightboxClose"><i class="fas fa-times"></i></button>
+        <img src="" alt="预览图片" id="imageLightboxImg">
+    </div>
+
     <script>
         // 初始化登录按钮
         document.addEventListener('DOMContentLoaded', () => {
@@ -945,12 +1364,264 @@
 
         let currentTab = 'all';
 
-        // 渲染帖子
+        // ===== 评论数据存储 (复用匠人专区模式) =====
+        const allComments = {};
+        const presetComments = {
+            1: [
+                { userName: '刺绣爱好者', avatar: 'fa-heart', text: '太美了！三个月的心血，每一针都看得出手艺人的坚持与热爱。', time: '1小时前' },
+                { userName: '苏绣学徒', avatar: 'fa-feather', text: '想请教绣娘老师，劈丝的粗细如何把握得更均匀？', time: '30分钟前' },
+                { userName: '非遗守护人', avatar: 'fa-shield-alt', text: '百鸟朝凤这个题材非常经典，期待看到更多传统题材的苏绣作品！', time: '15分钟前' }
+            ],
+            2: [
+                { userName: '陶瓷收藏', avatar: 'fa-fire', text: '青瓷开片确实是个大学问，温度和冷却速度的把控太关键了。', time: '3小时前' },
+                { userName: '新手陶艺', avatar: 'fa-smile', text: '刚开始学青瓷，经常烧裂，求大师指点一二。', time: '2小时前' },
+                { userName: '工艺研究', avatar: 'fa-flask', text: '从材料科学角度看，开片其实是应力释放的美学表现。', time: '1小时前' }
+            ],
+            3: [
+                { userName: '剪纸新手', avatar: 'fa-cut', text: '学到了！先练几何图形真的很重要，我之前直接学复杂图案完全不行。', time: '5小时前' },
+                { userName: '民俗学者', avatar: 'fa-book', text: '剪纸艺术承载了太多民俗记忆，感谢您的分享。', time: '4小时前' }
+            ],
+            4: [
+                { userName: '书画生', avatar: 'fa-paint-brush', text: '百字描确实是基本功，每天坚持真的有效果。', time: '12小时前' },
+                { userName: '工笔传承', avatar: 'fa-pen', text: '工笔画贵在耐心，慢工出细活，与君共勉。', time: '6小时前' }
+            ]
+        };
+        posts.forEach(p => {
+            allComments[p.id] = presetComments[p.id] ? [...presetComments[p.id]] : [];
+            p.comments = allComments[p.id].length;
+        });
+
+        // ===== 帖子详情弹窗 (复用匠人专区弹窗逻辑) =====
+        let currentDetailPostId = null;
+
+        function openPostDetail(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            currentDetailPostId = postId;
+            const modal = document.getElementById('postDetailModal');
+
+            // 渲染帖子信息
+            const imagesHTML = post.images.length > 0 ? `
+                <div class="post-detail-images ${post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : ''}">
+                    ${post.images.map(img => `<img src="${img}" alt="post image" class="post-detail-img">`).join('')}
+                </div>
+            ` : '';
+            const tagsHTML = post.tags.map(tag => `<span class="post-tag">#${tag}</span>`).join('');
+
+            document.getElementById('postDetailInfo').innerHTML = `
+                <div class="post-detail-header">
+                    <img src="${post.avatar}" alt="${post.author}" class="post-detail-avatar">
+                    <div class="post-detail-author">
+                        <h4>${post.author}</h4>
+                        <span class="author-tag">${post.tag}</span>
+                    </div>
+                    <span class="post-detail-time">${post.time}</span>
+                </div>
+                <div class="post-detail-text">${post.content}</div>
+                ${imagesHTML}
+                <div class="post-detail-tags">${tagsHTML}</div>
+                <div class="post-detail-actions">
+                    <button class="post-detail-action-btn" id="detailLikeBtn" onclick="toggleDetailLike()">
+                        <i class="${post._liked ? 'fas' : 'far'} fa-heart"></i>
+                        <span id="detailLikeCount">${post.likes}</span> 喜欢
+                    </button>
+                    <button class="post-detail-action-btn">
+                        <i class="far fa-comment"></i> 评论 (<span id="detailCommentCount">${post.comments}</span>)
+                    </button>
+                    <button class="post-detail-action-btn">
+                        <i class="far fa-share-square"></i> 分享
+                    </button>
+                </div>
+            `;
+            if (post._liked) {
+                document.getElementById('detailLikeBtn').classList.add('liked');
+            }
+
+            // 渲染评论区
+            updateDetailCommentCount();
+            renderPostDetailComments();
+
+            // 显示弹窗
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            // 重置滚动位置，确保从顶部开始预览
+            const container = modal.querySelector('.post-detail-container');
+            if (container) container.scrollTop = 0;
+            document.getElementById('postDetailCommentInput').value = '';
+
+            // 绑定图片点击放大事件
+            document.querySelectorAll('#postDetailInfo .post-detail-img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openImageLightbox(img.src);
+                });
+            });
+        }
+
+        function closePostDetail() {
+            const modal = document.getElementById('postDetailModal');
+            const container = modal.querySelector('.post-detail-container');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            document.getElementById('postDetailCommentInput').value = '';
+            currentDetailPostId = null;
+            // 重置滚动位置，下次打开从顶部开始
+            if (container) container.scrollTop = 0;
+        }
+
+        function updateDetailCommentCount() {
+            const post = posts.find(p => p.id === currentDetailPostId);
+            if (!post) return;
+            const count = (allComments[post.id] || []).length;
+            document.getElementById('detailCommentCount').textContent = count;
+            document.getElementById('postDetailCommentTotal').textContent = count;
+        }
+
+        function renderPostDetailComments() {
+            const post = posts.find(p => p.id === currentDetailPostId);
+            if (!post) return;
+            const list = document.getElementById('postDetailCommentsList');
+            const empty = document.getElementById('postDetailCommentEmpty');
+            const comments = allComments[post.id] || [];
+
+            if (comments.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                list.innerHTML = comments.map(c => `
+                    <div class="post-detail-comment-item">
+                        <div class="post-detail-comment-avatar"><i class="fas ${c.avatar}"></i></div>
+                        <div class="post-detail-comment-body">
+                            <div class="post-detail-comment-user">${c.userName}</div>
+                            <div class="post-detail-comment-time">${c.time}</div>
+                            <div class="post-detail-comment-text">${c.text}</div>
+                        </div>
+                    </div>
+                `).join('');
+                list.scrollTop = 0;
+                // 动态判断是否需要滚动条，避免闪烁
+                list.style.overflowY = (list.scrollHeight > list.clientHeight) ? 'auto' : 'hidden';
+            }
+        }
+
+        function postDetailComment() {
+            if (!currentDetailPostId) return;
+            const input = document.getElementById('postDetailCommentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const avatars = ['fa-user', 'fa-user-circle', 'fa-smile', 'fa-leaf', 'fa-star', 'fa-feather', 'fa-heart'];
+            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+            const comment = {
+                userName: '云间访客',
+                avatar: randomAvatar,
+                text: text,
+                time: timeStr
+            };
+
+            if (!allComments[currentDetailPostId]) allComments[currentDetailPostId] = [];
+            allComments[currentDetailPostId].unshift(comment);
+
+            const post = posts.find(p => p.id === currentDetailPostId);
+            if (post) post.comments = allComments[currentDetailPostId].length;
+
+            updateDetailCommentCount();
+            renderPostDetailComments();
+            renderPosts();
+
+            input.value = '';
+            input.focus();
+        }
+
+        function toggleDetailLike() {
+            const post = posts.find(p => p.id === currentDetailPostId);
+            if (!post) return;
+            const btn = document.getElementById('detailLikeBtn');
+            const icon = btn.querySelector('i');
+            const countSpan = document.getElementById('detailLikeCount');
+
+            if (post._liked) {
+                post._liked = false;
+                post.likes -= 1;
+                btn.classList.remove('liked');
+                icon.className = 'far fa-heart';
+            } else {
+                post._liked = true;
+                post.likes += 1;
+                btn.classList.add('liked');
+                icon.className = 'fas fa-heart';
+            }
+            countSpan.textContent = post.likes;
+            renderPosts();
+        }
+
+        // ===== 图片放大灯箱 =====
+        function openImageLightbox(src) {
+            const lightbox = document.getElementById('imageLightbox');
+            const img = document.getElementById('imageLightboxImg');
+            img.src = src;
+            lightbox.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            lightbox.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function initImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            // 关闭按钮
+            document.getElementById('imageLightboxClose').addEventListener('click', closeImageLightbox);
+            // 点击遮罩关闭
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeImageLightbox();
+            });
+            // ESC 关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('show')) {
+                    closeImageLightbox();
+                }
+            });
+        }
+
+        function initPostDetailModal() {
+            const modal = document.getElementById('postDetailModal');
+            // 关闭按钮
+            document.getElementById('postDetailClose').addEventListener('click', closePostDetail);
+            // 点击遮罩关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closePostDetail();
+            });
+            // 发表评论
+            document.getElementById('postDetailCommentSubmit').addEventListener('click', postDetailComment);
+            document.getElementById('postDetailCommentInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    postDetailComment();
+                }
+            });
+            // ESC 关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closePostDetail();
+                }
+            });
+            // 初始化图片灯箱
+            initImageLightbox();
+        }
+
+        // 渲染帖子列表
         const postList = document.getElementById('postList');
         function renderPosts() {
             let filtered = posts;
             if (currentTab !== 'all') {
-                // 根据标签过滤
                 filtered = posts.filter(post => post.tags.some(tag => {
                     if (currentTab === 'showcase') return tag === '作品展示';
                     if (currentTab === 'discuss') return tag === '技艺交流';
@@ -968,10 +1639,9 @@
             postList.innerHTML = filtered.map(post => {
                 const imagesHTML = post.images.length > 0 ? `
                     <div class="post-images ${post.images.length === 1 ? 'single' : post.images.length === 2 ? 'double' : ''}">
-                        ${post.images.map(img => `<img src="${img}" alt="post image" class="post-img">`).join('')}
+                        ${post.images.map(img => `<img src="${img}" alt="post image" class="post-img" onclick="event.stopPropagation(); openImageLightbox('${img}')">`).join('')}
                     </div>
                 ` : '';
-
                 const tagsHTML = post.tags.map(tag => `<span class="post-tag">#${tag}</span>`).join('');
 
                 return `
@@ -990,11 +1660,11 @@
                             <div class="post-tags">${tagsHTML}</div>
                         </div>
                         <div class="post-actions">
-                            <button class="post-action" onclick="toggleLike(${post.id}, this)">
+                            <button class="post-action" onclick="event.stopPropagation(); toggleLike(${post.id}, this)">
                                 <i class="far fa-heart"></i>
                                 <span>${post.likes}</span>
                             </button>
-                            <button class="post-action">
+                            <button class="post-action" onclick="event.stopPropagation(); openPostDetail(${post.id})">
                                 <i class="far fa-comment"></i>
                                 <span>${post.comments}</span>
                             </button>
@@ -1006,30 +1676,39 @@
                     </div>
                 `;
             }).join('');
+
+            // 绑定整张卡片点击 → 打开详情弹窗
+            document.querySelectorAll('.post-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const id = parseInt(card.getAttribute('data-id'));
+                    openPostDetail(id);
+                });
+                card.style.cursor = 'pointer';
+            });
         }
 
         // 点赞功能
         function toggleLike(postId, btn) {
             const icon = btn.querySelector('i');
             const countSpan = btn.querySelector('span');
-            let count = parseInt(countSpan.textContent);
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            let count = post.likes;
 
             if (btn.classList.contains('liked')) {
                 btn.classList.remove('liked');
                 icon.classList.remove('fas');
                 icon.classList.add('far');
-                countSpan.textContent = count - 1;
+                post.likes = count - 1;
             } else {
                 btn.classList.add('liked');
                 icon.classList.remove('far');
                 icon.classList.add('fas');
-                countSpan.textContent = count + 1;
-                // 添加动画效果
+                post.likes = count + 1;
                 icon.style.transform = 'scale(1.3)';
-                setTimeout(() => {
-                    icon.style.transform = 'scale(1)';
-                }, 200);
+                setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
             }
+            countSpan.textContent = post.likes;
         }
 
         // 分类切换
@@ -1049,10 +1728,7 @@
         if (publishBtn) {
             publishBtn.addEventListener('click', () => {
                 const content = postInput.value.trim();
-                if (!content) {
-                    return;
-                }
-                // 模拟发布
+                if (!content) return;
                 postInput.value = '';
             });
         }
@@ -1061,15 +1737,11 @@
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         if (searchBtn) {
-            searchBtn.addEventListener('click', () => {
-                // 搜索按钮已移除提示
-            });
+            searchBtn.addEventListener('click', () => {});
         }
         if (searchInput) {
             searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    // 搜索回车已移除提示
-                }
+                if (e.key === 'Enter') {}
             });
         }
 
@@ -1078,9 +1750,7 @@
         function showMessage(msg) {
             toast.textContent = msg;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            setTimeout(() => { toast.classList.remove('show'); }, 2000);
         }
 
         // 导航栏其他链接占位
@@ -1089,34 +1759,25 @@
             const pageName = link.getAttribute('data-page');
             if (pageName) {
                 link.addEventListener('click', (e) => {
-                    if (link.getAttribute('href') === '#') {
-                        e.preventDefault();
-                    }
+                    if (link.getAttribute('href') === '#') e.preventDefault();
                 });
             }
         });
 
-        // 一起回家吧按钮
-
-        // 页面淡入
+        // 页面初始化
         window.addEventListener('DOMContentLoaded', () => {
             document.body.style.opacity = '0';
             document.body.style.transition = 'opacity 0.4s ease';
             setTimeout(() => { document.body.style.opacity = '1'; }, 30);
             renderPosts();
+            initPostDetailModal();
 
-            // 页尾链接点击事件 - 设置标签状态
             document.querySelectorAll('.footer-link').forEach(link => {
                 link.addEventListener('click', function () {
                     const tab = this.getAttribute('data-tab');
-                    if (tab) {
-                        sessionStorage.setItem('footerTab', tab);
-                    }
+                    if (tab) sessionStorage.setItem('footerTab', tab);
                 });
             });
-
-            // 保存当前页面
-            sessionStorage.setItem('currentPage', currentPage);
         });
     </script>
 </body>
