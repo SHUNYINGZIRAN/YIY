@@ -1059,7 +1059,7 @@
                 </div>
                 <div class="review-footer">
                     <button class="helpful-btn">
-                        <i class="fas fa-thumbs-up"></i> 有用 (42)
+                        <i class="fas fa-thumbs-up"></i> 有用
                     </button>
                     <span>已购同款</span>
                 </div>
@@ -1089,7 +1089,7 @@
                 </div>
                 <div class="review-footer">
                     <button class="helpful-btn active">
-                        <i class="fas fa-thumbs-up"></i> 有用 (18)
+                        <i class="fas fa-thumbs-up"></i> 有用
                     </button>
                     <span>已购同款</span>
                 </div>
@@ -1125,7 +1125,7 @@
                 </div>
                 <div class="review-footer">
                     <button class="helpful-btn">
-                        <i class="fas fa-thumbs-up"></i> 有用 (56)
+                        <i class="fas fa-thumbs-up"></i> 有用
                     </button>
                     <span>赠送礼物</span>
                 </div>
@@ -1411,17 +1411,16 @@
                 });
             });
 
-            // 有用按钮
+            // 有用按钮（点赞/取消切换）
             document.querySelectorAll('.helpful-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
-                    if (!this.classList.contains('active')) {
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
                         this.classList.add('active');
-                        const currentText = this.innerHTML;
-                        const match = currentText.match(/\((\d+)\)/);
-                        if (match) {
-                            const count = parseInt(match[1]) + 1;
-                            this.innerHTML = `<i class="fas fa-thumbs-up"></i> 有用 (${count})`;
-                        }
+                        icon.style.transform = 'scale(1.3)';
+                        setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
                     }
                 });
             });
@@ -1495,7 +1494,7 @@
                     </div>` : ''}
                     <div class="review-footer">
                         <button class="helpful-btn">
-                            <i class="fas fa-thumbs-up"></i> 有用 (0)
+                            <i class="fas fa-thumbs-up"></i> 有用
                         </button>
                         <span>已购同款</span>
                     </div>
@@ -1509,18 +1508,20 @@
                     reviewsContainer.appendChild(reviewCard);
                 }
 
-                // 绑定新评价中的事件
-                reviewCard.querySelector('.helpful-btn').addEventListener('click', function () {
-                    if (!this.classList.contains('active')) {
-                        this.classList.add('active');
-                        const currentText = this.innerHTML;
-                        const match = currentText.match(/\((\d+)\)/);
-                        if (match) {
-                            const count = parseInt(match[1]) + 1;
-                            this.innerHTML = `<i class="fas fa-thumbs-up"></i> 有用 (${count})`;
+                // 绑定新评价中的有用按钮
+                const newHelpfulBtn = reviewCard.querySelector('.helpful-btn');
+                if (newHelpfulBtn) {
+                    newHelpfulBtn.addEventListener('click', function () {
+                        const icon = this.querySelector('i');
+                        if (this.classList.contains('active')) {
+                            this.classList.remove('active');
+                        } else {
+                            this.classList.add('active');
+                            icon.style.transform = 'scale(1.3)';
+                            setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
                         }
-                    }
-                });
+                    });
+                }
 
                 reviewCard.querySelectorAll('.review-image').forEach(item => {
                     item.addEventListener('click', function () {

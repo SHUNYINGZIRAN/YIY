@@ -512,7 +512,8 @@
             transition: 0.2s;
         }
 
-        .btn-story:hover {
+        .btn-story:hover,
+        .btn-story.active {
             background: #8c6d46;
             color: white;
             border-color: #8c6d46;
@@ -667,7 +668,7 @@
                     <h3>吴桂英 · 苗绣世家</h3>
                     <p>"从母亲手中接过银针时，我便知道，这不仅是技艺，更是族群的记忆。"吴桂英，苗绣省级传承人，四十年来走遍苗寨，收集濒临失传的古老纹样。她的绣品中藏着蝴蝶妈妈的故事，每一针都饱含对自然的敬畏。如今她带领村寨绣娘成立工坊，让苗绣走出大山，成为世界了解中国非遗的一扇窗。
                     </p>
-                    <button class="btn-story deep-story-btn">聆听完整故事 <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-story deep-story-btn">聆听完整故事 <i class="fas fa-headphones"></i></button>
                 </div>
             </div>
         </div>
@@ -678,7 +679,7 @@
                     <h3>吴桂英 · 苗绣世家</h3>
                     <p>"从母亲手中接过银针时，我便知道，这不仅是技艺，更是族群的记忆。"吴桂英，苗绣省级传承人，四十年来走遍苗寨，收集濒临失传的古老纹样。她的绣品中藏着蝴蝶妈妈的故事，每一针都饱含对自然的敬畏。如今她带领村寨绣娘成立工坊，让苗绣走出大山，成为世界了解中国非遗的一扇窗。
                     </p>
-                    <button class="btn-story deep-story-btn">聆听完整故事 <i class="fas fa-arrow-right"></i></button>
+                    <button class="btn-story deep-story-btn">聆听完整故事 <i class="fas fa-headphones"></i></button>
                 </div>
                 <div class="story-feature-img">
                     <img src="https://picsum.photos/id/104/600/400" alt="苗绣传承人">
@@ -834,10 +835,10 @@
 
         // 全部分类卡片点击交互（已移除提示）
 
-        // 深度故事按钮（使用类选择器，因为有两个按钮）
+        // 深度故事按钮：点击切换选中状态
         document.querySelectorAll('.deep-story-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // 深度故事按钮已移除提示
+            btn.addEventListener('click', function () {
+                this.classList.toggle('active');
             });
         });
 
